@@ -8,6 +8,7 @@
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/css/global.css" rel="stylesheet">
 	<link href="assets/css/index.css" rel="stylesheet">
+    <link href="assets/css/contact.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
@@ -37,13 +38,13 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html"> <i class="fa fa-spoon col_1"></i> Online Food <br> <span class="small_tag">Restaurant</span> </a>
+				<a class="navbar-brand" href="index.php"> <i class="fa fa-spoon col_1"></i> Online Food <br> <span class="small_tag">Restaurant</span> </a>
 			</div>
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav nav_m navbar-right">
-				<li><a class="m_tag active_tab" href="index.html">Home</a></li>
+				<li><a class="m_tag active_tab" href="index.php">Home</a></li>
 				<li><a class="m_tag" href="about.html">About</a></li>
 				<li class="dropdown">
 					  <a class="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Shop<span class="caret"></span></a>
@@ -59,7 +60,7 @@
 						<li><a class="border_none" href="blog_detail.html">Blog Detail</a></li>
 					  </ul>
                     </li>
-			    <li><a class="m_tag" href="contact.html">Contact Us</a></li>
+			    <li><a class="m_tag" href="index.php?page=contact">Contact Us</a></li>
 				<li class="m_tag2 col"><i class="fa fa-phone col_1"></i> +123-456 7899 <br> <span class="normal small_tag">Contact us for reservation</span></li>
 				<li><a class="m_tag1 button mgt" href="reserve.html"> BOOK A TABLE</a></li>
 			</ul>
