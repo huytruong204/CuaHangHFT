@@ -1,27 +1,26 @@
 <?php
-include_once "View/Layout/HeaderAdmin.php";
 // tự động load require trong thư mục controller
-spl_autoload_register(function($className){
-    $path = "Controller/" .$className.".php";
-    if(file_exists($path)){
+spl_autoload_register(function ($className) {
+    $path = "./Controller/" . $className . ".php";
+    if (file_exists($path)) {
         require_once $path;
-    } 
+    }
 });
 
-$page = isset($_GET["page"]) ? $_GET["page"] : "Home";
+include_once "View/Layout/HeaderAdmin.php";
+
+$page = isset($_GET["page"]) ? $_GET["page"] : "";
 $controllerName = $page . "Controller";
-if(class_exists($controllerName)){
+if (class_exists($controllerName)) {
     $controller = new $controllerName();
-    $methodName = $page . "View";
-    if(method_exists($controller, $methodName))
+    $methodName = isset($_GET["action"]) ? $_GET["action"] : "Index";
+    if (method_exists($controller, $methodName)) {
         $controller->$methodName();
-    else
+    } else
         echo "Khong ton tai $methodName";
-}else
-{
+} else {
     $home = new HomeAdminController();
-    $home->HomeAdminView();
+    $home->Index();
 }
 
 include_once "View/Layout/FooterAdmin.php";
-?>

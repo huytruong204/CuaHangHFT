@@ -1,7 +1,7 @@
 <?php 
     class HomeAdminController{
-        public function HomeAdminView() {
-            require_once "View/HomeAdmin/HomeAdminView.php";
+        public function Index() {
+            return require_once "View/HomeAdmin/Index.php";
         }
     }
 ?>

@@ -1,7 +1,7 @@
 <?php
 class ContactController{
-    public function ContactView() {
-        return require_once "./View/Contact/ContactView.php";
+    public function Index() {
+        return require_once "./View/Contact/Index.php";
     }
 }
 ?>
