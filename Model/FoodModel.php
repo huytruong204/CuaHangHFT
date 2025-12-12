@@ -1,5 +1,6 @@
 <?php
-    class FoodAdminModel{
+class FoodModel extends BaseModel
+{
         protected $food_id;
         protected $category_id;
         protected $food_name;
@@ -8,6 +9,19 @@
         protected $image_url;
         protected $status;
         protected $created_at;
+        
+        public function __construct($food_id,  $category_id,  $food_name,  $description,  $price,  $image_url,  $status,  $created_at)
+        {
+                parent::__construct();
+                $this->food_id = $food_id;
+                $this->category_id = $category_id;
+                $this->food_name = $food_name;
+                $this->description = $description;
+                $this->price = $price;
+                $this->image_url = $image_url;
+                $this->status = $status;
+                $this->created_at = $created_at;
+        }
 
         public function getFood_id()
         {
@@ -102,5 +116,4 @@
         {
                 return $this->created_at;
         }
-    }
-?>
+}
