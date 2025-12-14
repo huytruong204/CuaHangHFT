@@ -1,5 +1,6 @@
 <?php
 include_once '../core/BaseModel.php';
+include_once '../core/Validator.php';
 class FoodModel extends BaseModel
 {
         public const TB_NAME = "foods";
@@ -12,27 +13,29 @@ class FoodModel extends BaseModel
         protected $status;
         protected $created_at;
 
-        public function __construct($food_id = null,  $category_id = null,  $food_name = null,  $description = null,  $price = null,  $image_url = null,  $status = null, $created_at=null)
+        public function __construct($data=[])
         {
                 parent::__construct(self::TB_NAME);
-                $this->food_id = $food_id;
-                $this->category_id = $category_id;
-                $this->food_name = $food_name;
-                $this->description = $description;
-                $this->price = $price;
-                $this->image_url = $image_url;
-                $this->status = $status;
-                $this->created_at = $created_at;
+                if (!empty($data)) {
+                        $this->food_id     = $data['food_id'] ?? null;
+                        $this->category_id = $data['category_id'] ?? null;
+                        $this->food_name   = $data['food_name'] ?? null;
+                        $this->description = $data['description'] ?? null;
+                        $this->price       = $data['price'] ?? null;
+                        $this->image_url   = $data['image_url'] ?? null;
+                        $this->status      = $data['status'] ?? null;
+                        $this->created_at  = $data['created_at'] ?? null;
+                }
         }
 
         public function getAll()
         {
                 try {
                         $list_foods = [];
-                        $stmt = $this->db->query("SELECT * FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id WHERE status = 1");
-                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                        while ($row = $stmt->fetch()) {
-                                $list_foods[] = new FoodModel($row['food_id'], $row['category_name'], $row['food_name'], $row['description'], $row['price'], $row['image_url'], $row['status'], $row['created_at']);
+                        $stmt = $this->db->query("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id WHERE status = 1");
+                        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($data as $value) {
+                                $list_foods[] = new FoodModel($value); 
                         }
                         return $list_foods;
                 } catch (PDOException $e) {
@@ -50,6 +53,22 @@ class FoodModel extends BaseModel
                         }
                         return [];
                 }
+        }
+
+
+        public function validate($data){
+                $errors = [];
+                if($err = Validator::required($data->food_id, "Mã món ăn không được để trống"))
+                        $errors['food_id'] = $err;
+                if($err = Validator::required($data->food_name, "Tên món ăn không được để trống"))
+                        $errors['food_name'] = $err;
+                if($err = Validator::required($data->description, "Mô tả không được để trống"))
+                        $errors['description'] = $err;
+                if($err = Validator::required($data->price, "Giá bán không được để trống"))
+                        $errors['price'] = $err;
+                elseif($err = Validator::numeric($data->price, "Giá bán phải là số"))
+                        $errors['price'] = $err;
+                return $errors;
         }
 
         public function getFood_id()

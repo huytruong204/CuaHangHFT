@@ -28,9 +28,9 @@
                                 $price_format = number_format($value->getPrice(), 0, ',', '.').'đ';
                                 $status = '';
                                 if($value->getStatus()==1)
-                                    $status = "Còn hàng";
+                                    $status = "Đang bán";
                                 else
-                                    $status = "Hết hàng";
+                                    $status = "Ngừng bán";
                                 echo "
                                     <tr>
                                         <th scope='row'>{$value->getFood_id()}</th>
