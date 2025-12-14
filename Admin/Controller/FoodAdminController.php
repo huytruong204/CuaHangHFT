@@ -3,16 +3,25 @@ include_once "../Model/FoodModel.php";
 
 class FoodAdminController
 {
-    public function Index()
+    public $foodModel;
+    public function __construct()
     {
-        return require_once "View/FoodAdmin/Create.php";
+        $this->foodModel = new FoodModel();
     }
 
+    public function Index()
+    {
+        $list_foods = $this->foodModel->getAll();
+        include_once "View/FoodAdmin/Index.php";
+    }
 
-    public function Create()
+    public function CreateGet(){
+        include_once "View/FoodAdmin/Create.php";
+    }
+    
+    public function CreatePost()
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $food = new FoodModel();
             $data = [
                 'food_id' => "F001",
                 'category_id' => "DM001",
@@ -22,11 +31,11 @@ class FoodAdminController
                 'status'      => 1,
                 'image_url' => "ga_ran.jpg"
             ];
-            $result = $food->Insert($data);
+            $result = $this->foodModel->Insert($data);
             if ($result) {
                 echo "Thêm thành công {$data['food_id']}";
             } else {
-                $dbError = $food->error_message;
+                $dbError = $this->foodModel->error_message;
                 echo "Lỗi Database: " . $dbError;
             }
         }
