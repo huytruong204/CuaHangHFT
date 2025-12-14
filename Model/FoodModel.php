@@ -11,7 +11,7 @@ class FoodModel extends BaseModel
         protected $image_url;
         protected $status;
         protected $created_at;
-        
+
         public function __construct()
         {
                 parent::__construct(self::TB_NAME);
