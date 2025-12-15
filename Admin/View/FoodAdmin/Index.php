@@ -4,20 +4,20 @@
             <div class="col-xl-12 ">
                 <div class="bg-secondary rounded h-100 p-2">
                     <div class="row justify-content-between">
-                            <h3 class=" col-auto mb-4">Quản lý món ăn</h3>
-                            <div class="col-auto">
-                                <a href='index.php?page=FoodAdmin&action=CreateGet' class='btn btn-outline-success'>Thêm món ăn mới</a>
-                            </div>
+                        <h3 class=" col-auto mb-4">Quản lý món ăn</h3>
+                        <div class="col-auto">
+                            <a href='index.php?page=FoodAdmin&action=CreateGet' class='btn btn-outline-success'>Thêm món ăn mới</a>
                         </div>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col" style="width: 120px">Mã món ăn</th>
                                 <th scope="col" class="text-wrap" style="width: 120px">Danh mục</th>
                                 <th scope="col" class="text-wrap" style="width: 120px">Tên món ăn</th>
-                                <th scope="col"style="width: 120px">Giá bán</th>
-                                <th scope="col" style="width: 120px">Ảnh món ăn</th>
-                                <th scope="col" style="width: 120px">Trạng thái</th>
+                                <th scope="col" style="width: 120px">Giá bán</th>
+                                <th scope="col" style="width: 200px">Ảnh món ăn</th>
+                                <th scope="col" style="width: 80px">Trạng thái</th>
                                 <th scope="col" style="width: 120px">Ngày tạo</th>
                                 <th scope="col" style="width: 250px">Hành động</th>
                             </tr>
@@ -25,9 +25,9 @@
                         <tbody>
                             <?php
                             foreach ($list_foods as $value) {
-                                $price_format = number_format($value->getPrice(), 0, ',', '.').'đ';
+                                $price_format = number_format($value->getPrice(), 0, ',', '.') . 'đ';
                                 $status = '';
-                                if($value->getStatus()==1)
+                                if ($value->getStatus() == 1)
                                     $status = "Đang bán";
                                 else
                                     $status = "Ngừng bán";
@@ -37,7 +37,10 @@
                                         <td>{$value->getCategory_id()}</td>
                                         <td>{$value->getFood_name()}</td>
                                         <td>{$price_format}</td>
-                                        <td>{$value->getImage_url()}</td>
+                                        <td>
+                                            <img src='../assets/img/img_foods/{$value->getImage_url()}''
+                                                style='width: 180px; height: 180px; object-fit: cover; border-radius: 5px; border: 1px solid #555;'>
+                                        </td>
                                         <td>{$status}</td>
                                         <td>{$value->getCreated_at()}</td>
                                         <td>

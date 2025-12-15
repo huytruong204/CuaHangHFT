@@ -60,11 +60,13 @@
                         </div>
                         <div class="col-12">
                              <input class="form-control bg-dark mb-3" type="file" id="imageInput" name="image_url" accept="image/*">
-                            <small class="text-muted fst-italic">* Chỉ chấp nhận file ảnh (jpg, png, jpeg)</small>
+                              <span class="text-danger small">
+                                    <?php if(isset($errors['image_url'])) echo  $errors["image_url"] ?>
+                            </span>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control bg-white" name="description" id="description" style="height:120px;"><?php if(isset($_POST['description'])) echo $_POST['description']?></textarea>
+                                <textarea class="form-control bg-dark" name="description" id="description" style="height:120px;"><?php if(isset($_POST['description'])) echo $_POST['description']?></textarea>
                                 <label for="description">Mô tả chi tiết</label>
                             </div>
                             <span class="text-danger small">
