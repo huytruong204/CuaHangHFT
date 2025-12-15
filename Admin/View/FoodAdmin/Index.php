@@ -47,7 +47,13 @@
                                             <div class='d-flex justify-content-center gap-1'>
                                                     <a href='index.php?page=FoodAdmin&action=Detail&food_id={$value->getFood_id()}' class='col-xl-4 btn btn-outline-info'>Chi tiết</a>
                                                     <a href='index.php?page=FoodAdmin&action=UpdateGet&food_id={$value->getFood_id()}'  class='col-xl-4 btn btn-outline-warning'>Cập nhật</a>
-                                                    <a href='#'  class='col-xl-4 btn btn-outline-danger'>Xóa</a>
+                                                    <form action='index.php?page=FoodAdmin&action=Delete' method='POST'>
+                                                        <input type='hidden' name='food_id' value='{$value->getFood_id()}'>
+                                                        <button type='submit' class='btn btn-outline-danger' 
+                                                                onclick='return confirm(\"Bạn có chắc chắn muốn xóa món {$value->getFood_name()} không?\");'>
+                                                                Xóa
+                                                        </button>   
+                                                    </form>
                                             </div>
                                         </td>
                                     </tr>

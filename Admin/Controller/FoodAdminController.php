@@ -57,6 +57,7 @@ class FoodAdminController
     {
         if (!isset($_GET['food_id'])) {
             echo "<script>alert('Khônng tồn tại food_id: $_GET[food_id]')</script>";
+            exit;
         }
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
@@ -91,7 +92,6 @@ class FoodAdminController
 
             if (!empty($_FILES['image_url']['name'])) {
                 $upload_img = Helper::Upload_image($_FILES['image_url'], "../assets/img/img_foods/");
-
                 if ($upload_img['status'] == true) {
                     $data['image_url'] = $upload_img['file_name'];
                 } else {
@@ -124,6 +124,25 @@ class FoodAdminController
             }
             $food = $food_update;
             include_once "View/FoodAdmin/Update.php";
+        }
+    }
+    public function Delete()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $food_id = $_POST['food_id'];
+            $food = $this->foodModel->getDetail($food_id);
+            $path = "../assets/img/img_foods/" . $food->getImage_url();
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            $result = $this->foodModel->Delete('food_id', $food_id);
+            if ($result) {
+                echo "<script>alert('Đã xóa thành công!'); window.location.href='index.php?page=FoodAdmin';</script>";
+            } else {
+                echo "<script>alert('Lỗi: Không thể xóa món ăn này.'); window.location.href='index.php?page=FoodAdmin';</script>";
+            }
+        } else {
+            header("Location: index.php?page=FoodAdmin");
         }
     }
 }

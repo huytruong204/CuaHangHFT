@@ -2,6 +2,9 @@
     <div class="bg-secondary rounded h-100 p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">Thêm Món Ăn Mới</h3>
+            <a href="index.php?page=FoodAdmin" class="btn btn-outline-light btn-sm">
+                <i class="fa fa-arrow-left me-2"></i>Quay lại danh sách
+            </a>
         </div>
         <form action="index.php?page=FoodAdmin&action=CreatePost" method="POST" enctype="multipart/form-data">
             <div class="row justify-content-center">
@@ -9,10 +12,10 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control bg-dark" id="foodId" name="food_id" value="<?php if(isset($_POST['food_id'])) echo $_POST['food_id']?>" placeholder="F001" >
+                                <input type="text" class="form-control bg-dark" id="foodId" name="food_id" value="<?php if (isset($_POST['food_id'])) echo $_POST['food_id'] ?>" placeholder="F001">
                                 <label for="foodId">Mã món ăn </label>
-                                 <span class="text-danger small">
-                                    <?php if(isset($errors['food_id'])) echo  $errors["food_id"] ?>
+                                <span class="text-danger small">
+                                    <?php if (isset($errors['food_id'])) echo  $errors["food_id"] ?>
                                 </span>
                             </div>
                         </div>
@@ -29,24 +32,24 @@
 
                         <div class="col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control bg-dark" id="foodName" name="food_name"  value="<?php if(isset($_POST['food_name'])) echo $_POST['food_name']?>"placeholder="Tên món" >
+                                <input type="text" class="form-control bg-dark" id="foodName" name="food_name" value="<?php if (isset($_POST['food_name'])) echo $_POST['food_name'] ?>" placeholder="Tên món">
                                 <label for="foodName">Tên món ăn</label>
                             </div>
                             <span class="text-danger small">
-                                    <?php if(isset($errors['food_name'])) echo  $errors["food_name"] ?>
+                                <?php if (isset($errors['food_name'])) echo  $errors["food_name"] ?>
                             </span>
                         </div>
 
                         <div class="col-md-6">
                             <div class="input-group">
                                 <div class="form-floating" style="flex-grow: 1;">
-                                    <input type="number" class="form-control bg-dark" id="price" name="price" value="<?php if(isset($_POST['price'])) echo $_POST['price']?>" placeholder="Giá" min="0">
+                                    <input type="number" class="form-control bg-dark" id="price" name="price" value="<?php if (isset($_POST['price'])) echo $_POST['price'] ?>" placeholder="Giá" min="0">
                                     <label for="price">Giá bán</label>
                                 </div>
                                 <span class="input-group-text bg-dark text-white border-secondary">VNĐ</span>
                             </div>
                             <span class="text-danger small">
-                                    <?php if(isset($errors['price'])) echo $errors["price"] ?>
+                                <?php if (isset($errors['price'])) echo $errors["price"] ?>
                             </span>
                         </div>
                         <div class="col-md-6">
@@ -59,18 +62,18 @@
                             </div>
                         </div>
                         <div class="col-12">
-                             <input class="form-control bg-dark mb-3" type="file" id="imageInput" name="image_url" accept="image/*">
-                              <span class="text-danger small">
-                                    <?php if(isset($errors['image_url'])) echo  $errors["image_url"] ?>
+                            <input class="form-control bg-dark mb-3" type="file" id="imageInput" name="image_url" accept="image/*">
+                            <span class="text-danger small">
+                                <?php if (isset($errors['image_url'])) echo  $errors["image_url"] ?>
                             </span>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control bg-dark" name="description" id="description" style="height:120px;"><?php if(isset($_POST['description'])) echo $_POST['description']?></textarea>
+                                <textarea class="form-control bg-dark" name="description" id="description" style="height:120px;"><?php if (isset($_POST['description'])) echo $_POST['description'] ?></textarea>
                                 <label for="description">Mô tả chi tiết</label>
                             </div>
                             <span class="text-danger small">
-                                    <?php if(isset($errors['description'])) echo  $errors["description"] ?>
+                                <?php if (isset($errors['description'])) echo  $errors["description"] ?>
                             </span>
                         </div>
 
