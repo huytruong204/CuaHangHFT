@@ -32,9 +32,10 @@ class FoodModel extends BaseModel
         {
                 try {
                         $list_foods = [];
-                        $stmt = $this->db->query("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id WHERE status = 1");
+                        $stmt = $this->db->query("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id");
                         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($data as $value) {
+                                $value['category_id'] = $value['category_name'];
                                 $list_foods[] = new FoodModel($value); 
                         }
                         return $list_foods;
@@ -55,6 +56,30 @@ class FoodModel extends BaseModel
                 }
         }
 
+        public function getDetail($food_id){
+                 try {
+                        $stmt = $this->db->prepare("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id WHERE food_id = ?");
+                        $stmt->execute([$food_id]);
+                        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $data['category_id'] = $data['category_name'];
+                        $foods = new FoodModel($data); 
+                        return $foods;
+                } catch (PDOException $e) {
+                        $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
+                        switch ($errorCode) {
+                                case 1054:
+                                        $this->error_message = "Lỗi SQL: Tên cột không tồn tại.";
+                                        break;
+                                case 1146:
+                                        $this->error_message = "Lỗi SQL: Bảng không tồn tại.";
+                                        break;
+                                default:
+                                        $this->error_message = "Lỗi truy vấn dữ liệu: " . $e->getMessage();
+                                        break;
+                        }
+                        return [];
+                }
+        }
 
         public function validate($data){
                 $errors = [];

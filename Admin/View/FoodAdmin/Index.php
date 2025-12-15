@@ -45,8 +45,8 @@
                                         <td>{$value->getCreated_at()}</td>
                                         <td>
                                             <div class='d-flex justify-content-center gap-1'>
-                                                    <a href='#' class='col-xl-4 btn btn-outline-info'>Chi tiết</a>
-                                                    <a href='#'  class='col-xl-4 btn btn-outline-warning'>Cập nhật</a>
+                                                    <a href='index.php?page=FoodAdmin&action=Detail&food_id={$value->getFood_id()}' class='col-xl-4 btn btn-outline-info'>Chi tiết</a>
+                                                    <a href='index.php?page=FoodAdmin&action=UpdateGet&food_id={$value->getFood_id()}'  class='col-xl-4 btn btn-outline-warning'>Cập nhật</a>
                                                     <a href='#'  class='col-xl-4 btn btn-outline-danger'>Xóa</a>
                                             </div>
                                         </td>
