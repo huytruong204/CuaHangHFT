@@ -14,7 +14,7 @@
                         <div class="position-relative text-center bg-dark rounded p-3 h-100 d-flex align-items-center justify-content-center">
                             <img src="../assets/img/img_foods/<?php echo $food->getImage_url() ?>"
                                 class="img-fluid rounded shadow-sm"
-                                style="max-height: 400px; width: 100%; object-fit: cover;">
+                                style="max-height: 500px; width: 100%; object-fit: cover;">
 
                             <div class="position-absolute top-0 start-0 m-3">
                                 <span class="badge bg-primary fs-6">ID: <?= $food->getFood_id() ?></span>

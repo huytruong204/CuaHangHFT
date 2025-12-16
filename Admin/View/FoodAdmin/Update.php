@@ -10,18 +10,18 @@
                 
                 <div class="col-md-4 d-flex flex-column align-items-center justify-content-start text-center">
                     <label class="form-label fw-bold mb-3">Hình ảnh</label>
-                    
                     <div class="mb-3 d-flex align-items-center justify-content-center bg-dark rounded" 
-                         style="width: 100%; height: 250px; border: 2px dashed #6c757d; overflow: hidden; position: relative;">
+                         style="width: 100%; object-fit: cover; border: 2px dashed #6c757d; overflow: hidden; position: relative;">
                         <img src="../assets/img/img_foods/<?php echo $food->getImage_url()?>" 
                                  class="img-fluid rounded shadow-sm" 
                                  style="max-height: 400px; width: 100%; object-fit: cover;">
                     </div>
-
                     <input class="form-control bg-dark mb-2" type="file" id="imageInput" name="image_url" accept="image/*">
                     <small class="text-muted fst-italic">Để trống nếu không muốn thay đổi ảnh</small>
-                    
                     <input type="hidden" name="old_image" value="<?= $food->getImage_url() ?>">
+                    <span class="text-danger small">
+                                <?php if (isset($errors['image_url'])) echo  $errors["image_url"] ?>
+                    </span>
                 </div>
 
                 <div class="col-md-8">
@@ -47,9 +47,12 @@
                         <div class="col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control bg-dark" id="foodName" name="food_name" 
-                                       value="<?= $food->getFood_name() ?>" required>
+                                       value="<?= $food->getFood_name() ?>" >
                                 <label for="foodName">Tên món ăn</label>
                             </div>
+                            <span class="text-danger small">
+                                <?php if (isset($errors['food_name'])) echo  $errors["food_name"] ?>
+                            </span>
                         </div>
 
                         <div class="col-md-6">
@@ -61,6 +64,9 @@
                                 </div>
                                 <span class="input-group-text bg-dark text-white border-secondary">VNĐ</span>
                             </div>
+                            <span class="text-danger small">
+                                <?php if (isset($errors['price'])) echo $errors["price"] ?>
+                            </span>
                         </div>
 
                         <div class="col-md-6">
@@ -79,6 +85,9 @@
                                           style="height: 120px;"><?= $food->getDescription() ?></textarea>
                                 <label for="description">Mô tả chi tiết</label>
                             </div>
+                            <span class="text-danger small">
+                                <?php if (isset($errors['description'])) echo  $errors["description"] ?>
+                            </span>
                         </div>
 
                         <div class="col-12 mt-4">

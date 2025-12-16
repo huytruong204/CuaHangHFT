@@ -87,12 +87,17 @@ class FoodAdminController
                 'food_name'   => trim($_POST['food_name'] ?? ''),
                 'description' => trim($_POST['description'] ?? ''),
                 'price'       => trim($_POST['price']) ?? '',
-                'status'      => $_POST['status'] ?? ''
+                'status'      => $_POST['status'] ?? '',
+                'image_url'   => $_POST['old_image'] ?? ''
             ];
-
+            $path = "../assets/img/img_foods/";
             if (!empty($_FILES['image_url']['name'])) {
-                $upload_img = Helper::Upload_image($_FILES['image_url'], "../assets/img/img_foods/");
+                $upload_img = Helper::Upload_image($_FILES['image_url'], $path);
                 if ($upload_img['status'] == true) {
+                    $image_old = $path . $data['image_url'];
+                    if (file_exists($image_old)) {
+                        unlink($image_old);
+                    }
                     $data['image_url'] = $upload_img['file_name'];
                 } else {
                     $errors['image_url'] = $upload_img['message'];
@@ -100,8 +105,6 @@ class FoodAdminController
                     include_once "View/FoodAdmin/Update.php";
                     return;
                 }
-            } else {
-                $data['image_url'] = $_POST['old_image'] ?? '';
             }
 
             $food_update = new FoodModel($data);
@@ -131,6 +134,9 @@ class FoodAdminController
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $food_id = $_POST['food_id'];
             $food = $this->foodModel->getDetail($food_id);
+            if(empty($food)){
+                echo "<script>alert('Lỗi: Không tìm thấy {$food_id} món ăn này.'); window.location.href='index.php?page=FoodAdmin';</script>";
+            }
             $path = "../assets/img/img_foods/" . $food->getImage_url();
             if (file_exists($path)) {
                 unlink($path);
