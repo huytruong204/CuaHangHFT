@@ -11,7 +11,12 @@ class FoodAdminController
 
     public function Index()
     {
-        $list_foods = $this->foodModel->getAll();
+        $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+        $rows_per_page = 1;
+        $offset = ($current_page - 1) * $rows_per_page;
+        $count_rows = $this->foodModel->CountRows();
+        $total_pages = ceil($count_rows / $rows_per_page);
+        $list_foods = $this->foodModel->getAll($offset, $rows_per_page);
         include_once "View/FoodAdmin/Index.php";
     }
 
@@ -133,7 +138,7 @@ class FoodAdminController
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $food_id = $_POST['food_id'];
             $food = $this->foodModel->getDetail($food_id);
-            if(empty($food)){
+            if (empty($food)) {
                 echo "<script>alert('Lỗi: Không tìm thấy {$food_id} món ăn này.'); window.location.href='index.php?page=FoodAdmin';</script>";
             }
             $path = "../assets/img/img_foods/" . $food->getImage_url();

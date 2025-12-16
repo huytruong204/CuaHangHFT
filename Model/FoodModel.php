@@ -28,11 +28,13 @@ class FoodModel extends BaseModel
                 }
         }
 
-        public function getAll()
+        public function getAll($offset, $rows_per_page)
         {
                 try {
                         $list_foods = [];
-                        $stmt = $this->db->query("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id");
+                        $sql_base = "SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id";
+                        $sql = $sql_base . " LIMIT $offset, $rows_per_page";
+                        $stmt = $this->db->query($sql);
                         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($data as $value) {
                                 $value['category_id'] = $value['category_name'];
