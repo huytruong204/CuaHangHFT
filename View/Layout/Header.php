@@ -60,6 +60,7 @@
 			    <li><a class="m_tag" href="#">Khuyến mãi</a></li>
 				<li><a class="m_tag" href="#">Dịch vụ</a></li>
 				<li><a class="m_tag" href="index.php?page=Contact">Liên hệ</a></li>
+				<li><a class="m_tag1 button mgt" href="./Admin/index.php?page=HomeAdmin"> Admin</a></li>
 				<li><a class="m_tag1 button mgt" href="#"> Giỏ hàng</a></li>
 			</ul>
 			<ul class="nav navbar-nav nav_m navbar-right">
