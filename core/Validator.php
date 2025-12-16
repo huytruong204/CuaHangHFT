@@ -6,5 +6,8 @@
         public static function numeric($value, $mess){
             return !is_numeric($value) ? $mess : '';
         }
+        public static function is_isset($value, $mess){
+            return !isset($value) ? $mess : '';
+        }
     }
 ?>

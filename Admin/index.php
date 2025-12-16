@@ -7,10 +7,9 @@ spl_autoload_register(function ($className) {
     }
 });
 
-include_once "View/Layout/HeaderAdmin.php";
-
 $page = isset($_GET["page"]) ? $_GET["page"] : "";
 $controllerName = $page . "Controller";
+include_once "View/Layout/HeaderAdmin.php";
 if (class_exists($controllerName)) {
     $controller = new $controllerName();
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "Index";

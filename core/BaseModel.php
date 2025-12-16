@@ -11,6 +11,11 @@ class BaseModel
         $this->table_name = $table_name;
     }
 
+    public function CountRows(){
+        $stmt = $this->db->query("SELECT * FROM $this->table_name");
+        return $stmt->rowCount();
+    }
+
     public function Insert($data)
     {
         try {
