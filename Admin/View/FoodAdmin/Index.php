@@ -19,19 +19,26 @@
                                 <th scope="col" style="width: 200px">Ảnh món ăn</th>
                                 <th scope="col" style="width: 80px">Trạng thái</th>
                                 <th scope="col" style="width: 120px">Ngày tạo</th>
-                                <th scope="col" style="width: 250px">Hành động</th>
+                                <th scope="col"  style="width: 250px">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($list_foods as $value) {
-                                $price_format = number_format($value->getPrice(), 0, ',', '.') . 'đ';
-                                $status = '';
-                                if ($value->getStatus() == 1)
-                                    $status = "Đang bán";
-                                else
-                                    $status = "Ngừng bán";
+                            if (empty($list_foods)) {
                                 echo "
+                                    <tr class='text-center'>
+                                        <th scope='row' colspan='8'>Chưa có món ăn nào</th>
+                                    </tr>
+                                ";
+                            } else {
+                                foreach ($list_foods as $value) {
+                                    $price_format = number_format($value->getPrice(), 0, ',', '.') . 'đ';
+                                    $status = '';
+                                    if ($value->getStatus() == 1)
+                                        $status = "Đang bán";
+                                    else
+                                        $status = "Ngừng bán";
+                                    echo "
                                     <tr>
                                         <th scope='row'>{$value->getFood_id()}</th>
                                         <td>{$value->getCategory_id()}</td>
@@ -58,6 +65,7 @@
                                         </td>
                                     </tr>
                                 ";
+                                }
                             }
                             ?>
                         </tbody>
