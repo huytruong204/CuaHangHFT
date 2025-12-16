@@ -7,7 +7,7 @@ spl_autoload_register(function ($className) {
     }
 });
 
-$page = isset($_GET["page"]) ? $_GET["page"] : "";
+$page = isset($_GET["page"]) ? $_GET["page"] : "HomeAdmin";
 $controllerName = $page . "Controller";
 include_once "View/Layout/HeaderAdmin.php";
 if (class_exists($controllerName)) {
