@@ -24,7 +24,6 @@ class FoodAdminController
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $data = [
-                'food_id'     => trim($_POST['food_id'] ?? ''),
                 'category_id' => $_POST['category_id'] ?? '',
                 'food_name'   => trim($_POST['food_name'] ?? ''),
                 'description' => trim($_POST['description'] ?? ''),

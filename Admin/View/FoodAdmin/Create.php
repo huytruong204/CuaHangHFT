@@ -12,19 +12,14 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control bg-dark" id="foodId" name="food_id" value="<?php if (isset($_POST['food_id'])) echo $_POST['food_id'] ?>" placeholder="F001">
+                                <input type="text" class="form-control bg-dark" id="foodId" name="food_id" value="Auto" readonly>
                                 <label for="foodId">Mã món ăn </label>
-                                <span class="text-danger small">
-                                    <?php if (isset($errors['food_id'])) echo  $errors["food_id"] ?>
-                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select bg-dark" id="categorySelect" name="category_id">
-                                    <option value="CAT001">Món khai vị</option>
-                                    <option value="CAT002">Món chính</option>
-                                    <option value="CAT003">Đồ uống</option>
+                                    <option value="1">Đồ uống</option>
                                 </select>
                                 <label for="categorySelect">Danh mục</label>
                             </div>

@@ -36,9 +36,7 @@
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select bg-dark" id="categorySelect" name="category_id">
-                                    <option value="CAT001" <?= ($food->getCategory_id() == 'CAT01') ? 'selected' : '' ?>>Món khai vị</option>
-                                    <option value="CAT002" <?= ($food->getCategory_id() == 'CAT02') ? 'selected' : '' ?>>Món chính</option>
-                                    <option value="CAT003" <?= ($food->getCategory_id() == 'CAT03') ? 'selected' : '' ?>>Đồ uống</option>
+                                    <option value="1" <?= ($food->getCategory_id() == '1') ? 'selected' : '' ?>>Đồ uống</option>
                                 </select>
                                 <label for="categorySelect">Danh mục</label>
                             </div>

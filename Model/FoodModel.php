@@ -13,7 +13,7 @@ class FoodModel extends BaseModel
         protected $status;
         protected $created_at;
 
-        public function __construct($data=[])
+        public function __construct($data = [])
         {
                 parent::__construct(self::TB_NAME);
                 if (!empty($data)) {
@@ -36,7 +36,7 @@ class FoodModel extends BaseModel
                         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($data as $value) {
                                 $value['category_id'] = $value['category_name'];
-                                $list_foods[] = new FoodModel($value); 
+                                $list_foods[] = new FoodModel($value);
                         }
                         return $list_foods;
                 } catch (PDOException $e) {
@@ -56,13 +56,14 @@ class FoodModel extends BaseModel
                 }
         }
 
-        public function getDetail($food_id){
-                 try {
+        public function getDetail($food_id)
+        {
+                try {
                         $stmt = $this->db->prepare("SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id WHERE food_id = ?");
                         $stmt->execute([$food_id]);
                         $data = $stmt->fetch(PDO::FETCH_ASSOC);
                         $data['category_id'] = $data['category_name'];
-                        $foods = new FoodModel($data); 
+                        $foods = new FoodModel($data);
                         return $foods;
                 } catch (PDOException $e) {
                         $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
@@ -81,18 +82,27 @@ class FoodModel extends BaseModel
                 }
         }
 
-        public function validate($data){
+        public function validate($data)
+        {
                 $errors = [];
-                if($err = Validator::required($data->food_id, "Mã món ăn không được để trống"))
-                        $errors['food_id'] = $err;
-                if($err = Validator::required($data->food_name, "Tên món ăn không được để trống"))
+
+                if ($err = Validator::is_isset($data->food_name, "Tên món ăn không tồn tại"))
                         $errors['food_name'] = $err;
-                if($err = Validator::required($data->description, "Mô tả không được để trống"))
+                elseif ($err = Validator::required($data->food_name, "Tên món ăn không được để trống"))
+                        $errors['food_name'] = $err;
+
+                if ($err = Validator::is_isset($data->description, "Mô tả không tồn tại"))
                         $errors['description'] = $err;
-                if($err = Validator::required($data->price, "Giá bán không được để trống"))
+                elseif ($err = Validator::required($data->description, "Mô tả không được để trống"))
+                        $errors['description'] = $err;
+
+                if ($err = Validator::is_isset($data->price, "Giá bán không tồn tại"))
                         $errors['price'] = $err;
-                elseif($err = Validator::numeric($data->price, "Giá bán phải là số"))
+                elseif ($err = Validator::required($data->price, "Giá bán không được để trống"))
                         $errors['price'] = $err;
+                elseif ($err = Validator::numeric($data->price, "Giá bán phải là số"))
+                        $errors['price'] = $err;
+
                 return $errors;
         }
 
