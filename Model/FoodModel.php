@@ -28,36 +28,84 @@ class FoodModel extends BaseModel
                 }
         }
 
-        public function getAll($offset, $rows_per_page)
+        public function getAll($offset, $rows_per_page, $where_clauses, $sort_price = 'desc')
         {
                 try {
                         $list_foods = [];
-                        $sql_base = "SELECT foods.*, categories.category_name FROM " . self::TB_NAME . " join categories on " . self::TB_NAME . ".category_id = categories.category_id";
-                        $sql = $sql_base . " LIMIT $offset, $rows_per_page";
-                        $stmt = $this->db->query($sql);
+                        $sql = "SELECT foods.*, categories.category_name 
+                                FROM " . self::TB_NAME . " 
+                                JOIN categories ON " . self::TB_NAME . ".category_id = categories.category_id";
+                        $sql_clauses_arr = [];
+                        $values = [];
+                        if (!empty($where_clauses)) {
+                                foreach ($where_clauses as $column => $value) {
+                                        if ($column == 'foods.food_name') {
+                                                $sql_clauses_arr[] = "$column LIKE ?";
+                                                $values[] = "%$value%";
+                                        } else {
+                                                $sql_clauses_arr[] = "$column = ?";
+                                                $values[] = $value;
+                                        }
+                                }
+                                $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
+                        }
+
+                        $sort_direction = (strtolower($sort_price) === 'asc') ? 'ASC' : 'DESC';
+
+                        if (!empty($_GET['price_sort'])) {
+                                $sql .= " ORDER BY foods.price $sort_direction";
+                        } else {
+                                $sql .= " ORDER BY foods.created_at DESC";
+                        }
+
+                        $sql .= " LIMIT $offset, $rows_per_page";
+
+                        $stmt = $this->db->prepare($sql);
+
+                        $stmt->execute($values);
+
                         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
                         foreach ($data as $value) {
                                 $value['category_id'] = $value['category_name'];
                                 $list_foods[] = new FoodModel($value);
                         }
+
                         return $list_foods;
                 } catch (PDOException $e) {
-                        $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
-                        switch ($errorCode) {
-                                case 1054:
-                                        $this->error_message = "Lỗi SQL: Tên cột không tồn tại.";
-                                        break;
-                                case 1146:
-                                        $this->error_message = "Lỗi SQL: Bảng không tồn tại.";
-                                        break;
-                                default:
-                                        $this->error_message = "Lỗi truy vấn dữ liệu: " . $e->getMessage();
-                                        break;
-                        }
+                        $this->error_message = "Lỗi: " . $e->getMessage();
                         return [];
                 }
         }
+        public function CountRows($where_clauses)
+        {
+                try {
+                        $sql = "SELECT COUNT(*) FROM " . $this->table_name . " JOIN categories ON " . $this->table_name . ".category_id = categories.category_id";
 
+                        $sql_clauses_arr = [];
+                        $values = [];
+
+                        if (!empty($where_clauses)) {
+                                foreach ($where_clauses as $column => $value) {
+                                        if ($column == 'foods.food_name') {
+                                                $sql_clauses_arr[] = "$column LIKE ?";
+                                                $values[] = "%$value%";
+                                        } else {
+                                                $sql_clauses_arr[] = "$column = ?";
+                                                $values[] = $value;
+                                        }
+                                }
+                                $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
+                        }
+
+                        $stmt = $this->db->prepare($sql);
+                        $stmt->execute($values);
+
+                        return $stmt->fetchColumn();
+                } catch (PDOException $e) {
+                        return 0;
+                }
+        }
         public function getDetail($food_id)
         {
                 try {

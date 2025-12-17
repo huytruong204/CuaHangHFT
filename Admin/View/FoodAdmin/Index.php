@@ -1,15 +1,53 @@
-
-
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
-        
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0 text-primary">Quản lý món ăn</h3>
             <a href='index.php?page=FoodAdmin&action=CreateGet' class='btn btn-primary'>
                 <i class="fa fa-plus me-2"></i>Thêm món mới
             </a>
         </div>
+        <form action="index.php" method="GET" class="mb-4">
+            <input type="hidden" name="page" value="FoodAdmin">
 
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0"><i class="fa fa-search text-muted"></i></span>
+                        <input type="text" class="form-control border-start-0" name="keyword"
+                            value="<?php if(isset($_GET['keyword'])) echo htmlspecialchars($_GET['keyword']) ?>" placeholder="Nhập tên món ăn...">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-select" name="cat_filter">
+                        <option value="">-- Danh mục --</option>
+                        <option value="1" <?= (isset($_GET['cat_filter']) && $_GET['cat_filter'] == '1') ? 'selected' : '' ?>>Đồ uống</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-select" name="status_filter">
+                        <option value="">-- Trạng thái --</option>
+                        <option value="1" <?= (isset($_GET['status_filter']) && $_GET['status_filter'] === '1') ? 'selected' : '' ?>>Đang bán</option>
+                        <option value="0" <?= (isset($_GET['status_filter']) && $_GET['status_filter'] === '0') ? 'selected' : '' ?>>Ngừng bán</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-select" name="price_sort">
+                        <option value="">-- Sắp xếp giá --</option>
+                        <option value="asc" <?= (isset($_GET['price_sort']) && $_GET['price_sort'] == 'asc') ? 'selected' : '' ?>>Thấp đến cao</option>
+                        <option value="desc" <?= (isset($_GET['price_sort']) && $_GET['price_sort'] == 'desc') ? 'selected' : '' ?>>Cao đến thấp</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex gap-1">
+                    <button type="submit" class="btn btn-dark w-100"><i class="fa fa-filter"></i> Lọc</button>
+                    <a href="index.php?page=FoodAdmin" class="btn btn-outline-secondary" title="Xóa lọc"><i class="fa fa-sync"></i></a>
+                </div>
+            </div>
+        </form>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -40,7 +78,7 @@
                             // Xử lý logic hiển thị
                             $price_format = number_format($value->getPrice(), 0, ',', '.') . 'đ';
                             $img_src = '../assets/img/img_foods/' . $value->getImage_url();
-                            
+
                             $status = '';
                             if ($value->getStatus() == 1)
                                 $status = "<span class='badge bg-success'>Đang bán</span>";
@@ -87,45 +125,49 @@
             </table>
         </div>
 
-        <?php if (isset($total_pages) && $total_pages > 1): ?>
-        <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Page navigation">
-                <ul class="pagination mb-0">
-                    <?php 
+        <?php if (isset($total_pages) && $total_pages > 1): 
+            $params = $_GET; 
+            unset($params['p']); 
+            $query_str = http_build_query($params); 
+            ?>
+            <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination mb-0">
+                        <?php
                         $prev_disabled = ($current_page <= 1) ? 'disabled' : '';
                         $prev_page = $current_page - 1;
                         echo "
                         <li class='page-item $prev_disabled'>
-                            <a class='page-link' href='index.php?page=FoodAdmin&p=$prev_page' aria-label='Previous'>
+                            <a class='page-link' href='index.php?$query_str&p=$prev_page' aria-label='Previous'>
                                 <span aria-hidden='true'>&laquo;</span>
                             </a>
                         </li>";
-                    ?>
+                        ?>
 
-                    <?php 
+                        <?php
                         for ($i = 1; $i <= $total_pages; $i++) {
                             $active = ($i == $current_page) ? 'active' : '';
                             echo "
                             <li class='page-item $active'>
-                                <a class='page-link' href='index.php?page=FoodAdmin&p=$i'>$i</a>
+                                <a class='page-link' href='index.php?$query_str&p=$i'>$i</a>
                             </li>";
                         }
-                    ?>
+                        ?>
 
-                    <?php 
+                        <?php
                         $next_disabled = ($current_page >= $total_pages) ? 'disabled' : '';
                         $next_page = $current_page + 1;
                         echo "
                         <li class='page-item $next_disabled'>
-                            <a class='page-link' href='index.php?page=FoodAdmin&p=$next_page' aria-label='Next'>
+                            <a class='page-link' href='index.php?$query_str&p=$next_page' aria-label='Next'>
                                 <span aria-hidden='true'>&raquo;</span>
                             </a>
                         </li>";
-                    ?>
-                </ul>
-            </nav>
-        </div>
+                        ?>
+                    </ul>
+                </nav>
+            </div>
         <?php endif; ?>
-        
+
     </div>
 </div>

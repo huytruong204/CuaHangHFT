@@ -11,11 +11,6 @@ class BaseModel
         $this->table_name = $table_name;
     }
 
-    public function CountRows(){
-        $stmt = $this->db->query("SELECT * FROM $this->table_name");
-        return $stmt->rowCount();
-    }
-
     public function Insert($data)
     {
         try {
@@ -88,11 +83,11 @@ class BaseModel
             $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
             switch ($errorCode) {
                 case 1451:
-                $this->error_message = "Không thể xóa dữ liệu này vì nó đang được sử dụng ở bảng khác (Lỗi ràng buộc khóa ngoại).";
-                break;
-            default:
-                $this->error_message = "Lỗi hệ thống: " . $e->getMessage();
-                break;
+                    $this->error_message = "Không thể xóa dữ liệu này vì nó đang được sử dụng ở bảng khác (Lỗi ràng buộc khóa ngoại).";
+                    break;
+                default:
+                    $this->error_message = "Lỗi hệ thống: " . $e->getMessage();
+                    break;
             }
             return false;
         }

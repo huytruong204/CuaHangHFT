@@ -11,12 +11,22 @@ class FoodAdminController
 
     public function Index()
     {
+        $rows_per_page = 2;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-        $rows_per_page = 1;
-        $offset = ($current_page - 1) * $rows_per_page;
-        $count_rows = $this->foodModel->CountRows();
+        $where_clauses = [
+            'foods.food_name' => $_GET['keyword'] ?? '',
+            'foods.category_id' => $_GET['cat_filter'] ?? '',
+            'foods.status' => $_GET['status_filter'] ?? '',
+        ];
+        
+        $where_clauses = array_filter($where_clauses, function ($value) {
+            return ($value !== null && $value !== false && $value !== '');
+        });
+        $count_rows = $this->foodModel->CountRows($where_clauses);
         $total_pages = ceil($count_rows / $rows_per_page);
-        $list_foods = $this->foodModel->getAll($offset, $rows_per_page);
+        $offset = ($current_page - 1) * $rows_per_page;
+        $sort_price = $_GET['price_sort'] ?? 'desc';
+        $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
         include_once "View/FoodAdmin/Index.php";
     }
 
