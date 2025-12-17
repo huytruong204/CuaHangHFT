@@ -1,6 +1,6 @@
 <?php
-include_once '../core/BaseModel.php';
-include_once '../core/Validator.php';
+include_once __DIR__ .'/../core/BaseModel.php';
+include_once __DIR__ .'/../core/Validator.php';
 class FoodModel extends BaseModel
 {
         public const TB_NAME = "foods";
