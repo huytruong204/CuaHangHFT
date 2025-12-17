@@ -3,7 +3,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0 text-primary">Quản lý món ăn</h3>
-            <a href='index.php?page=FoodAdmin&action=CreateGet' class='btn btn-primary'>
+            <a href='index.php?page=FoodAdmin&action=CreateGet&p=<?php echo $current_page?>' class='btn btn-primary'>
                 <i class="fa fa-plus me-2"></i>Thêm món mới
             </a>
         </div>
@@ -101,10 +101,10 @@
                                     <td><small class='text-muted'>{$value->getCreated_at()}</small></td>
                                     <td>
                                         <div class='d-flex justify-content-center gap-2'>
-                                            <a href='index.php?page=FoodAdmin&action=Detail&food_id={$value->getFood_id()}' 
+                                            <a href='index.php?page=FoodAdmin&action=Detail&food_id={$value->getFood_id()}&p=$current_page' 
                                                class='btn btn-sm btn-outline-info' title='Chi tiết'><i class='fa fa-eye'></i></a>
                                                
-                                            <a href='index.php?page=FoodAdmin&action=UpdateGet&food_id={$value->getFood_id()}' 
+                                            <a href='index.php?page=FoodAdmin&action=UpdateGet&food_id={$value->getFood_id()}&p=$current_page' 
                                                class='btn btn-sm btn-outline-warning' title='Sửa'><i class='fa fa-pen'></i></a>
                                             
                                             <form action='index.php?page=FoodAdmin&action=Delete' method='POST' style='display:inline;'>

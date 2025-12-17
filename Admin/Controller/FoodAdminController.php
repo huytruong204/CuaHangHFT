@@ -85,7 +85,7 @@ class FoodAdminController
     public function UpdateGet()
     {
         if (!isset($_GET['food_id'])) {
-            echo "<script>alert('Khônng tồn tại food_id: $_GET[food_id]')</script>";
+            echo "<script>alert('Không tồn tại food_id: $_GET[food_id]')</script>";
             exit;
         }
         $food_id = $_GET['food_id'];

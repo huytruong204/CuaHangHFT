@@ -2,7 +2,7 @@
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded h-100 p-4"> <div class="d-flex justify-content-between align-items-center mb-4">
             <h6 class="mb-0 text-primary">Cập nhật Món Ăn</h6>
-            <a href="index.php?page=FoodAdmin" class="btn btn-outline-primary btn-sm">
+            <a href="index.php?page=FoodAdmin<?php if(isset($_GET['p'])) echo "&p=$_GET[p]"?>" class="btn btn-outline-primary btn-sm">
                 <i class="fa fa-arrow-left me-2"></i>Quay lại
             </a>
         </div>

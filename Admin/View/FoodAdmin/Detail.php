@@ -6,7 +6,7 @@
                     <h4 class="mb-0 text-primary">
                         <i class="fa fa-info-circle me-2"></i>Chi tiết món ăn
                     </h4>
-                    <a href="index.php?page=FoodAdmin" class="btn btn-outline-primary btn-sm">
+                    <a href="index.php?page=FoodAdmin<?php if(isset($_GET['p'])) echo "&p=$_GET[p]"?>" class="btn btn-outline-primary btn-sm">
                         <i class="fa fa-arrow-left me-2"></i>Quay lại danh sách
                     </a>
                 </div>
