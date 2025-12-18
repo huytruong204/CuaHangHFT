@@ -1,310 +1,358 @@
 /********** Template CSS - Food Admin Light Theme **********/
 
 :root {
-    --primary: #d35400;   /* Màu cam chủ đạo */
-    --secondary: #ffffff; /* Màu nền trắng cho các khối (Sidebar, Card) */
-    --light: #f3f6f9;     /* Màu nền xám nhạt cho Body */
-    --dark: #191C24;      /* Màu đen cho các thành phần tối */
+  --primary: #d35400; /* Màu cam chủ đạo */
+  --secondary: #ffffff; /* Màu nền trắng cho các khối (Sidebar, Card) */
+  --light: #f3f6f9; /* Màu nền xám nhạt cho Body */
+  --dark: #191c24; /* Màu đen cho các thành phần tối */
 }
 
 /* 1. Cấu hình chung cho Body */
 body {
-    background-color: var(--light);
-    color: #555;
-    font-family: 'Open Sans', sans-serif;
+  background-color: var(--light);
+  color: #555;
+  font-family: "Open Sans", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #2c3e50; /* Màu tiêu đề đậm hơn */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #2c3e50; /* Màu tiêu đề đậm hơn */
 }
 
 /* 2. Cấu hình nền và bóng đổ cho các Card (bg-secondary cũ) */
 .bg-secondary {
-    background-color: var(--secondary) !important;
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
-    color: #555;
+  background-color: var(--secondary) !important;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+  color: #555;
 }
 
 /* 3. Spinner (Loading) */
 #spinner {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
-    z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0s linear 0.5s;
+  z-index: 99999;
 }
 
 #spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
-    visibility: visible;
-    opacity: 1;
+  transition: opacity 0.5s ease-out, visibility 0s linear 0s;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* 4. Buttons */
 .btn {
-    transition: .5s;
+  transition: 0.5s;
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: var(--primary);
-    border-color: var(--primary);
+  color: #fff;
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
 .btn-primary:hover {
-    background-color: #e67e22;
-    border-color: #e67e22;
+  background-color: #e67e22;
+  border-color: #e67e22;
 }
 
-.btn-square { width: 38px; height: 38px; }
-.btn-sm-square { width: 32px; height: 32px; }
-.btn-lg-square { width: 48px; height: 48px; }
+.btn-square {
+  width: 38px;
+  height: 38px;
+}
+.btn-sm-square {
+  width: 32px;
+  height: 32px;
+}
+.btn-lg-square {
+  width: 48px;
+  height: 48px;
+}
 
-.btn-square, .btn-sm-square, .btn-lg-square {
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: normal;
-    border-radius: 50px;
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  border-radius: 50px;
 }
 
 /* 5. Layout (Sidebar & Content) */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    height: 100vh;
-    overflow-y: auto;
-    background: var(--secondary); /* Nền trắng */
-    box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, 0.15); /* Thêm bóng đổ cho sidebar tách biệt */
-    transition: 0.5s;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--secondary); /* Nền trắng */
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); /* Thêm bóng đổ cho sidebar tách biệt */
+  transition: 0.5s;
+  z-index: 999;
 }
 
 .content {
-    margin-left: 250px;
-    min-height: 100vh;
-    background: var(--light); /* Nền xám nhạt */
-    transition: 0.5s;
-    display: flex;
-    flex-direction: column;
+  margin-left: 250px;
+  min-height: 100vh;
+  background: var(--light); /* Nền xám nhạt */
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 992px) {
-    .sidebar { margin-left: 0; }
-    .sidebar.open { margin-left: -250px; }
-    .content { width: calc(100% - 250px); }
-    .content.open { width: 100%; margin-left: 0; }
+  .sidebar {
+    margin-left: 0;
+  }
+  .sidebar.open {
+    margin-left: -250px;
+  }
+  .content {
+    width: calc(100% - 250px);
+  }
+  .content.open {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 991.98px) {
-    .sidebar { margin-left: -250px; }
-    .sidebar.open { margin-left: 0; }
-    .content { width: 100%; margin-left: 0; }
+  .sidebar {
+    margin-left: -250px;
+  }
+  .sidebar.open {
+    margin-left: 0;
+  }
+  .content {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 /* 6. Sidebar Navbar Links */
 .sidebar .navbar .navbar-brand h3 {
-    color: var(--primary) !important;
+  color: var(--primary) !important;
 }
 
 .sidebar .navbar .navbar-nav .nav-link {
-    padding: 7px 20px;
-    color: #555; /* Màu chữ tối */
-    font-weight: 500;
-    border-left: 3px solid transparent;
-    border-radius: 0 30px 30px 0;
-    outline: none;
-    margin-bottom: 5px;
+  padding: 7px 15px;
+  color: #555; /* Màu chữ tối */
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  border-radius: 0 30px 30px 0;
+  outline: none;
+  margin-bottom: 5px;
 }
 
 .sidebar .navbar .navbar-nav .nav-link:hover,
 .sidebar .navbar .navbar-nav .nav-link.active {
-    color: var(--primary);
-    background: #fdf0e7; /* Màu nền cam nhạt khi hover */
-    border-color: var(--primary);
+  color: var(--primary);
+  background: #fdf0e7; /* Màu nền cam nhạt khi hover */
+  border-color: var(--primary);
 }
 
 .sidebar .navbar .navbar-nav .nav-link i {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #f0f0f0; /* Nền icon xám nhạt */
-    border-radius: 40px;
-    margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0; /* Nền icon xám nhạt */
+  border-radius: 40px;
+  margin-right: 10px;
 }
 
 .sidebar .navbar .navbar-nav .nav-link:hover i,
 .sidebar .navbar .navbar-nav .nav-link.active i {
-    background: #fff;
-    color: var(--primary);
+  background: #fff;
+  color: var(--primary);
 }
 
 /* 7. Dropdown trong Sidebar */
 .sidebar .navbar .dropdown-toggle::after {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    transition: .5s;
-    color: #555;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  content: "\f107";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  transition: 0.5s;
+  color: #555;
 }
 
-.sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
-    transform: rotate(-180deg);
+.sidebar .navbar .dropdown-toggle[aria-expanded="true"]::after {
+  transform: rotate(-180deg);
 }
 
 .sidebar .navbar .dropdown-item {
-    padding-left: 25px;
-    border-radius: 0 30px 30px 0;
-    color: #555;
+  padding-left: 25px;
+  border-radius: 0 30px 30px 0;
+  color: #555;
 }
 
 .sidebar .navbar .dropdown-item:hover,
 .sidebar .navbar .dropdown-item.active {
-    background: #fdf0e7;
-    color: var(--primary);
+  background: #fdf0e7;
+  color: var(--primary);
 }
 
 /* 8. Top Navbar (Header) */
 .content .navbar {
-    background: var(--secondary) !important; /* Nền trắng */
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); /* Bóng đổ header */
+  background: var(--secondary) !important; /* Nền trắng */
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); /* Bóng đổ header */
 }
 
 .content .navbar .navbar-nav .nav-link {
-    margin-left: 25px;
-    padding: 12px 0;
-    color: #555; /* Màu chữ tối */
-    outline: none;
+  margin-left: 25px;
+  padding: 12px 0;
+  color: #555; /* Màu chữ tối */
+  outline: none;
 }
 
 .content .navbar .navbar-nav .nav-link:hover,
 .content .navbar .navbar-nav .nav-link.active {
-    color: var(--primary);
+  color: var(--primary);
 }
 
 .content .navbar .sidebar-toggler,
 .content .navbar .navbar-nav .nav-link i {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #f0f0f0;
-    color: var(--primary);
-    border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: var(--primary);
+  border-radius: 40px;
 }
 
 .content .navbar .dropdown-toggle::after {
-    margin-left: 6px;
-    vertical-align: middle;
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    transition: .5s;
-    color: #555;
+  margin-left: 6px;
+  vertical-align: middle;
+  border: none;
+  content: "\f107";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  transition: 0.5s;
+  color: #555;
 }
 
-.content .navbar .dropdown-toggle[aria-expanded=true]::after {
-    transform: rotate(-180deg);
+.content .navbar .dropdown-toggle[aria-expanded="true"]::after {
+  transform: rotate(-180deg);
 }
 
 /* 9. Form Control (Input & Select) - Đã sửa lỗi màu đen */
-.form-control, .form-select {
-    background-color: #fff !important;
-    border: 1px solid #ced4da;
-    color: #495057 !important;
+.form-control,
+.form-select {
+  background-color: #fff !important;
+  border: 1px solid #ced4da;
+  color: #495057 !important;
 }
 
 .input-group-text {
-    border: 1px solid #ced4da !important; /* Viền xám trùng với input */
+  border: 1px solid #ced4da !important; /* Viền xám trùng với input */
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: var(--primary);
-    background-color: #fff !important;
-    color: #495057 !important;
-    box-shadow: 0 0 0 0.2rem rgba(211, 84, 0, 0.25);
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  background-color: #fff !important;
+  color: #495057 !important;
+  box-shadow: 0 0 0 0.2rem rgba(211, 84, 0, 0.25);
 }
 
 .form-control::placeholder {
-    color: #adb5bd !important;
+  color: #adb5bd !important;
 }
 
 .form-floating label {
-    color: #757575;
+  color: #757575;
 }
 
 input[type="file"] {
-    background-color: #fff !important;
-    color: #495057 !important;
+  background-color: #fff !important;
+  color: #495057 !important;
 }
 
 /* 10. Dropdown Menu (Chung) */
 .dropdown-menu {
-    background-color: #fff !important;
-    border: 1px solid #eee;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  background-color: #fff !important;
+  border: 1px solid #eee;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-item {
-    color: #555;
+  color: #555;
 }
 
 .dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: var(--primary);
+  background-color: #f8f9fa;
+  color: var(--primary);
 }
 
 /* 11. Tables */
 .table {
-    color: #555;
+  color: #555;
 }
 
 .table-hover tbody tr:hover {
-    color: #212529;
-    background-color: rgba(0, 0, 0, 0.075);
+  color: #212529;
+  background-color: rgba(0, 0, 0, 0.075);
 }
 
 /* 12. Date Picker Override */
-.bootstrap-datetimepicker-widget.bottom { top: auto !important; }
-.bootstrap-datetimepicker-widget .table * { border-bottom-width: 0px; }
-.bootstrap-datetimepicker-widget .table th { font-weight: 500; color: #555; }
-.bootstrap-datetimepicker-widget.dropdown-menu { padding: 10px; border-radius: 2px; }
+.bootstrap-datetimepicker-widget.bottom {
+  top: auto !important;
+}
+.bootstrap-datetimepicker-widget .table * {
+  border-bottom-width: 0px;
+}
+.bootstrap-datetimepicker-widget .table th {
+  font-weight: 500;
+  color: #555;
+}
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  padding: 10px;
+  border-radius: 2px;
+}
 .bootstrap-datetimepicker-widget table td.active,
-.bootstrap-datetimepicker-widget table td.active:hover { background: var(--primary); }
-.bootstrap-datetimepicker-widget table td.today::before { border-bottom-color: var(--primary); }
+.bootstrap-datetimepicker-widget table td.active:hover {
+  background: var(--primary);
+}
+.bootstrap-datetimepicker-widget table td.today::before {
+  border-bottom-color: var(--primary);
+}
 
 /* 13. Back to Top */
 .back-to-top {
-    position: fixed;
-    display: none;
-    right: 45px;
-    bottom: 45px;
-    z-index: 99;
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
+  position: fixed;
+  display: none;
+  right: 45px;
+  bottom: 45px;
+  z-index: 99;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
 }
 
 /* 3. Đổi màu biểu tượng đám mây và chữ hướng dẫn */
-.image-preview-container i, 
+.image-preview-container i,
 .image-preview-container .text-muted {
-    color: #adb5bd !important; /* Màu xám trung tính */
+  color: #adb5bd !important; /* Màu xám trung tính */
 }
 
 /* 4. Khi di chuột vào thì viền đổi màu cam (tạo hiệu ứng) */
 .image-preview-container:hover {
-    border-color: #d35400 !important;
-    background-color: #fff !important;
-    cursor: pointer;
+  border-color: #d35400 !important;
+  background-color: #fff !important;
+  cursor: pointer;
 }

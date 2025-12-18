@@ -49,6 +49,9 @@
                     <a href="index.php?page=HomeAdmin" class="nav-item nav-link <?= ($page == 'HomeAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-tachometer-alt me-2"></i>Trang chủ
                     </a>
+                    <a href="index.php?page=CategoryAdmin" class="nav-item nav-link <?= ($page == 'CategoryAdmin') ? 'active' : '' ?>">
+                        <i class="bi bi-list me-2"></i>Quản lý danh mục
+                    </a>
                     <a href="index.php?page=FoodAdmin" class="nav-item nav-link <?= ($page == 'FoodAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-hamburger me-2"></i>Quản lý món ăn
                     </a>
