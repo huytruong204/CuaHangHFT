@@ -40,6 +40,19 @@
             </div>
         </form>
     </div>
+    <?php if (!empty($msg)): ?>
+        <div id="cart-notification" class="success-popup">
+            <div class="popup-content">
+                <div class="icon-box">
+                    <span>&#10003;</span>
+                </div>
+                <h3>Thành công!</h3>
+                <p><?= $msg ?></p>
+                <button onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="category-container">
         <div class="clearfix mb-4">
             <h3 class="pull-left mt-0 fw-bold text-dark" style="margin: 0;">Danh mục món ăn</h3>
@@ -80,6 +93,7 @@
                                     <div class='clearfix'>
                                         <span class='pull-left price-tag'>$price_format</span>
                                         <form action='index.php?page=Cart&action=AddToCart' method='post'>
+                                            <input type='hidden' name='page' value='Food'>
                                             <input type='hidden' name='food_id' value='{$food->getFood_id()}'>
                                             <input type='hidden' name='food_name' value='{$food->getFood_name()}'>
                                             <input type='hidden' name='quantity' value='1'>
@@ -144,3 +158,15 @@
         </div>
     <?php endif; ?>
 </div>
+<script>
+    function closePopup() {
+        var popup = document.getElementById("cart-notification");
+        if (popup) {
+            popup.style.display = "none";
+        }
+    }
+
+    setTimeout(function() {
+        closePopup();
+    }, 3000);
+</script>

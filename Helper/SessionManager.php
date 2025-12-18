@@ -29,6 +29,16 @@ class SessionManager
             unset($_SESSION[$key]);
         }
     }
+    public static function flash($key, $message = null)
+    {
+        if ($message !== null) {
+            self::set($key, $message);
+        } else {
+            $value = self::get($key);
+            self::remove($key);
+            return $value;
+        }
+    }
     public static function destroy()
     {
         session_start();

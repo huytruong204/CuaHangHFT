@@ -8,6 +8,19 @@
         </ol>
     </nav>
 
+    <?php if (!empty($msg)): ?>
+        <div id="cart-notification" class="success-popup">
+            <div class="popup-content">
+                <div class="icon-box">
+                    <span>&#10003;</span>
+                </div>
+                <h3>Thành công!</h3>
+                <p><?= $msg ?></p>
+                <button onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="row" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
 
         <div class="col-md-6 col-sm-12">
@@ -39,8 +52,12 @@
                 <?= $food->getDescription() ?>
             </p>
 
-            <form action="cart.php?action=add" method="POST" class="form-horizontal">
+            <form action="index.php?page=Cart&action=AddToCart" method="POST" class="form-horizontal">
+                <input type="hidden" name="page" value="Detail">
                 <input type="hidden" name="food_id" value="<?= $food->getFood_id() ?>">
+                <input type='hidden' name='food_name' value='<?= $food->getFood_name() ?>'>
+                <input type='hidden' name='image_url' value='<?= $food->getImage_url() ?>'>
+                <input type='hidden' name='price' value='<?= $food->getPrice() ?>'>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" style="text-align: left;">Số lượng:</label>
                     <div class="col-sm-4">
@@ -137,4 +154,15 @@
             qtyInput.value = newQty;
         }
     }
+
+    function closePopup() {
+        var popup = document.getElementById("cart-notification");
+        if (popup) {
+            popup.style.display = "none";
+        }
+    }
+
+    setTimeout(function() {
+        closePopup();
+    }, 3000);
 </script>
