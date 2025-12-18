@@ -1,5 +1,6 @@
 <?php
 include_once "Model/FoodModel.php";
+include_once 'Helper/SessionManager.php';
 class FoodController
 {
     public $foodModel;
@@ -22,6 +23,20 @@ class FoodController
         $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+
+        $msg = SessionManager::flash('success');
         include_once "View/Food/Index.php";
+    }
+    public function Detail()
+    {
+        if (!isset($_GET['food_id'])) {
+            echo "<script>alert('Khônng tồn tại food_id: $_GET[food_id]')</script>";
+            exit;
+        }
+        $msg = SessionManager::flash('success');
+        $food_id = $_GET['food_id'];
+        $food = $this->foodModel->getDetail($food_id);
+        $price_format = number_format($food->getPrice(), 0, ',', '.') . ' đ';
+        include_once "View/Food/Detail.php";
     }
 }
