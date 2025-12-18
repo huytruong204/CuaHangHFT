@@ -24,4 +24,15 @@ class FoodController
         $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
         include_once "View/Food/Index.php";
     }
+    public function Detail()
+    {
+        if (!isset($_GET['food_id'])) {
+            echo "<script>alert('Khônng tồn tại food_id: $_GET[food_id]')</script>";
+            exit;
+        }
+        $food_id = $_GET['food_id'];
+        $food = $this->foodModel->getDetail($food_id);
+        $price_format = number_format($food->getPrice(), 0, ',', '.') . ' đ';
+        include_once "View/Food/Detail.php";
+    }
 }
