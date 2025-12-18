@@ -12,6 +12,7 @@
             <?php if (isset($_GET['cat_filter'])): ?>
                 <input type="hidden" name="cat_filter" value="<?= htmlspecialchars($_GET['cat_filter']) ?>">
             <?php endif; ?>
+                
 
             <div class="row">
                 <div class="col-md-6 col-sm-12 mb-2">
@@ -64,8 +65,8 @@
                 $img_src = 'assets/img/img_foods/' . $food->getImage_url();
                 echo "
                         <div class='col-xs-12 col-sm-6 col-lg-4 food-col'>
-                            <div class='food-card' onclick='window.location.href=\"index.php?page=Food&action=Detail&food_id={$food->getFood_id()}&p=$current_page\"' style='cursor: pointer;' >
-                               <div class='img-wrapper' style='background: #edededff; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;'>
+                            <div class='food-card'  style='cursor: pointer;' >
+                               <div class='img-wrapper' onclick='window.location.href=\"index.php?page=Food&action=Detail&food_id={$food->getFood_id()}&p=$current_page\"' style='background: #edededff; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;'>
                                     <img src='$img_src' style='width: 100%; height: 100%; object-fit: contain;'>
                                 </div>
                                 <div class='card-body'>
@@ -78,9 +79,16 @@
                                     </p>
                                     <div class='clearfix'>
                                         <span class='pull-left price-tag'>$price_format</span>
-                                        <button class='btn-add shadow-sm' onclick='addToCart(this)'>
-                                            <span class='glyphicon glyphicon-plus'></span>
-                                        </button>
+                                        <form action='index.php?page=Cart&action=AddToCart' method='post'>
+                                            <input type='hidden' name='food_id' value='{$food->getFood_id()}'>
+                                            <input type='hidden' name='food_name' value='{$food->getFood_name()}'>
+                                            <input type='hidden' name='quantity' value='1'>
+                                            <input type='hidden' name='image_url' value='{$food->getImage_url()}'>
+                                            <input type='hidden' name='price' value='{$food->getPrice()}'>
+                                            <button type='submit' class='btn-add shadow-sm'>
+                                                <span class='glyphicon glyphicon-plus'></span>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +99,6 @@
         ?>
 
     </div>
-
     <!-- PHẦN 3: PHÂN TRANG -->
     <?php if (isset($total_pages) && $total_pages > 1):
         $params = $_GET;
