@@ -1,6 +1,8 @@
 <?php
 include_once "../Model/FoodModel.php";
 include_once "../Helper/Upload_file.php";
+include_once "../Model/CategoryModel.php";
+
 class FoodAdminController
 {
     public $foodModel;
@@ -32,6 +34,8 @@ class FoodAdminController
 
     public function CreateGet()
     {
+        $cat = new CategoryModel();
+        $list_cat = $cat->getAllCategories();
         include_once "View/FoodAdmin/Create.php";
     }
 
@@ -88,6 +92,8 @@ class FoodAdminController
             echo "<script>alert('Không tồn tại food_id: $_GET[food_id]')</script>";
             exit;
         }
+        $cat = new CategoryModel();
+        $list_cat = $cat->getAllCategories();
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
         include_once "View/FoodAdmin/Update.php";

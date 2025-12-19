@@ -1,6 +1,8 @@
 <?php
 include_once "Model/FoodModel.php";
 include_once 'Helper/SessionManager.php';
+include_once "Model/CategoryModel.php";
+
 class FoodController
 {
     public $foodModel;
@@ -18,11 +20,15 @@ class FoodController
             'foods.category_id' => $_GET['cat_filter'] ?? '',
         ];
         $where_clauses = array_filter($where_clauses);
+
         $count_rows = $this->foodModel->CountRows($where_clauses);
         $total_pages = ceil($count_rows / $rows_per_page);
         $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+
+        $cat = new CategoryModel();
+        $list_cat = $cat->getAllCategories();
 
         $msg = SessionManager::flash('success');
         include_once "View/Food/Index.php";

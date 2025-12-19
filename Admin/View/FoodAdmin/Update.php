@@ -44,8 +44,23 @@
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select" id="categorySelect" name="category_id">
-                                    <option value="1" <?= ($food->getCategory_id() == '1') ? 'selected' : '' ?>>Đồ uống</option>
+                                <?php
+                                        foreach ($list_cat as $cat) {
+                                            $selected = '';
+                                            if(isset($_POST['category_id']) && $_POST['category_id']== $cat->getCategory_id()){
+                                                $selected = "selected";
+                                            }
+                                            else{
+                                                $selected = ($food->getCategory_id() == $cat->getCategory_name())  ? "selected" : "";
+                                            }
+                                            echo "
+                                                <option value='{$cat->getCategory_id()}' $selected >{$cat->getCategory_name()}</option>
+                                                
+                                            ";
+                                        }
+                                    ?>
                                 </select>
+                                
                                 <label for="categorySelect">Danh mục</label>
                             </div>
                         </div>

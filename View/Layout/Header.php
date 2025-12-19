@@ -43,37 +43,3 @@
 			</div>
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav nav_m">
-				<li><a class="m_tag active_tab" href="index.php?page=Home">Trang chủ</a></li>
-				<li class="dropdown">
-					  <a class="m_tag" href="shop.html" data-toggle="dropdown" role="button" aria-expanded="false">Thực đơn<span class="caret"></span></a>
-					  <ul class="dropdown-menu drop_3" role="menu">
-						<li><a href="#">Gà rán</a></li>
-						<li><a href="#">Mì ý</a></li>
-						<li><a href="#">Burger</a></li>
-						<li><a href="#">Cơm</a></li>
-						<li><a href="#">Phần ăn phụ</a></li>
-						<li><a href="#">Tráng miệng</a></li>
-						<li><a class="border_none" href="#">Đồ uống</a></li>
-					  </ul>
-                </li>
-			    <li><a class="m_tag" href="#">Khuyến mãi</a></li>
-				<li><a class="m_tag" href="#">Dịch vụ</a></li>
-				<li><a class="m_tag" href="index.php?page=Contact">Liên hệ</a></li>
-				<li><a class="m_tag1 button mgt" href="./Admin/index.php?page=HomeAdmin"> Admin</a></li>
-				<li><a class="m_tag1 button mgt" href="index.php?page=Cart"> Giỏ hàng</a></li>
-			</ul>
-			<ul class="nav navbar-nav nav_m navbar-right">
-				<li><a class="m_tag1 button mgt" href="index.php?page=Login"> Đăng nhập</a></li>
-				<li><a class="m_tag1 button mgt" href="index.php?page=Register"> Đăng ký</a></li>
-			</ul>
-			    
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
-	
-	</section>
- </div>

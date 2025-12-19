@@ -351,3 +351,99 @@
     from { opacity: 0; }
     to { opacity: 1; }
 }
+/* Khung chứa chính - Tạo hiệu ứng nổi */
+.state-card {
+    background: #fff;
+    padding: 60px 30px;
+    border-radius: 15px;
+    margin: 30px auto;
+    /* Hiệu ứng đổ bóng nhẹ nhàng */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    border: 1px solid #f0f0f0;
+}
+
+/* Vòng tròn nền cho icon */
+.empty-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    background-color: #fff3e0; /* Màu cam rất nhạt */
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    /* Hiệu ứng rung nhẹ */
+    animation: pulse 2s infinite; 
+}
+
+/* Định dạng icon bên trong */
+.empty-icon-wrapper .glyphicon {
+    font-size: 40px;
+    color: #e65100; /* Màu cam chủ đạo */
+}
+
+/* Tiêu đề */
+.empty-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Dòng mô tả */
+.empty-desc {
+    color: #777;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Tạo hiệu ứng icon rung nhẹ (Animation) */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 167, 38, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 167, 38, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 167, 38, 0); }
+}
+/* --- Style cho trạng thái Hết hàng --- */
+
+/* 1. Làm mờ thẻ sản phẩm */
+.food-card.sold-out-mode .img-wrapper img {
+    filter: grayscale(100%); /* Chuyển ảnh sang trắng đen */
+    opacity: 0.6; /* Làm mờ ảnh */
+}
+
+/* 2. Nhãn thông báo "Tạm ngưng" trên ảnh */
+.badge-sold-out {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #777; /* Màu xám */
+    color: white;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    z-index: 10;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 3. Nút bị vô hiệu hóa */
+.btn-disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    border: none;
+    padding: 8px 15px; /* Giữ kích thước giống nút thêm */
+    border-radius: 50%; /* Bo tròn giống nút cộng cũ */
+    width: 40px;
+    height: 40px;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

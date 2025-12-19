@@ -1,6 +1,5 @@
-
 <div class="container " style="padding-top: 30px; margin-top: 70px;">
-        <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background: none; padding-left: 0;">
             <li><a href="index.php">Trang chủ</a></li>
             <li><a href="index.php?page=Food">Thực đơn</a></li>
@@ -12,7 +11,7 @@
             <?php if (isset($_GET['cat_filter'])): ?>
                 <input type="hidden" name="cat_filter" value="<?= htmlspecialchars($_GET['cat_filter']) ?>">
             <?php endif; ?>
-                
+
 
             <div class="row">
                 <div class="col-md-6 col-sm-12 mb-2">
@@ -62,53 +61,91 @@
         </div>
 
         <div class="category-scroll" id="category-list">
-            <a class="btn category-btn <?= (empty($_GET['cat_filter'])) ? 'active' : '' ?>" href="Index.php?page=Food" >Tất cả</a>
-            <a  class="btn category-btn  <?= (isset($_GET['cat_filter']) && $_GET['cat_filter'] == '1') ? 'active' : '' ?>" href="Index.php?page=Food&cat_filter=1">Đồ uống</a>
-            <button class="btn category-btn">Pizza</button>
-            <button class="btn category-btn">Burger</button>
-            <button class="btn category-btn">Sushi</button>
+            <a class="btn category-btn <?= (empty($_GET['cat_filter'])) ? 'active' : '' ?>" href="Index.php?page=Food">Tất cả</a>
+            <?php
+            foreach ($list_cat as $cat) {
+                $active = (isset($_GET['cat_filter']) && $_GET['cat_filter'] == $cat->getCategory_id()) ? 'active' : '';
+                echo "<a class='btn category-btn $active' href='Index.php?page=Food&cat_filter={$cat->getCategory_id()}' >{$cat->getCategory_name()}</a>";
+            }
+            ?>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row state-card">
         <?php
         if (!empty($list_foods)) {
             foreach ($list_foods as $food) {
                 $price_format = number_format($food->getPrice(), 0, ',', '.') . 'đ';
                 $img_src = 'assets/img/img_foods/' . $food->getImage_url();
+                $is_sold_out = false;
+                if ($food->getStatus() == 0) {
+                    $is_sold_out = true;
+                }
+                $card_class = $is_sold_out ? 'sold-out-mode' : '';
+                $badge_html = $is_sold_out ? "<span class='badge-sold-out'>Tạm ngừng bán</span>" : "";
+                if ($is_sold_out) {
+                    $action_btn = "
+                    <button type='button' class='btn-disabled' disabled title='Sản phẩm tạm ngưng bán'>
+                        <span class='glyphicon glyphicon-ban-circle'></span>
+                    </button>
+                ";
+                } else {
+                    $action_btn = "
+                        <form action='index.php?page=Cart&action=AddToCart' method='post'>
+                            <input type='hidden' name='page' value='Food'>
+                            <input type='hidden' name='food_id' value='{$food->getFood_id()}'>
+                            <input type='hidden' name='food_name' value='{$food->getFood_name()}'>
+                            <input type='hidden' name='quantity' value='1'>
+                            <input type='hidden' name='image_url' value='{$food->getImage_url()}'>
+                            <input type='hidden' name='price' value='{$food->getPrice()}'>
+                            <button type='submit' class='btn-add shadow-sm'>
+                                <span class='glyphicon glyphicon-plus'></span>
+                            </button>
+                        </form>
+                    ";
+                }
                 echo "
-                        <div class='col-xs-12 col-sm-6 col-lg-4 food-col'>
-                            <div class='food-card'  style='cursor: pointer;' >
-                               <div class='img-wrapper' onclick='window.location.href=\"index.php?page=Food&action=Detail&food_id={$food->getFood_id()}&p=$current_page\"' style='background: #edededff; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;'>
-                                    <img src='$img_src' style='width: 100%; height: 100%; object-fit: contain;'>
-                                </div>
-                                <div class='card-body'>
-                                    <span class='text-muted' style='font-size: 12px; text-transform: uppercase; font-weight: 600; color: #999;'>
-                                        {$food->getCategory_id()}
-                                    </span>
-                                    <h4 class='card-title fw-bold text-dark'>{$food->getFood_name()}</h4>
-                                    <p class='card-desc'>
-                                       {$food->getDescription()}
-                                    </p>
-                                    <div class='clearfix'>
-                                        <span class='pull-left price-tag'>$price_format</span>
-                                        <form action='index.php?page=Cart&action=AddToCart' method='post'>
-                                            <input type='hidden' name='page' value='Food'>
-                                            <input type='hidden' name='food_id' value='{$food->getFood_id()}'>
-                                            <input type='hidden' name='food_name' value='{$food->getFood_name()}'>
-                                            <input type='hidden' name='quantity' value='1'>
-                                            <input type='hidden' name='image_url' value='{$food->getImage_url()}'>
-                                            <input type='hidden' name='price' value='{$food->getPrice()}'>
-                                            <button type='submit' class='btn-add shadow-sm'>
-                                                <span class='glyphicon glyphicon-plus'></span>
-                                            </button>
-                                        </form>
-                                    </div>
+                <div class='col-xs-12 col-sm-6 col-lg-4 food-col'>
+                    <div class='food-card $card_class' style='cursor: pointer;'>
+                        
+                        <div class='img-wrapper' onclick='window.location.href=\"index.php?page=Food&action=Detail&food_id={$food->getFood_id()}&p=$current_page\"' style='position: relative; background: #edededff; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;'>
+                            $badge_html  <img src='$img_src' style='width: 100%; height: 100%; object-fit: contain;'>
+                        </div>
+
+                        <div class='card-body'>
+                            <span class='text-muted' style='font-size: 12px; text-transform: uppercase; font-weight: 600; color: #999;'>
+                                {$food->getCategory_id()}
+                            </span>
+                            <h4 class='card-title fw-bold text-dark'>{$food->getFood_name()}</h4>
+                            <p class='card-desc'>
+                                {$food->getDescription()}
+                            </p>
+                            <div class='clearfix'>
+                                <span class='pull-left price-tag'>$price_format</span>
+                                <div class='pull-right'>
+                                    $action_btn
                                 </div>
                             </div>
                         </div>
-                    ";
+                    </div>
+                </div>
+            ";
             }
+        } else {
+            echo "
+                <div class='col-xs-12'>
+                    <div class=' text-center'>
+                        <div class='empty-icon-wrapper'>
+                            <span class='glyphicon glyphicon-search'></span>
+                        </div>
+                        
+                        <h3 class='empty-title'>Không tìm thấy kết quả</h3>
+                        <p class='empty-desc'>
+                            Rất tiếc, hiện tại chưa có món ăn nào trong danh mục này hoặc từ khóa tìm kiếm không khớp.
+                        </p>
+                    </div>
+                </div>
+            ";
         }
         ?>
 
