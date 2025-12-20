@@ -27,4 +27,24 @@ class UserAdminModel extends UserModel {
             return [];
         }
     }
+
+    // Override CountRows để xử lý keyword search
+    public function CountRows($where_clauses)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM " . self::TB_NAME;
+            $values = [];
+            
+            if (!empty($where_clauses) && isset($where_clauses['keyword'])) {
+                $sql .= " WHERE user_name LIKE ? OR full_name LIKE ?";
+                $values = ["%{$where_clauses['keyword']}%", "%{$where_clauses['keyword']}%"];
+            }
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($values);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }

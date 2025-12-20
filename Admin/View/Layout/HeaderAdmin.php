@@ -24,6 +24,28 @@
 </head>
 
 <body>
+    <?php
+    include_once __DIR__ . '/../../../Helper/SessionManager.php';
+    include_once __DIR__ . '/../../../Model/UserModel.php';
+    SessionManager::start();
+    
+    $admin_name = 'Admin';
+    $admin_avatar = '';
+    
+    // Lấy thông tin user từ database theo user_id
+    if (SessionManager::exists('user_id')) {
+        $user_id = SessionManager::get('user_id');
+        $userModel = new UserModel();
+        $user = $userModel->getDetail($user_id);
+        
+        if ($user) {
+            $admin_name = $user->getFull_name() ?: $user->getUser_name();
+            $admin_avatar = $user->getAvatar_url();
+        }
+    }
+    
+    $avatar_path = !empty($admin_avatar) ? '../assets/img/avatars/' . $admin_avatar : 'assets/img/user.jpg';
+    ?>
     <div class="container-fluid position-relative d-flex p-0">
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -37,11 +59,11 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="assets/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="<?= htmlspecialchars($avatar_path) ?>" alt="" style="width: 40px; height: 40px; object-fit: cover;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0 text-dark">Jhon Doe</h6>
+                        <h6 class="mb-0 text-dark"><?= htmlspecialchars($admin_name) ?></h6>
                         <span>Admin</span>
                     </div>
                 </div>
@@ -54,6 +76,9 @@
                     </a>
                     <a href="index.php?page=FoodAdmin" class="nav-item nav-link <?= ($page == 'FoodAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-hamburger me-2"></i>Quản lý món ăn
+                    </a>
+                    <a href="index.php?page=UserAdmin" class="nav-item nav-link <?= ($page == 'UserAdmin') ? 'active' : '' ?>">
+                        <i class="fa fa-users me-2"></i>Quản lý người dùng
                     </a>
                     <a href="../index.php?page=Home" class="nav-item nav-link">
                         <i class="fa fa-store me-2"></i>Về cửa hàng
@@ -75,12 +100,12 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="assets/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <img class="rounded-circle me-lg-2" src="<?= htmlspecialchars($avatar_path) ?>" alt="" style="width: 40px; height: 40px; object-fit: cover;">
+                            <span class="d-none d-lg-inline-flex"><?= htmlspecialchars($admin_name) ?></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a href="../index.php?page=User" class="dropdown-item">Hồ sơ cá nhân</a>
+                            <a href="../index.php?page=User&action=Logout" class="dropdown-item">Đăng xuất</a>
                         </div>
                     </div>
                 </div>

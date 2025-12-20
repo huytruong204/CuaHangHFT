@@ -55,6 +55,8 @@
 
 .avatar-wrapper {
   margin-bottom: 20px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .avatar-preview {
@@ -64,11 +66,17 @@
   object-fit: cover;
   border: 3px solid #ddd;
   cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.avatar-wrapper:hover .avatar-preview {
+  border-color: #007bff;
 }
 
 .avatar-hint {
   font-size: 12px;
   color: #666;
+  cursor: pointer;
 }
 
 .avatar-input {

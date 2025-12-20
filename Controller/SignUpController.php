@@ -1,4 +1,11 @@
 <?php
+include_once __DIR__ . '/../Model/UserModel.php';
+include_once __DIR__ . '/../Model/RoleModel.php';
+include_once __DIR__ . '/../Model/UserRoleModel.php';
+include_once __DIR__ . '/../Helper/Upload_file.php';
+include_once __DIR__ . '/../Helper/SessionManager.php';
+include_once __DIR__ . '/../core/Validator.php';
+
 class SignUpController{
     public function Index(){
         return require_once "./View/SignUp/index.php";
@@ -16,14 +23,26 @@ class SignUpController{
             $address = trim($_POST['address'] ?? '');
             $city = trim($_POST['city'] ?? '');
 
-            // Basic validation
-            if ($user_name === '') $errors[] = 'Tên đăng nhập không được để trống.';
-            if ($password === '') $errors[] = 'Mật khẩu không được để trống.';
+            // Basic validation using Validator class
+            $err = Validator::required($user_name, 'Tên đăng nhập không được để trống.');
+            if ($err) $errors[] = $err;
+            
+            $err = Validator::required($password, 'Mật khẩu không được để trống.');
+            if ($err) $errors[] = $err;
+            
             if ($password !== $confirm) $errors[] = 'Mật khẩu và xác nhận mật khẩu không khớp.';
-            if ($full_name === '') $errors[] = 'Họ và tên không được để trống.';
-            if ($phone_number === '') $errors[] = 'Số điện thoại không được để trống.';
-            if ($address === '') $errors[] = 'Địa chỉ không được để trống.';
-            if ($city === '') $errors[] = 'Tỉnh/Thành phố không được để trống.';
+            
+            $err = Validator::required($full_name, 'Họ và tên không được để trống.');
+            if ($err) $errors[] = $err;
+            
+            $err = Validator::required($phone_number, 'Số điện thoại không được để trống.');
+            if ($err) $errors[] = $err;
+            
+            $err = Validator::required($address, 'Địa chỉ không được để trống.');
+            if ($err) $errors[] = $err;
+            
+            $err = Validator::required($city, 'Tỉnh/Thành phố không được để trống.');
+            if ($err) $errors[] = $err;
 
             $userModel = new UserModel();
             // Check username exists
@@ -34,7 +53,7 @@ class SignUpController{
 
             $avatar_file_name = '';
             if (!$errors && isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])){
-                $upload = Helper::Upload_image($_FILES['avatar_url'], __DIR__ . '/../img/avatars/');
+                $upload = Helper::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
                 if ($upload['status']){
                     $avatar_file_name = $upload['file_name'];
                 } else {
@@ -55,6 +74,16 @@ class SignUpController{
 
                 $newId = $userModel->createUser($data);
                 if ($newId){
+                    // Tự động gán vai trò customer cho người dùng mới
+                    $roleModel = new RoleModel();
+                    $userRoleModel = new UserRoleModel();
+                    
+                    // Lấy role_id của customer
+                    $customerRole = $roleModel->getByRoleName('customer');
+                    if ($customerRole) {
+                        $userRoleModel->assignRole($newId, $customerRole->getRole_id());
+                    }
+                    
                     SessionManager::flash('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
                     header('Location: index.php?page=SignIn');
                     exit;

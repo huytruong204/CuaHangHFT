@@ -28,11 +28,16 @@
 
     <ul class="nav navbar-nav navbar-right">
         
+        <?php
+        // Chỉ hiển thị nút Admin nếu vai trò là admin
+        if (SessionManager::get('user_role') === 'admin'):
+        ?>
         <li>
             <a href="./Admin/index.php?page=HomeAdmin" class="nav-highlight">
                 <i class="glyphicon glyphicon-cog"></i> Admin
             </a>
         </li>
+        <?php endif; ?>
 
         <li>
             <a href="index.php?page=Cart" class="nav-highlight">

@@ -153,22 +153,13 @@ class UserModel extends BaseModel
 
     public function createUser($data)
     {
-        $insert = [];
-        $insert['user_name'] = $data['user_name'] ?? $data['username'] ?? null;
-        $plain = $data['password'] ?? null;
-        if ($plain !== null) {
-            $insert['password'] = password_hash($plain, PASSWORD_DEFAULT);
+        // Hash password nếu có
+        if (isset($data['password']) && !empty($data['password'])) {
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         }
-        $insert['full_name'] = $data['full_name'] ?? null;
-        $insert['phone_number'] = $data['phone_number'] ?? null;
-        $insert['address'] = $data['address'] ?? null;
-        $insert['city'] = $data['city'] ?? null;
-        $insert['avatar_url'] = $data['avatar_url'] ?? '';
-        $insert['is_active'] = $data['is_active'] ?? 1;
-
-        $ok = $this->Insert($insert);
-        if ($ok) return $this->db->lastInsertId();
-        return false;
+        
+        // Gọi Insert() từ BaseModel
+        return $this->Insert($data);
     }
 
     public function getUser_id()

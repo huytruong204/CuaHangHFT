@@ -3,6 +3,7 @@ include_once __DIR__ . "/../../Model/UserAdminModel.php";
 include_once __DIR__ . "/../../Model/RoleModel.php";
 include_once __DIR__ . "/../../Model/UserRoleModel.php";
 include_once __DIR__ . "/../../Helper/SessionManager.php";
+include_once __DIR__ . "/../../Helper/Upload_file.php";
 
 class UserAdminController {
     private $userAdminModel;
@@ -13,6 +14,19 @@ class UserAdminController {
         $this->userAdminModel = new UserAdminModel();
         $this->roleModel = new RoleModel();
         $this->userRoleModel = new UserRoleModel();
+        $this->ensureDefaultRoles();
+        // Guard đã được xử lý ở Admin/index.php
+    }
+
+    // Đảm bảo luôn có 3 vai trò cơ bản
+    private function ensureDefaultRoles(): void
+    {
+        $defaults = ['admin', 'customer', 'shipper'];
+        foreach ($defaults as $role_name) {
+            if (!$this->roleModel->getByRoleName($role_name)) {
+                $this->roleModel->Insert(['role_name' => $role_name]);
+            }
+        }
     }
 
     public function Index() {
@@ -53,67 +67,22 @@ class UserAdminController {
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $user_id = $_POST['user_id'] ?? '';
-            
-            // 1. Chuẩn bị dữ liệu cập nhật thông tin cơ bản
-            $data = [
-                'full_name'    => trim($_POST['full_name'] ?? ''),
-                'phone_number' => trim($_POST['phone_number'] ?? ''),
-                'address'      => trim($_POST['address'] ?? ''),
-                'city'         => trim($_POST['city'] ?? ''),
-                'is_active'    => $_POST['is_active'] ?? 1,
-                'avatar_url'   => $_POST['old_avatar'] ?? ''
-            ];
-
-            // 2. Xử lý tải lên ảnh đại diện mới nếu có
-            $path = "../img/avatars/";
-            if (!empty($_FILES['avatar_url']['name'])) {
-                $upload_img = Helper::Upload_image($_FILES['avatar_url'], $path);
-                if ($upload_img['status'] == true) {
-                    // Xóa ảnh cũ nếu tồn tại
-                    if (!empty($data['avatar_url']) && file_exists($path . $data['avatar_url'])) {
-                        unlink($path . $data['avatar_url']);
-                    }
-                    $data['avatar_url'] = $upload_img['file_name'];
-                } else {
-                    $errors['avatar_url'] = $upload_img['message'];
-                }
+            // Chỉ cho phép sửa vai trò
+            if (empty($user_id)) {
+                echo "<script>alert('Thiếu user_id'); window.location.href='index.php?page=UserAdmin';</script>";
+                exit;
             }
 
-            // 3. Kiểm tra dữ liệu hợp lệ (Sử dụng Model để validate)
-            $user_obj = new UserModel($data);
-            $errors = $this->userAdminModel->validate($user_obj);
-            // Lưu ý: Loại bỏ lỗi password và user_name vì form này chỉ cập nhật thông tin phụ
-            unset($errors['password'], $errors['user_name']);
-
-            if (empty($errors)) {
-                // 4. Cập nhật thông tin cơ bản vào bảng users
-                $result = $this->userAdminModel->Update($data, 'user_id', $user_id);
-
-                if ($result) {
-                    // 5. Cập nhật phân quyền (Xóa cũ - Thêm mới)
-                    $this->userRoleModel->removeAllRoles($user_id); // Hàm removeAllRoles bạn vừa thêm
-                    $selected_roles = $_POST['roles'] ?? [];
-                    foreach ($selected_roles as $role_id) {
-                        $this->userRoleModel->assignRole($user_id, $role_id);
-                    }
-
-                    echo "<script>
-                            alert('Cập nhật người dùng thành công!'); 
-                            window.location.href = 'index.php?page=UserAdmin';
-                        </script>";
-                    exit;
-                } else {
-                    $dbError = $this->userAdminModel->error_message;
-                    echo "<script>alert('Lỗi CSDL: $dbError')</script>";
-                }
+            // Cập nhật phân quyền (Xóa cũ - Thêm mới) - chỉ 1 vai trò
+            $this->userRoleModel->removeAllRoles($user_id);
+            $selected_role = $_POST['role'] ?? null; // Đổi từ roles[] thành role
+            if ($selected_role) {
+                $this->userRoleModel->assignRole($user_id, $selected_role);
             }
 
-            // Nếu có lỗi, quay lại view cũ với dữ liệu đã nhập
-            $user = new UserModel($data);
-            $user->setUser_id($user_id);
-            $list_roles = $this->roleModel->getAllRoles();
-            $current_role_ids = $_POST['roles'] ?? [];
-            include_once "View/UserAdmin/Update.php";
+            SessionManager::flash('success', 'Cập nhật vai trò thành công!');
+            echo "<script>window.location.href='index.php?page=UserAdmin';</script>";
+            exit;
         }
     }
 
@@ -123,6 +92,7 @@ class UserAdminController {
         $new_status = ($current_status == 1) ? 0 : 1;
         
         $this->userAdminModel->Update(['is_active' => $new_status], 'user_id', $user_id);
-        header("Location: index.php?page=UserAdmin");
+        // Dùng JS redirect để tránh lỗi headers đã gửi
+        echo "<script>window.location.href='index.php?page=UserAdmin';</script>";
     }
 }

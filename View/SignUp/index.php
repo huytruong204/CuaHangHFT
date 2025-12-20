@@ -21,7 +21,7 @@
             <div class="row">
               <div class="col-md-4 text-center avatar-section">
                 <div class="avatar-wrapper">
-                  <img id="avatar_preview" class="avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e9ecef'/%3E%3C/svg%3E" alt="Avatar preview" onclick="document.getElementById('avatar_url').click();">
+                  <img id="avatar_preview" class="avatar-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e9ecef'/%3E%3C/svg%3E" alt="Avatar preview">
                   <input type="file" id="avatar_url" name="avatar_url" accept="image/*" style="display:none">
                 </div>
                 <p class="avatar-hint">Nhấn để chọn ảnh đại diện</p>
@@ -153,10 +153,17 @@
           </form>
 
           <script>
-            (function(){
+            document.addEventListener('DOMContentLoaded', function(){
               const avatarInput = document.getElementById('avatar_url');
               const avatarPreview = document.getElementById('avatar_preview');
-              if (!avatarInput || !avatarPreview) return;
+              const avatarWrapper = document.querySelector('.avatar-wrapper');
+              
+              console.log('Avatar elements:', {avatarInput, avatarPreview, avatarWrapper}); // Debug
+              
+              if (!avatarInput || !avatarWrapper) {
+                console.error('Không tìm thấy avatar elements');
+                return;
+              }
 
               avatarInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
@@ -169,13 +176,12 @@
                 }
               });
 
-              // allow clicking wrapper too (in case other elements overlay)
-              document.querySelectorAll('.avatar-wrapper, .avatar-preview').forEach(function(el){
-                el.addEventListener('click', function(){
-                  avatarInput.click();
-                });
+              // Click vào wrapper để mở file picker
+              avatarWrapper.addEventListener('click', function(e){
+                console.log('Avatar wrapper clicked'); // Debug
+                avatarInput.click();
               });
-            })();
+            });
           </script>
         </div>
       </div>
