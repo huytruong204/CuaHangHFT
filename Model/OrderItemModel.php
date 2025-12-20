@@ -1,5 +1,5 @@
 <?php
-class OrderItem extends BaseModel
+class OrderItemModel extends BaseModel
 {
     public const TB_NAME = "order_items";
     protected  $order_item_id;
@@ -19,6 +19,36 @@ class OrderItem extends BaseModel
             $this->price_at_purchase  = $data['price_at_purchase'] ?? null;
         }
     }
+    public function getOrderItems($order_id)
+    {
+        try {
+            $sql = "SELECT oi.*, f.food_name, f.image_url 
+                FROM " .self::TB_NAME. " oi
+                JOIN foods f ON oi.food_id = f.food_id 
+                WHERE oi.order_id = ?";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([$order_id]);
+
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
+            switch ($errorCode) {
+                case 1054:
+                    $this->error_message = "Lỗi SQL: Tên cột không tồn tại.";
+                    break;
+                case 1146:
+                    $this->error_message = "Lỗi SQL: Bảng không tồn tại.";
+                    break;
+                default:
+                    $this->error_message = "Lỗi truy vấn dữ liệu: " . $e->getMessage();
+                    break;
+            }
+            return [];
+        }
+    }
     public function getOrder_item_id()
     {
         return $this->order_item_id;
@@ -31,7 +61,7 @@ class OrderItem extends BaseModel
         return $this;
     }
 
-   
+
     public function getOrder_id()
     {
         return $this->order_id;
@@ -45,7 +75,7 @@ class OrderItem extends BaseModel
         return $this;
     }
 
-  
+
     public function getFood_id()
     {
         return $this->food_id;

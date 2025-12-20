@@ -37,9 +37,9 @@ class FoodController
     }
     public function Detail()
     {
-        if (!isset($_GET['food_id'])) {
-            echo "<script>alert('Khônng tồn tại food_id: $_GET[food_id]')</script>";
-            exit;
+        if (!isset($_GET['id'])) {
+            header("Location: index.php?page=Food");
+            exit();
         }
         $msg = SessionManager::flash('success');
         $food_id = $_GET['food_id'];

@@ -5,9 +5,12 @@ include_once "Model/OrderItemModel.php";
 class OrderController
 {
     public $orderModel;
+    public $orderItemModel;
+
     public function __construct()
     {
         $this->orderModel = new OrderModel();
+        $this->orderItemModel = new OrderItemModel();
     }
 
     public function Index()
@@ -28,5 +31,17 @@ class OrderController
         $orders = $this->orderModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
         $msg = SessionManager::flash('success');
         include_once "View/Order/Index.php";
+    }
+
+    public function Detail(){
+        if (!isset($_GET['order_id'])) {
+            header("Location: index.php?page=Order");
+            exit();
+        }
+        $order_id = $_GET['order_id'];
+        $order = $this->orderModel->getOrderById($order_id);
+    
+        $items =  $this->orderItemModel->getOrderItems($order_id);
+        include_once "View/Order/Detail.php";
     }
 }

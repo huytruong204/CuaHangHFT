@@ -81,6 +81,7 @@ class CartController
                     'note' => $_POST['note'] ?? '',
                     // 'user_id' => $_SESSION['user_id'] ?? '',
                     'user_id' => 1,
+                    'total_money' => CartModel::getTotal(),
                     'payment_method' => $_POST['payment_method'] ?? '',
                     'payment_status' => $payment_status,
                     'status' => 'Chờ xác nhận',

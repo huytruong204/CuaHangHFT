@@ -26,7 +26,7 @@
                             <tr style="background-color: #f9f9f9;">
                                 <th>Mã đơn</th>
                                 <th>Ngày đặt</th>
-                                <!-- <th>Tổng tiền</th> -->
+                                <th>Tổng tiền</th>
                                  <th class="text-center">Thanh toán</th>
                                 <th>Trạng thái</th>
                                 <th class="text-center">Hành động</th>
@@ -34,20 +34,13 @@
                         </thead>
                         <tbody>
                             <?php
-                            $statusMap = [
-                                'Chờ xác nhận'       => ['label' => 'label-warning'],
-                                'Đang chuẩn bị'      => ['label' => 'label-info'],
-                                'Chờ shipper'        => ['label' => 'label-primary'],
-                                'Đang giao hàng'     => ['label' => 'label-warning'],
-                                'Đã giao hàng'       => ['label' => 'label-success'],
-                                'Đã hủy'             => ['label' => 'label-danger'],
-                                'Giao hàng thất bại' => ['label' => 'label-danger'],
-                                'Hoàn tiền'          => ['label' => 'label-default'],
-                            ];
                             foreach ($orders as $order): ?>
                                 <?php
-                                $statusText  = $order->getStatus();
-                                $statusColor = $statusMap[$statusText]['label'] ?? 'label-default';
+                                 $statusClass = 'label-default';
+                                $statusText = $order->getStatus();
+                                if($statusText == 'Chờ xác nhận') $statusClass = 'label-warning';
+                                elseif($statusText == 'Đã giao hàng') $statusClass = 'label-success';
+                                elseif($statusText == 'Đã hủy') $statusClass = 'label-danger';
                                 $payMethod = $order->getPaymentMethod(); 
                                 $payText = ($payMethod == 'banking') ? 'Chuyển khoản' : 'Tiền mặt';
                                 $payBadge = ($payMethod == 'banking') ? 'label-info' : 'label-default';
@@ -57,20 +50,20 @@
 
                                     <td><?= date('d/m/Y H:i', strtotime($order->getCreatedAt())) ?></td>
 
-                                    <!-- <td style="color:#e65100;font-weight:bold;">
-                                        <?= number_format($order->total_money, 0, ',', '.') ?>đ
-                                    </td> -->
+                                    <td style="color:#e65100;font-weight:bold;">
+                                        <?= number_format($order->getTotal_money(), 0, ',', '.') ?>đ
+                                    </td>
                                     <td class="text-center">
                                         <span class="label <?= $payBadge ?>" style="font-size: 13px; opacity: 0.8;"><?= $payText ?></span>
                                     </td>
                                     <td>
-                                        <span class="label <?= $statusColor ?>" style="font-size:13px;padding:5px 10px;">
+                                        <span class="label <?= $statusClass ?>" style="font-size:13px;padding:5px 10px;">
                                             <?= $statusText ?>
                                         </span>
                                     </td>
 
                                     <td class="text-center">
-                                        <a href="index.php?page=Order&action=Detail&id=<?= $order->getOrderId() ?>"
+                                        <a href="index.php?page=Order&action=Detail&order_id=<?= $order->getOrderId() ?>"
                                             class="btn btn-sm btn-primary btn-outline">
                                             <i class="glyphicon glyphicon-eye-open"></i> Xem chi tiết
                                         </a>

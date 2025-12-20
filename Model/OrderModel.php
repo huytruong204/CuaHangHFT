@@ -7,6 +7,8 @@ class OrderModel extends BaseModel
     protected $shipper_id;
     protected $payment_method;
     protected $payment_status;
+    protected $total_money;
+
     protected $status;
     protected $note;
     protected $created_at;
@@ -18,6 +20,7 @@ class OrderModel extends BaseModel
             $this->order_id        = $data['order_id'] ?? null;
             $this->user_id         = $data['user_id'] ?? null;
             $this->shipper_id      = $data['shipper_id'] ?? null;
+            $this->total_money     = $data['total_money'] ?? null;
             $this->payment_method  = $data['payment_method'] ?? null;
             $this->payment_status  = $data['payment_status'] ?? null;
             $this->status          = $data['status'] ?? null;
@@ -92,6 +95,21 @@ class OrderModel extends BaseModel
             return $stmt->fetchColumn();
         } catch (PDOException $e) {
             return 0;
+        }
+    }
+    public function getOrderById($order_id) {
+       $sql = "SELECT o.*, u.full_name, u.phone_number, u.address, u.city 
+                FROM " . self::TB_NAME . " o
+                JOIN users u ON o.user_id = u.user_id 
+                WHERE o.order_id = ?";
+        
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$order_id]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            return null;
         }
     }
 
@@ -173,5 +191,18 @@ class OrderModel extends BaseModel
     public function setCreatedAt($created_at): void
     {
         $this->created_at = $created_at;
+    }
+
+    public function getTotal_money()
+    {
+        return $this->total_money;
+    }
+
+
+    public function setTotal_money($total_money)
+    {
+        $this->total_money = $total_money;
+
+        return $this;
     }
 }
