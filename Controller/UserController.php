@@ -1,13 +1,20 @@
 <?php
+include_once __DIR__ . '/../Helper/Upload_file.php';
 
 class UserController{
+    private $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
+
     public function Index(){
         if (!SessionManager::exists('user_id')){
             header('Location: index.php?page=SignIn');
             exit;
         }
-        $userModel = new UserModel();
-        $user = $userModel->getDetail(SessionManager::get('user_id'));
+        $user = $this->userModel->getDetail(SessionManager::get('user_id'));
         return require_once "./View/User/Index.php";
     }
 
@@ -16,8 +23,7 @@ class UserController{
             header('Location: index.php?page=SignIn');
             exit;
         }
-        $userModel = new UserModel();
-        $user = $userModel->getDetail(SessionManager::get('user_id'));
+        $user = $this->userModel->getDetail(SessionManager::get('user_id'));
         return require_once "./View/User/Edit.php";
     }
 
@@ -27,7 +33,6 @@ class UserController{
             exit;
         }
 
-        $userModel = new UserModel();
         $user_id = SessionManager::get('user_id');
         $errors = [];
 
@@ -38,14 +43,31 @@ class UserController{
             $city = trim($_POST['city'] ?? '');
             $password = $_POST['password'] ?? '';
 
-            if ($full_name === '') $errors[] = 'Họ và tên không được để trống.';
-            if ($phone_number === '') $errors[] = 'Số điện thoại không được để trống.';
+            // Validate using UserModel (only required fields for update)
+            $tempUser = new UserModel([
+                'user_name' => 'temp', // Skip username validation on update
+                'password' => $password ?: 'temp', // Skip password validation if not changed
+                'full_name' => $full_name,
+                'phone_number' => $phone_number,
+                'address' => $address,
+                'city' => $city
+            ]);
+            
+            $validationErrors = $tempUser->validate($tempUser);
+            // Only keep validation errors for fields we care about in update
+            $relevantFields = ['full_name', 'phone_number', 'address', 'city'];
+            foreach ($validationErrors as $field => $error) {
+                if (in_array($field, $relevantFields)) {
+                    $errors[] = $error;
+                }
+            }
 
-            $updateData = [];
-            $updateData['full_name'] = $full_name;
-            $updateData['phone_number'] = $phone_number;
-            $updateData['address'] = $address;
-            $updateData['city'] = $city;
+            $updateData = [
+                'full_name' => $full_name,
+                'phone_number' => $phone_number,
+                'address' => $address,
+                'city' => $city
+            ];
 
             // handle password change if provided
             if (!empty($password)){
@@ -63,7 +85,7 @@ class UserController{
             }
 
             if (empty($errors)){
-                $ok = $userModel->Update($updateData, 'user_id', $user_id);
+                $ok = $this->userModel->Update($updateData, 'user_id', $user_id);
                 if ($ok){
                     // refresh session username if changed
                     if (!empty($updateData['user_name'])){
@@ -73,13 +95,13 @@ class UserController{
                     header('Location: index.php?page=User');
                     exit;
                 } else {
-                    $errors[] = $userModel->error_message ?: 'Cập nhật thất bại.';
+                    $errors[] = $this->userModel->error_message ?: 'Cập nhật thất bại.';
                 }
             }
         }
 
         // on error or not POST, show edit view with $errors available
-        $user = $userModel->getDetail($user_id);
+        $user = $this->userModel->getDetail($user_id);
         return require_once "./View/User/Edit.php";
     }
 
