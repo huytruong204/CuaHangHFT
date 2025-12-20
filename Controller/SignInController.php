@@ -1,5 +1,7 @@
 <?php
 include_once __DIR__ . '/../Model/UserModel.php';
+include_once __DIR__ . '/../Helper/SessionManager.php';
+
 class SignInController{
     public function Index(){
         return require_once "./View/SignIn/index.php";
@@ -14,10 +16,10 @@ class SignInController{
             $userModel = new UserModel();
             $user = $userModel->authenticate($user_name, $password);
             if ($user){
-                // tạo session đơn giản
-                if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-                $_SESSION['user_id'] = $user->getUser_id();
-                $_SESSION['user_name'] = $user->getUser_name();
+                // Sử dụng SessionManager để quản lý session
+                SessionManager::set('user_id', $user->getUser_id());
+                SessionManager::set('user_name', $user->getUser_name());
+                SessionManager::flash('success', 'Đăng nhập thành công!');
                 header('Location: index.php?page=Home');
                 exit;
             } else {
@@ -26,6 +28,12 @@ class SignInController{
         }
         // show view with $auth_error available
         return require_once "./View/SignIn/index.php";
+    }
+
+    public function logout(){
+        SessionManager::destroy();
+        header('Location: index.php?page=Home');
+        exit;
     }
 }
 ?>

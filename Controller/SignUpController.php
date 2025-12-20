@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../Model/UserModel.php';
 include_once __DIR__ . '/../Helper/Upload_file.php';
+include_once __DIR__ . '/../Helper/SessionManager.php';
+
 class SignUpController{
     public function Index(){
         return require_once "./View/SignUp/index.php";
@@ -57,7 +59,8 @@ class SignUpController{
 
                 $newId = $userModel->createUser($data);
                 if ($newId){
-                    header('Location: index.php?page=SignIn&registered=1');
+                    SessionManager::flash('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
+                    header('Location: index.php?page=SignIn');
                     exit;
                 } else {
                     $register_error = $userModel->error_message ?: 'Lỗi khi tạo tài khoản.';

@@ -41,10 +41,21 @@
         </li>
 
         <?php
+<<<<<<< HEAD
+        if (SessionManager::exists('user_id')){
+            $displayName = htmlspecialchars(SessionManager::get('user_name', 'Người dùng'));
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=User'>Xin chào {$displayName}</a></li>";
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=User&action=Logout'>Đăng xuất</a></li>";
+        } else {
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=SignIn'> Đăng nhập</a></li>";
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=SignUp'> Đăng ký</a></li>";
+        }
+=======
         if (session_status() !== PHP_SESSION_ACTIVE) session_start();
         
         if (isset($_SESSION['user_id'])): 
             $displayName = htmlspecialchars($_SESSION['user_name'] ?? 'Thành viên');
+>>>>>>> d7e1c8eeae4e27b7bf0504d5cc41567207b8e1e3
         ?>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding-left: 10px;">

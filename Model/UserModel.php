@@ -318,5 +318,3 @@ class UserModel extends BaseModel
     }
 
 }
-
-?>
