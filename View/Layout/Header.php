@@ -10,6 +10,7 @@
 	<link href="assets/css/index.css" rel="stylesheet">
 	<link href="assets/css/shop.css" rel="stylesheet">
     <link href="assets/css/contact.css" rel="stylesheet">
+	<link href="assets/css/auth.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">

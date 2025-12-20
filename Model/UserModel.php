@@ -5,7 +5,7 @@ class UserModel extends BaseModel
 {
     public const TB_NAME = "users";
     protected $user_id;
-    protected $username;
+    protected $user_name;
     protected $password;
     protected $full_name;
     protected $phone_number;
@@ -20,7 +20,7 @@ class UserModel extends BaseModel
         parent::__construct(self::TB_NAME);
         if (!empty($data)) {
             $this->user_id      = $data['user_id'] ?? null;
-            $this->username     = $data['username'] ?? null;
+            $this->user_name    = $data['user_name'] ?? $data['username'] ?? null;
             $this->password     = $data['password'] ?? null;
             $this->full_name    = $data['full_name'] ?? null;
             $this->phone_number = $data['phone_number'] ?? null;
@@ -31,4 +31,292 @@ class UserModel extends BaseModel
             $this->created_at   = $data['created_at'] ?? null;
         }
     }
+
+    public function getAll($offset, $rows_per_page, $where_clauses)
+    {
+        try {
+            $users = [];
+            $sql = "SELECT * FROM " . self::TB_NAME;
+
+            $sql_clauses_arr = [];
+            $values = [];
+            if (!empty($where_clauses)) {
+                foreach ($where_clauses as $column => $value) {
+                    if ($column == 'user_name' || $column == 'full_name') {
+                        $sql_clauses_arr[] = "$column LIKE ?";
+                        $values[] = "%$value%";
+                    } else {
+                        $sql_clauses_arr[] = "$column = ?";
+                        $values[] = $value;
+                    }
+                }
+                $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
+            }
+
+            $sql .= " ORDER BY created_at DESC";
+
+            $sql .= " LIMIT $offset, $rows_per_page";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute($values);
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($results as $row) {
+                $users[] = new UserModel($row);
+            }
+            return $users;
+        } catch (PDOException $e) {
+            $this->error_message= "Lỗi: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    public function CountRows($where_clauses)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM " . self::TB_NAME;
+            $sql_clauses_arr = [];
+            $values = [];
+            if (!empty($where_clauses)) {
+                foreach ($where_clauses as $column => $value) {
+                    $sql_clauses_arr[] = "$column = ?";
+                    $values[] = $value;
+                }
+                $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
+            }
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute($values);
+
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+                return 0;
+        }
+    }
+
+    public function getDetail($user_id)
+    {
+        try {
+            $sql = "SELECT * FROM " . self::TB_NAME . " WHERE user_id = ? LIMIT 1";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([$user_id]);
+
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $user = new UserModel($data);
+            return $user;
+        } catch (PDOException $e) {
+            $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
+                        switch ($errorCode) {
+                                case 1054:
+                                        $this->error_message = "Lỗi SQL: Tên cột không tồn tại.";
+                                        break;
+                                case 1146:
+                                        $this->error_message = "Lỗi SQL: Bảng không tồn tại.";
+                                        break;
+                                default:
+                                        $this->error_message = "Lỗi truy vấn dữ liệu: " . $e->getMessage();
+                                        break;
+                        }
+                        return [];
+        }
+    }
+
+    public function getByUserName($user_name)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . self::TB_NAME . " WHERE user_name = ? LIMIT 1");
+            $stmt->execute([$user_name]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($data)
+                return new UserModel($data);
+            return null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public function authenticate($user_name, $password)
+    {
+        $user = $this->getByUserName($user_name);
+        if (!$user) return false;
+        if (password_verify($password, $user->getPassword())) {
+            return $user;
+        }
+        return false;
+    }
+
+    public function createUser($data)
+    {
+        $insert = [];
+        $insert['user_name'] = $data['user_name'] ?? $data['username'] ?? null;
+        $plain = $data['password'] ?? null;
+        if ($plain !== null) {
+            $insert['password'] = password_hash($plain, PASSWORD_DEFAULT);
+        }
+        $insert['full_name'] = $data['full_name'] ?? null;
+        $insert['phone_number'] = $data['phone_number'] ?? null;
+        $insert['address'] = $data['address'] ?? null;
+        $insert['city'] = $data['city'] ?? null;
+        $insert['avatar_url'] = $data['avatar_url'] ?? '';
+        $insert['is_active'] = $data['is_active'] ?? 1;
+
+        $ok = $this->Insert($insert);
+        if ($ok) return $this->db->lastInsertId();
+        return false;
+    }
+
+    public function getUser_id()
+    {
+        return $this->user_id;
+    }
+
+    public function validate($data)
+    {
+        $errors = [];
+        if ($err = Validator::is_isset($data->user_name, "Tên đăng nhập không tồn tại"))
+            $errors['user_name'] = $err;
+        elseif ($err = Validator::required($data->user_name, "Tên đăng nhập không được để trống"))
+            $errors['user_name'] = $err;
+
+        if ($err = Validator::is_isset($data->password, "Mật khẩu không tồn tại"))
+            $errors['password'] = $err;
+        elseif ($err = Validator::required($data->password, "Mật khẩu không được để trống"))
+            $errors['password'] = $err;
+
+        if ($err = Validator::is_isset($data->full_name, "Họ và tên không tồn tại"))
+            $errors['full_name'] = $err;
+        elseif ($err = Validator::required($data->full_name, "Họ và tên không được để trống"))
+            $errors['full_name'] = $err;
+
+        if ($err = Validator::is_isset($data->phone_number, "Số điện thoại không tồn tại"))
+            $errors['phone_number'] = $err;
+        elseif ($err = Validator::required($data->phone_number, "Số điện thoại không được để trống"))
+            $errors['phone_number'] = $err;
+        elseif ($err = Validator::numeric($data->phone_number, "Số điện thoại phải là số"))
+            $errors['phone_number'] = $err;
+
+        if ($err = Validator::is_isset($data->address, "Địa chỉ không tồn tại"))
+            $errors['address'] = $err;
+        elseif ($err = Validator::required($data->address, "Địa chỉ không được để trống"))
+            $errors['address'] = $err;
+
+        if ($err = Validator::is_isset($data->city, "Tỉnh/Thành phố không tồn tại"))
+            $errors['city'] = $err;
+        elseif ($err = Validator::required($data->city, "Tỉnh/Thành phố không được để trống"))
+            $errors['city'] = $err;
+
+        return $errors;
+    }
+
+    public function getUser_name()
+    {
+        return $this->user_name;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getFull_name()
+    {
+        return $this->full_name;
+    }
+
+    public function getPhone_number()
+    {
+        return $this->phone_number;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    public function getAvatar_url()
+    {
+        return $this->avatar_url;
+    }
+
+    public function getIs_active()
+    {
+        return $this->is_active;
+    }
+
+    public function setUser_id($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function setUser_name($user_name)
+    {
+        $this->user_name = $user_name;
+
+        return $this;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function setFull_name($full_name)
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    public function setPhone_number($phone_number)
+    {
+        $this->phone_number = $phone_number;
+
+        return $this;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function setAvatar_url($avatar_url)
+    {
+        $this->avatar_url = $avatar_url;
+
+        return $this;
+    }
+
+    public function setIs_active($is_active)
+    {
+        $this->is_active = $is_active;
+
+        return $this;
+    }
+
 }
+
+?>

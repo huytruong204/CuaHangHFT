@@ -1,0 +1,76 @@
+/* Auth Pages Styles */
+
+/* SignIn & SignUp Section */
+.signin-section,
+.signup-section {
+  background: #f7f7f7;
+  min-height: calc(100vh - 160px);
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.signin-section {
+  align-items: center;
+}
+
+.signup-section {
+  align-items: flex-start;
+  padding: 120px 0 40px;
+}
+
+/* Auth Panel */
+.auth-panel {
+  margin: 0 auto;
+  border-radius: 12px;
+  padding: 36px 40px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+  overflow: visible;
+  font-size: 15px;
+}
+
+.auth-panel.signin {
+  width: 90%;
+  max-width: 720px;
+  max-height: calc(100vh - 260px);
+  overflow: auto;
+}
+
+.auth-panel.signup {
+  width: 92%;
+  max-width: 760px;
+}
+
+/* Auth Panel Title */
+.auth-panel h2 {
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Avatar Section */
+.avatar-section {
+  padding-bottom: 30px;
+}
+
+.avatar-wrapper {
+  margin-bottom: 20px;
+}
+
+.avatar-preview {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd;
+  cursor: pointer;
+}
+
+.avatar-hint {
+  font-size: 12px;
+  color: #666;
+}
+
+.avatar-input {
+  display: none;
+}

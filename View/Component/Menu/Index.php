@@ -18,8 +18,17 @@
         <li><a class="m_tag1 button mgt" href="index.php?page=Cart"> Giỏ hàng</a></li>
     </ul>
     <ul class="nav navbar-nav nav_m navbar-right">
-        <li><a class="m_tag1 button mgt" href="index.php?page=Login"> Đăng nhập</a></li>
-        <li><a class="m_tag1 button mgt" href="index.php?page=Register"> Đăng ký</a></li>
+        <?php
+        if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+        if (isset($_SESSION['user_id'])){
+            $displayName = htmlspecialchars($_SESSION['user_name'] ?? 'Người dùng');
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=User'>Xin chào {$displayName}</a></li>";
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=User&action=Logout'>Đăng xuất</a></li>";
+        } else {
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=SignIn'> Đăng nhập</a></li>";
+            echo "<li><a class='m_tag1 button mgt' href='index.php?page=SignUp'> Đăng ký</a></li>";
+        }
+        ?>
     </ul>
 </div>
 </div>
