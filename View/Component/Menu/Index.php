@@ -19,9 +19,8 @@
     </ul>
     <ul class="nav navbar-nav nav_m navbar-right">
         <?php
-        if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-        if (isset($_SESSION['user_id'])){
-            $displayName = htmlspecialchars($_SESSION['user_name'] ?? 'Người dùng');
+        if (SessionManager::exists('user_id')){
+            $displayName = htmlspecialchars(SessionManager::get('user_name', 'Người dùng'));
             echo "<li><a class='m_tag1 button mgt' href='index.php?page=User'>Xin chào {$displayName}</a></li>";
             echo "<li><a class='m_tag1 button mgt' href='index.php?page=User&action=Logout'>Đăng xuất</a></li>";
         } else {

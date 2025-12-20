@@ -1,39 +1,37 @@
 <?php
 include_once __DIR__ . '/../Model/UserModel.php';
 include_once __DIR__ . '/../Helper/Upload_file.php';
+include_once __DIR__ . '/../Helper/SessionManager.php';
 
 class UserController{
     public function Index(){
-        if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-        if (!isset($_SESSION['user_id'])){
+        if (!SessionManager::exists('user_id')){
             header('Location: index.php?page=SignIn');
             exit;
         }
         $userModel = new UserModel();
-        $user = $userModel->getDetail($_SESSION['user_id']);
+        $user = $userModel->getDetail(SessionManager::get('user_id'));
         return require_once "./View/User/Index.php";
     }
 
     public function Edit(){
-        if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-        if (!isset($_SESSION['user_id'])){
+        if (!SessionManager::exists('user_id')){
             header('Location: index.php?page=SignIn');
             exit;
         }
         $userModel = new UserModel();
-        $user = $userModel->getDetail($_SESSION['user_id']);
+        $user = $userModel->getDetail(SessionManager::get('user_id'));
         return require_once "./View/User/Edit.php";
     }
 
     public function Update(){
-        if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-        if (!isset($_SESSION['user_id'])){
+        if (!SessionManager::exists('user_id')){
             header('Location: index.php?page=SignIn');
             exit;
         }
 
         $userModel = new UserModel();
-        $user_id = $_SESSION['user_id'];
+        $user_id = SessionManager::get('user_id');
         $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -72,8 +70,9 @@ class UserController{
                 if ($ok){
                     // refresh session username if changed
                     if (!empty($updateData['user_name'])){
-                        $_SESSION['user_name'] = $updateData['user_name'];
+                        SessionManager::set('user_name', $updateData['user_name']);
                     }
+                    SessionManager::flash('success', 'Cập nhật thông tin thành công!');
                     header('Location: index.php?page=User');
                     exit;
                 } else {
@@ -88,9 +87,7 @@ class UserController{
     }
 
     public function Logout(){
-        if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-        session_unset();
-        session_destroy();
+        SessionManager::destroy();
         header('Location: index.php?page=Home');
         exit;
     }

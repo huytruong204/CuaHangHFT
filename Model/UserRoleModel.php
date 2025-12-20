@@ -39,6 +39,19 @@ class UserRoleModel extends BaseModel
         }
     }
 
+        // Thêm vào file UserRoleModel.php
+    public function removeAllRoles($user_id)
+    {
+        try {
+            // Chỉ nhận 1 tham số user_id để xóa sạch mọi bản ghi liên quan đến user đó
+            $stmt = $this->db->prepare("DELETE FROM " . self::TB_NAME . " WHERE user_id = ?");
+            return $stmt->execute([$user_id]);
+        } catch (PDOException $e) {
+            $this->error_message = $e->getMessage();
+            return false;
+        }
+    }
+
     public function getRolesByUser($user_id)
     {
         try {
