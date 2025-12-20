@@ -1,7 +1,4 @@
 <?php
-include_once "Model/OrderModel.php";
-include_once 'Helper/SessionManager.php';
-include_once "Model/OrderItemModel.php";
 class OrderController
 {
     public $orderModel;

@@ -1,6 +1,4 @@
 <?php
-include_once __DIR__ . '/../Model/UserModel.php';
-include_once __DIR__ . '/../Helper/SessionManager.php';
 
 class SignInController{
     public function Index(){
@@ -16,7 +14,6 @@ class SignInController{
             $userModel = new UserModel();
             $user = $userModel->authenticate($user_name, $password);
             if ($user){
-                // Sử dụng SessionManager để quản lý session
                 SessionManager::set('user_id', $user->getUser_id());
                 SessionManager::set('user_name', $user->getUser_name());
                 SessionManager::flash('success', 'Đăng nhập thành công!');

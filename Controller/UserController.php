@@ -1,7 +1,4 @@
 <?php
-include_once __DIR__ . '/../Model/UserModel.php';
-include_once __DIR__ . '/../Helper/Upload_file.php';
-include_once __DIR__ . '/../Helper/SessionManager.php';
 
 class UserController{
     public function Index(){

@@ -1,8 +1,4 @@
 <?php
-include_once __DIR__ . '/../Model/UserModel.php';
-include_once __DIR__ . '/../Helper/Upload_file.php';
-include_once __DIR__ . '/../Helper/SessionManager.php';
-
 class SignUpController{
     public function Index(){
         return require_once "./View/SignUp/index.php";

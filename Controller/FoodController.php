@@ -1,7 +1,4 @@
 <?php
-include_once "Model/FoodModel.php";
-include_once 'Helper/SessionManager.php';
-include_once "Model/CategoryModel.php";
 
 class FoodController
 {
