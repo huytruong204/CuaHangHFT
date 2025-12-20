@@ -709,3 +709,45 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 }
 @media (min-width: 1201px) and (max-width: 1292px) {
 }
+/* Tùy chỉnh thanh Menu */
+.navbar-nav > li > a {
+    color: white !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 15px 15px;
+    transition: all 0.3s;
+}
+
+/* Hiệu ứng khi di chuột vào menu */
+.navbar-nav > li > a:hover, 
+.navbar-nav > li > a:focus, 
+.navbar-nav > li.open > a {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 4px;
+}
+
+/* Dropdown menu con */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 0 0 5px 5px;
+}
+
+.dropdown-menu > li > a {
+    padding: 10px 20px;
+    color: #333;
+    font-weight: 500;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+/* Nút Admin & Giỏ hàng nổi bật */
+.nav-highlight {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin: 0 5px;
+}

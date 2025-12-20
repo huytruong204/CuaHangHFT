@@ -14,10 +14,6 @@
     <?php endif; ?>
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-                <li role="presentation"><a href="index.php?page=User&action=Profile">Tài khoản</a></li>
-                <li role="presentation" class="active"><a href="#">Lịch sử mua hàng</a></li>
-            </ul>
 
             <?php if (!empty($orders)): ?>
                 <div class="table-responsive" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
