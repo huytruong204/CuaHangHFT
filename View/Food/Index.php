@@ -162,11 +162,15 @@
                     <?php
                     $prev_disabled = ($current_page <= 1) ? 'disabled' : '';
                     $prev_page = $current_page - 1;
+                    $link_prev = "<a class='page-link ' href='index.php?$query_str&p=$prev_page' aria-label='Previous'>
+                                <span aria-hidden='true' class='glyphicon glyphicon-chevron-left'></span>
+                            </a>";
+                    if (!empty($prev_disabled))
+                        $link_prev = "<a class='page-link' aria-label='Previous'> <span aria-hidden='true' class='glyphicon glyphicon-chevron-left'></span></a>";
+
                     echo "
                         <li class='page-item $prev_disabled'>
-                            <a class='page-link' href='index.php?$query_str&p=$prev_page' aria-label='Previous'>
-                                <span aria-hidden='true' class='glyphicon glyphicon-chevron-left'></span>
-                            </a>
+                            $link_prev
                         </li>";
                     ?>
 
@@ -179,15 +183,20 @@
                             </li>";
                     }
                     ?>
-
                     <?php
                     $next_disabled = ($current_page >= $total_pages) ? 'disabled' : '';
                     $next_page = $current_page + 1;
-                    echo "
-                        <li class='page-item $next_disabled'>
-                            <a class='page-link' href='index.php?$query_str&p=$next_page' aria-label='Next'>
+                    $link_next = "<a class='page-link ' href='index.php?$query_str&p=$next_page' aria-label='Next'>
                                 <span aria-hidden='true' class='glyphicon glyphicon-chevron-right'></span>
-                            </a>
+                            </a>";
+                    if (!empty($next_disabled))
+                        $link_next = "<a class='page-link' aria-label='Next'>
+                                <span aria-hidden='true' class='glyphicon glyphicon-chevron-right'></span>
+                            </a>";
+
+                    echo "
+                        <li class='page-item $next_disabled '>
+                            $link_next
                         </li>";
                     ?>
                 </ul>

@@ -19,7 +19,7 @@ class BaseModel
             $values = array_values($data);
             $stmt = $this->db->prepare("INSERT INTO $this->table_name (" . implode(",", $columns) . ") VALUES (" . implode(",", $anonymous) . ")");
             $stmt->execute($values);
-            return true;
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             $errorCode = isset($e->errorInfo[1]) ? $e->errorInfo[1] : 0;
             switch ($errorCode) {
@@ -91,5 +91,9 @@ class BaseModel
             }
             return false;
         }
+    }
+    public function getDb()
+    {
+        return $this->db;
     }
 }
