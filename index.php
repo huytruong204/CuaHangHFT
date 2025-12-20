@@ -1,10 +1,18 @@
 <?php
-// tự động load require trong thư mục controller
 spl_autoload_register(function ($className) {
-    $path = "./Controller/" . $className . ".php";
+    $directories = [
+        "./Controller/",
+        "./Model/",
+        "./Helper/",
+        "./ViewComponent/"
+    ];
 
-    if (file_exists($path)) {
-        require_once $path;
+    foreach ($directories as $dir) {
+        $path = $dir . $className . ".php";
+        if (file_exists($path)) {
+            require_once $path;
+            return; 
+        }
     }
 });
 require_once "./ViewComponent/MenuComponent.php";

@@ -1,8 +1,4 @@
 <?php
-include_once 'Model/CartModel.php';
-include_once 'Model/OrderModel.php';
-include_once 'Model/OrderItemModel.php';
-include_once 'Helper/SessionManager.php';
 class CartController
 {
 
