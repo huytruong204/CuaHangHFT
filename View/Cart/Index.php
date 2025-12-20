@@ -127,7 +127,7 @@
                         </span>
                     </div>
 
-                    <a href="index.php?controller=order&action=checkout" class="btn btn-block btn-lg" style="background-color: #e65100; color: white; font-weight: bold; border-radius: 5px;">
+                    <a href="index.php?page=Cart&action=Checkout" class="btn btn-block btn-lg" style="background-color: #e65100; color: white; font-weight: bold; border-radius: 5px;">
                         TIẾN HÀNH THANH TOÁN
                     </a>
                 </div>

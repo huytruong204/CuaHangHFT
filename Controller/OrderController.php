@@ -1,0 +1,32 @@
+<?php
+include_once "Model/OrderModel.php";
+include_once 'Helper/SessionManager.php';
+include_once "Model/OrderItemModel.php";
+class OrderController
+{
+    public $orderModel;
+    public function __construct()
+    {
+        $this->orderModel = new OrderModel();
+    }
+
+    public function Index()
+    {
+        $rows_per_page = 4;
+        $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+        $where_clauses = [
+            'orders.user_id' => 1 //$_SESSION['user_id'],
+        ];
+
+        $where_clauses = array_filter($where_clauses);
+
+        $count_rows = $this->orderModel->CountRows($where_clauses);
+        $total_pages = ceil($count_rows / $rows_per_page);
+
+        $offset = ($current_page - 1) * $rows_per_page;
+        $sort_price = $_GET['price_sort'] ?? 'desc';
+        $orders = $this->orderModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+        $msg = SessionManager::flash('success');
+        include_once "View/Order/Index.php";
+    }
+}
