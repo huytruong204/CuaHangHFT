@@ -14,8 +14,20 @@ class OrderController
     {
         $rows_per_page = 4;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+        $status_map = [
+            'wait'        => 'Chờ xác nhận',
+            'confirmed'   => 'Đã xác nhận',
+            'preparing'   => 'Đang chuẩn bị',
+            'wait_ship'   => 'Chờ shipper',
+            'shipping'    => 'Đang giao hàng',
+            'delivered'   => 'Đã giao hàng',
+            'cancelled'   => 'Đã hủy',
+            'refund'      => 'Hoàn tiền'
+        ];
+        $stt = isset($_GET['status']) ? $_GET['status'] : '';
         $where_clauses = [
-            'orders.user_id' => 1 //$_SESSION['user_id'],
+            'orders.user_id' => SessionManager::get('user_id'),
+            'orders.status'  => $status_map[$stt] 
         ];
 
         $where_clauses = array_filter($where_clauses);
@@ -30,14 +42,15 @@ class OrderController
         include_once "View/Order/Index.php";
     }
 
-    public function Detail(){
+    public function Detail()
+    {
         if (!isset($_GET['order_id'])) {
             header("Location: index.php?page=Order");
             exit();
         }
         $order_id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($order_id);
-    
+
         $items =  $this->orderItemModel->getOrderItems($order_id);
         include_once "View/Order/Detail.php";
     }

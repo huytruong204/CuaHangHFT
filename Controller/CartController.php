@@ -75,8 +75,7 @@ class CartController
                 $payment_status = $_POST['payment_method'] == 'cod' ? 0 : 1;
                 $data = [
                     'note' => $_POST['note'] ?? '',
-                    // 'user_id' => $_SESSION['user_id'] ?? '',
-                    'user_id' => 1,
+                    'user_id' => SessionManager::get('user_id'),
                     'total_money' => CartModel::getTotal(),
                     'payment_method' => $_POST['payment_method'] ?? '',
                     'payment_status' => $payment_status,
