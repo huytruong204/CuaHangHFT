@@ -100,10 +100,17 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="index.php?page=orderAdmin&action=Detail&order_id=<?= $order->getOrderId() ?>"
-                                            class="btn btn-sm btn-outline-info" title="Xem chi tiết">
-                                            <i class="fa fa-eye"></i> Chi tiết
-                                        </a>
+                                            <a href="index.php?page=orderAdmin&action=Detail&order_id=<?= $order->getOrderId() ?>"
+                                                class="btn btn-sm btn-outline-info" title="Xem chi tiết" style="white-space:nowrap;padding:6px 12px;min-width:110px;">
+                                                <i class="fa fa-eye"></i>
+                                                <span style="margin-left:6px;">Chi tiết</span>
+                                            </a>
+                                        <?php if ($order->getStatus() === 'Đã xác nhận'): ?>
+                                            <a href="../index.php?page=Order&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;">
+                                                <i class="fa fa-print"></i>
+                                                <span style="margin-left:6px;">In</span>
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
