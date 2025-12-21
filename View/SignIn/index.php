@@ -20,7 +20,7 @@
 					<form action="index.php?page=SignIn&action=login" method="post" novalidate>
 						<div class="form-group">
 							<label for="user_name">Tài khoản</label>
-							<input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên đăng nhập" required>
+							<input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên đăng nhập" required value="<?= htmlspecialchars($_POST['user_name'] ?? '') ?>">
 						</div>
 
 						<div class="form-group">
@@ -30,7 +30,7 @@
 
 						<div class="form-group clearfix">
 							<div class="checkbox pull-left">
-								<label><input type="checkbox" name="remember"> Ghi nhớ</label>
+								<label><input type="checkbox" name="remember" <?= isset($_POST['remember']) ? 'checked' : '' ?>> Ghi nhớ</label>
 							</div>
 							<div class="pull-right"><a href="index.php?page=Forgot">Quên mật khẩu?</a></div>
 						</div>

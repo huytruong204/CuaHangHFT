@@ -32,13 +32,13 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="user_name">Tài khoản</label>
-                      <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên đăng nhập" required>
+                      <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên đăng nhập" required value="<?= htmlspecialchars($_POST['user_name'] ?? '') ?>">
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="full_name">Họ và tên</label>
-                      <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Họ và tên" required>
+                      <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Họ và tên" required value="<?= htmlspecialchars($_POST['full_name'] ?? '') ?>">
                     </div>
                   </div>
                 </div>
@@ -60,12 +60,12 @@
 
                 <div class="form-group">
                   <label for="phone_number">Số điện thoại</label>
-                  <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại" required>
+                  <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại" required value="<?= htmlspecialchars($_POST['phone_number'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">
                   <label for="address">Địa chỉ</label>
-                  <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" required>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" required value="<?= htmlspecialchars($_POST['address'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">
