@@ -3,6 +3,7 @@ include_once "../Model/OrderModel.php";
 include_once "../Model/OrderItemModel.php";
 include_once "../Helper/SessionManager.php";
 include_once "../Model/UserRoleModel.php";
+include_once '../Model/InvoiceModel.php';
 
 class OrderAdminController
 {
@@ -161,20 +162,19 @@ class OrderAdminController
     {
         $order_id = $_GET['order_id'] ?? '';
         if (empty($order_id)) {
-            header('Location: index.php?page=orderAdmin');
+            header('Location: index.php?page=OrderAdmin');
             exit();
         }
 
         $order = $this->orderModel->getOrderById($order_id);
         if (!$order) {
             SessionManager::flash('error', 'Không tìm thấy đơn hàng.');
-            header('Location: index.php?page=orderAdmin');
+            header('Location: index.php?page=OrderAdmin');
             exit();
         }
 
         $items = $this->orderItemModel->getOrderItems($order_id);
 
-        include_once __DIR__ . '/../../Model/InvoiceModel.php';
         $invoiceModel = new InvoiceModel();
         $invoice = $invoiceModel->getByOrderId($order_id);
         if (!$invoice) {
@@ -189,6 +189,5 @@ class OrderAdminController
         $msg_error = SessionManager::flash('error');
 
         include_once "View/OrderAdmin/PrintInvoice.php";
-        exit();
     }
 }

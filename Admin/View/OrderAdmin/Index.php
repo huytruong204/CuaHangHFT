@@ -106,7 +106,7 @@
                                                 <span style="margin-left:6px;">Chi tiết</span>
                                             </a>
                                         <?php if ($order->getStatus() === 'Đã xác nhận'): ?>
-                                            <a href="../index.php?page=Order&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;">
+                                            <a href="index.php?page=OrderAdmin&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;">
                                                 <i class="fa fa-print"></i>
                                                 <span style="margin-left:6px;">In</span>
                                             </a>
