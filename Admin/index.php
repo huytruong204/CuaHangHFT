@@ -1,5 +1,6 @@
 <?php
 // Bảo vệ trang admin - chỉ admin mới truy cập được
+ob_start();
 session_start();
 include_once __DIR__ . '/../Helper/SessionManager.php';
 
@@ -39,3 +40,4 @@ if (class_exists($controllerName)) {
 }
 
 include_once "View/Layout/FooterAdmin.php";
+ob_end_flush();

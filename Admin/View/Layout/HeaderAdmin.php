@@ -80,6 +80,9 @@
                     <a href="index.php?page=UserAdmin" class="nav-item nav-link <?= ($page == 'UserAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-users me-2"></i>Quản lý người dùng
                     </a>
+                    <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
+                        <i class="fa fa-users me-2"></i>Quản lý đơn hàng
+                    </a>
                     <a href="../index.php?page=Home" class="nav-item nav-link">
                         <i class="fa fa-store me-2"></i>Về cửa hàng
                     </a>
