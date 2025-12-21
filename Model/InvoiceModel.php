@@ -8,19 +8,6 @@ class InvoiceModel extends BaseModel
         parent::__construct(self::TB_NAME);
     }
 
-    public function createInvoice($order_id, $final_amount)
-    {
-        try {
-            $sql = "INSERT INTO " . $this->table_name . " (order_id, final_amount) VALUES (?, ? )";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([$order_id, $final_amount]);
-            return $this->db->lastInsertId();
-        } catch (PDOException $e) {
-            $this->error_message = $e->getMessage();
-            return false;
-        }
-    }
-
     public function getByOrderId($order_id)
     {
         try {

@@ -83,6 +83,12 @@
                     <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-users me-2"></i>Quản lý đơn hàng
                     </a>
+                    <a href="index.php?page=ReviewAdmin" class="nav-item nav-link <?= ($page == 'ReviewAdmin') ? 'active' : '' ?>">
+                        <i class="fa fa-star me-2"></i>Quản lý đánh giá
+                    </a>
+                    <a href="index.php?page=ReportAdmin" class="nav-item nav-link <?= ($page == 'ReportAdmin') ? 'active' : '' ?>">
+                        <i class="fa fa-chart-bar me-2"></i>Báo cáo
+                    </a>
                     <a href="../index.php?page=Home" class="nav-item nav-link">
                         <i class="fa fa-store me-2"></i>Về cửa hàng
                     </a>

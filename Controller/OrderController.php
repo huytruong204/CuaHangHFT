@@ -81,7 +81,7 @@ class OrderController
 
             if (!$invoice) {
                 $final_amount = $order['total_money'] ?? 0;
-                $newId = $invoiceModel->createInvoice($order_id, $final_amount);
+                $newId = $invoiceModel->Insert(['order_id' => $order_id, 'final_amount' => $final_amount]);
                 if ($newId) {
                     $invoice = $invoiceModel->getById($newId);
                 }
@@ -170,7 +170,7 @@ class OrderController
         $invoice = $invoiceModel->getByOrderId($order_id);
         if (!$invoice) {
             $final_amount = $order['total_money'] ?? 0;
-            $newId = $invoiceModel->createInvoice($order_id, $final_amount);
+            $newId = $invoiceModel->Insert(['order_id' => $order_id, 'final_amount' => $final_amount]);
             if ($newId) {
                 $invoice = $invoiceModel->getById($newId);
             }
