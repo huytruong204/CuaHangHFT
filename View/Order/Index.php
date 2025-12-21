@@ -20,38 +20,11 @@
                 <li class="<?= ($stt == '') ? 'active' : '' ?>">
                     <a href="index.php?page=Order" style="color: #333;">Tất cả</a>
                 </li>
-
-                <li class="<?= ($stt == 'wait') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=wait">Chờ xác nhận</a>
+                <?php foreach($status_map as $key => $status):?>
+                    <li class="<?= ($stt == $key) ? 'active' : '' ?>">
+                    <a href="index.php?page=Order&status=<?= $key ?>"><?= $status ?></a>
                 </li>
-
-                <li class="<?= ($stt == 'confirmed') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=confirmed" >Đã xác nhận</a>
-                </li>
-
-                <li class="<?= ($stt == 'preparing') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=preparing" >Đang chuẩn bị</a>
-                </li>
-
-                <li class="<?= ($stt == 'wait_ship') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=wait_ship" >Chờ shipper</a>
-                </li>
-
-                <li class="<?= ($stt == 'shipping') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=shipping" >Đang giao</a>
-                </li>
-
-                <li class="<?= ($stt == 'delivered') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=delivered" >Đã giao</a>
-                </li>
-
-                <li class="<?= ($stt == 'cancelled') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=cancelled" >Đã hủy</a>
-                </li>
-
-                <li class="<?= ($stt == 'refund') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=refund" >Hoàn tiền</a>
-                </li>
+                <?php endforeach; ?>
             </ul>
             <?php if (!empty($orders)): ?>
                 <div class="table-responsive" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">

@@ -3,7 +3,16 @@ class OrderController
 {
     public $orderModel;
     public $orderItemModel;
-
+    const STATUS_MAP = [
+            'wait'        => 'Chờ xác nhận',
+            'confirmed'   => 'Đã xác nhận',
+            'preparing'   => 'Đang chuẩn bị',
+            'wait_ship'   => 'Chờ shipper',
+            'shipping'    => 'Đang giao hàng',
+            'delivered'   => 'Đã giao hàng',
+            'cancelled'   => 'Đã hủy',
+            'refund'      => 'Hoàn tiền'
+        ];
     public function __construct()
     {
         $this->orderModel = new OrderModel();
@@ -14,16 +23,7 @@ class OrderController
     {
         $rows_per_page = 4;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
-        $status_map = [
-            'wait'        => 'Chờ xác nhận',
-            'confirmed'   => 'Đã xác nhận',
-            'preparing'   => 'Đang chuẩn bị',
-            'wait_ship'   => 'Chờ shipper',
-            'shipping'    => 'Đang giao hàng',
-            'delivered'   => 'Đã giao hàng',
-            'cancelled'   => 'Đã hủy',
-            'refund'      => 'Hoàn tiền'
-        ];
+        $status_map =self::STATUS_MAP;
         $stt = isset($_GET['status']) ? $_GET['status'] : '';
         $where_clauses = [
             'orders.user_id' => SessionManager::get('user_id'),
@@ -48,10 +48,56 @@ class OrderController
             header("Location: index.php?page=Order");
             exit();
         }
+        $status_map =self::STATUS_MAP;
         $order_id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($order_id);
-
         $items =  $this->orderItemModel->getOrderItems($order_id);
+        $msg = SessionManager::flash('success');
+        $error = SessionManager::flash('error');
         include_once "View/Order/Detail.php";
+    }
+
+    public function Cancel()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : '';
+            
+            if (empty($order_id)) {
+                SessionManager::flash('error', 'Không tìm thấy đơn hàng.');
+                header("Location: index.php?page=Order");
+                exit();
+            }
+
+            $order = $this->orderModel->getOrderById($order_id);
+            $current_user_id = SessionManager::get('user_id');
+
+            if (!$order || $order['user_id'] != $current_user_id) {
+                SessionManager::flash('error', 'Bạn không có quyền hủy đơn hàng này.');
+                header("Location: index.php?page=Order");
+                exit();
+            }
+
+            $allow_cancel_status = [
+                self::STATUS_MAP['wait'],      
+                self::STATUS_MAP['confirmed'] 
+            ];
+
+            if (in_array($order['status'], $allow_cancel_status)) {
+                $data = ['status' => self::STATUS_MAP['cancelled']]; 
+                
+                $result = $this->orderModel->Update($data, 'order_id', $order_id);
+
+                if ($result) {
+                    SessionManager::flash('success', 'Đã hủy đơn hàng thành công.');
+                } else {
+                    SessionManager::flash('error', 'Lỗi hệ thống, vui lòng thử lại.');
+                }
+            } else {
+                SessionManager::flash('error', 'Đơn hàng đã được xử lý hoặc đang giao, không thể hủy.');
+            }
+
+            header("Location: index.php?page=Order&action=detail&order_id=$order_id");
+            exit();
+        }
     }
 }

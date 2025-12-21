@@ -58,6 +58,8 @@ class OrderModel extends BaseModel
 
             foreach ($data as $value) {
                 $value['user_id'] = $value['full_name'] ?? $value['user_id']; 
+                $value['shipper_id'] = $value['full_name'] ?? $value['shipper_id']; 
+
                 $list_orders[] = new OrderModel($value);
             }
 
@@ -98,10 +100,18 @@ class OrderModel extends BaseModel
         }
     }
     public function getOrderById($order_id) {
-       $sql = "SELECT o.*, u.full_name, u.phone_number, u.address, u.city 
-                FROM " . self::TB_NAME . " o
-                JOIN users u ON o.user_id = u.user_id 
-                WHERE o.order_id = ?";
+       $sql = "SELECT 
+                o.*, 
+                u.full_name, 
+                u.phone_number, 
+                u.address, 
+                u.city,
+                s.full_name AS shipper_name,    
+                s.phone_number AS shipper_phone 
+            FROM " . self::TB_NAME . " o
+            JOIN users u ON o.user_id = u.user_id 
+            LEFT JOIN users s ON o.shipper_id = s.user_id 
+            WHERE o.order_id = ?";
         
         try {
             $stmt = $this->db->prepare($sql);

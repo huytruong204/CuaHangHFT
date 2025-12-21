@@ -16,8 +16,7 @@
                     <h5 class="mb-3 text-dark border-bottom pb-2"><i class="fa fa-user me-2"></i>Thông tin khách hàng</h5>
                     <p class="mb-2 text-dark"><strong>Họ tên:</strong> <?= $order['full_name'] ?></p>
                     <p class="mb-2 text-dark"><strong>Số điện thoại:</strong> <?= $order['phone_number'] ?></p>
-                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= $order['address'] ?></p>
-                    <p class="mb-0 text-dark"><strong>Thành phố:</strong> <?= $order['city'] ?></p>
+                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= $order['address'].", ".$order['city'] ?></p>
                 </div>
             </div>
 
@@ -103,23 +102,29 @@
 
         <div class="bg-secondary rounded p-4">
             <h5 class="mb-3 text-dark">Cập nhật đơn hàng</h5>
+            <?php
+            $is_locked = (count($allowed_statuses) <= 1 && $allowed_statuses[0] == $order['status']);
+
+            $is_delivered = ($order['status'] == 'Đã giao hàng');
+            ?>
             <form action="index.php?page=orderAdmin&action=updateStatus" method="POST" class="row g-3 align-items-end">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
 
                 <div class="col-md-4">
                     <label class="form-label text-dark">Trạng thái đơn hàng</label>
-                    <select name="status" class="form-select text-dark">
-                        <?php foreach ($status_map as $key => $label): ?>
-                            <option value="<?= $label ?>" <?= $order['status'] == $label ? 'selected' : '' ?>>
-                                <?= $label ?>
+                    <select name="status" class="form-select text-dark" <?= $is_locked ? 'disabled' : '' ?>>
+                        <?php foreach ($allowed_statuses as $stt): ?>
+                            <option value="<?= $stt ?>" <?= $order['status'] == $stt ? 'selected' : '' ?>>
+                                <?= $stt ?>
                             </option>
                         <?php endforeach; ?>
+                    </select>
                     </select>
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label text-dark">Gán Shipper</label>
-                    <select name="shipper_id" class="form-select text-dark">
+                    <label class="form-label text-dark">Người giao hàng</label>
+                    <select name="shipper_id" class="form-select text-dark" <?= ($is_locked || $is_delivered) ? 'disabled' : '' ?>>
                         <option value="">-- Chưa gán shipper --</option>
                         <?php if (!empty($shippers)): ?>
                             <?php foreach ($shippers as $shipper): ?>
@@ -133,9 +138,15 @@
                 </div>
 
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fa fa-save me-2"></i>Lưu thay đổi
-                    </button>
+                    <?php if ($is_locked): ?>
+                        <div class="alert alert-success m-0 p-2 text-center">
+                            <i class="fa fa-check-circle me-1"></i> Đơn hàng hoàn tất
+                        </div>
+                    <?php else: ?>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fa fa-arrow-right me-2"></i>Cập nhật
+                        </button>
+                    <?php endif; ?>
                 </div>
             </form>
         </div>

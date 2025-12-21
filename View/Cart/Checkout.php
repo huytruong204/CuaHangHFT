@@ -1,5 +1,5 @@
 <div class="container" style="padding-top: 30px; margin-top: 70px; margin-bottom: 50px;">
-    
+
     <?php if (!empty($msg)): ?>
         <div id="cart-notification" class="success-popup">
             <div class="popup-content">
@@ -14,9 +14,9 @@
     <?php endif; ?>
 
     <?php if (!empty($cart_items)): ?>
-        
+
         <h2 class="text-center text-uppercase fw-bold" style="margin-bottom: 30px; color: #333;">Xác nhận thanh toán</h2>
-        
+
         <form action="index.php?page=Cart&action=CheckoutPost" method="POST">
             <div class="row">
                 <div class="col-md-7 col-sm-12">
@@ -26,33 +26,23 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Họ và tên người nhận <span class="text-danger">*</span></label>
-                                <input type="text" name="fullname" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" >
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Số điện thoại <span class="text-danger">*</span></label>
-                                        <input type="text" name="phone" class="form-control" placeholder="Ví dụ: 0987..." >
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Email (Tùy chọn)</label>
-                                        <input type="email" name="email" class="form-control" placeholder="email@example.com">
-                                    </div>
-                                </div>
+                                <label>Họ và tên người nhận </label>
+                                <input type="text" name="fullname" value="<?= $user->getUser_name() ?>" class="form-control" readonly>
                             </div>
 
                             <div class="form-group">
-                                <label>Địa chỉ giao hàng <span class="text-danger">*</span></label>
-                                <textarea name="address" class="form-control" rows="2" placeholder="Số nhà, tên đường, phường/xã..." ></textarea>
+                                <label>Số điện thoại </label>
+                                <input type="text" name="phone" class="form-control" value="<?= $user->getPhone_number() ?>" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Địa chỉ giao hàng </label>
+                                <textarea name="address" class="form-control" rows="2" readonly><?= $user->getAddress(). ", " .$user->getCity()  ?></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>Ghi chú cho đơn hàng</label>
-                                <textarea name="note" class="form-control" rows="2" placeholder="Ví dụ: Không bỏ hành, giao giờ hành chính..."></textarea>
+                                <textarea name="note" class="form-control" rows="2"><?= isset($_POST['note']) ? $_POST['note'] : '' ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -90,18 +80,18 @@
                             <table class="table" style="margin-bottom: 0;">
                                 <tbody>
                                     <?php foreach ($cart_items as $item): ?>
-                                    <tr>
-                                        <td style="width: 60px;">
-                                            <img src="assets/img/img_foods/<?= $item->image_url ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
-                                        </td>
-                                        <td>
-                                            <div style="font-weight: 600;"><?= $item->food_name ?></div>
-                                            <div class="text-muted small">x <?= $item->quantity ?></div>
-                                        </td>
-                                        <td class="text-right" style="font-weight: bold;">
-                                            <?= number_format($item->price * $item->quantity, 0, ',', '.') ?>đ
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td style="width: 60px;">
+                                                <img src="assets/img/img_foods/<?= $item->image_url ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                            </td>
+                                            <td>
+                                                <div style="font-weight: 600;"><?= $item->food_name ?></div>
+                                                <div class="text-muted small">x <?= $item->quantity ?></div>
+                                            </td>
+                                            <td class="text-right" style="font-weight: bold;">
+                                                <?= number_format($item->price * $item->quantity, 0, ',', '.') ?>đ
+                                            </td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -136,7 +126,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 col-sm-12">
                 <div class="text-center" style="background: #fff; padding: 60px 20px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #eee;">
-                    
+
                     <div style="margin-bottom: 25px;">
                         <div style="width: 120px; height: 120px; background: #fff5e6; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
                             <i class="glyphicon glyphicon-shopping-cart" style="font-size: 50px; color: #e65100;"></i>

@@ -59,6 +59,8 @@ class CartController
     {
         $cart_items = CartModel::getCart();
         $total_amount = CartModel::getTotal();
+        $user_model = new UserModel();
+        $user = $user_model->getByUserName(SessionManager::get('user_name'));
         $msg = SessionManager::flash('error');
         include_once "View/Cart/Checkout.php";
     }

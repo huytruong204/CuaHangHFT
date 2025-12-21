@@ -10,15 +10,15 @@ class OrderAdminController
     public $orderItemModel;
     public $userRoleModel;
     const STATUS_MAP = [
-            'wait'        => 'Chờ xác nhận',
-            'confirmed'   => 'Đã xác nhận',
-            'preparing'   => 'Đang chuẩn bị',
-            'wait_ship'   => 'Chờ shipper',
-            'shipping'    => 'Đang giao hàng',
-            'delivered'   => 'Đã giao hàng',
-            'cancelled'   => 'Đã hủy',
-            'refund'      => 'Hoàn tiền'
-        ];
+        'wait'        => 'Chờ xác nhận',
+        'confirmed'   => 'Đã xác nhận',
+        'preparing'   => 'Đang chuẩn bị',
+        'wait_ship'   => 'Chờ shipper',
+        'shipping'    => 'Đang giao hàng',
+        'delivered'   => 'Đã giao hàng',
+        'cancelled'   => 'Đã hủy',
+        'refund'      => 'Hoàn tiền'
+    ];
     public function __construct()
     {
         $this->orderModel = new OrderModel();
@@ -50,6 +50,39 @@ class OrderAdminController
 
         include_once "View/OrderAdmin/Index.php";
     }
+
+    private function GetAllowedTransitions($currentStatus)
+    {
+        $s = self::STATUS_MAP;
+
+        switch ($currentStatus) {
+            case $s['wait']:
+                return [$s['confirmed'], $s['cancelled']];
+
+            case $s['confirmed']:
+                return [$s['preparing'], $s['cancelled']];
+
+            case $s['preparing']:
+                return [$s['wait_ship'], $s['cancelled']];
+
+            case $s['wait_ship']:
+                return [$s['shipping'], $s['cancelled']];
+
+            case $s['shipping']:
+                return [$s['delivered'], $s['cancelled']];
+
+            case $s['delivered']:
+                return [$s['refund']];
+
+            case $s['cancelled']:
+            case $s['refund']:
+                return [];
+
+            default:
+                return [];
+        }
+    }
+
     public function Detail()
     {
         if (!isset($_GET['order_id'])) {
@@ -59,7 +92,15 @@ class OrderAdminController
 
         $id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($id);
-        $status_map = self::STATUS_MAP;
+        $allowed_statuses = $this->getAllowedTransitions($order['status']);
+
+        if (!empty($allowed_statuses)) {
+            array_unshift($allowed_statuses, $order['status']);
+        } else {
+            $allowed_statuses = [$order['status']];
+        }
+        $allowed_statuses = array_unique($allowed_statuses);
+
         $shippers = $this->userRoleModel->getUsersByRole(3);
         if (!$order || !$shippers) {
             header("Location: index.php?page=orderAdmin");
@@ -76,17 +117,26 @@ class OrderAdminController
             $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : '';
             $stt = isset($_POST['status']) ? $_POST['status'] : '';
             $shipper_id =  isset($_POST['shipper_id']) ? $_POST['shipper_id'] : '';
-            if (empty($order_id) || empty($stt) || empty($shipper_id)) {
+            if (empty($order_id) || empty($stt)) {
                 SessionManager::flash('error', "Lỗi null");
                 header("Location: index.php?page=OrderAdmin");
                 exit();
             }
             $order = $this->orderModel->getOrderById($order_id);
+            if ($stt !== $order['status']) {
+                $allowed = $this->getAllowedTransitions($order['status']);
+
+                if (!in_array($stt, $allowed)) {
+                    SessionManager::flash('error', "Không thể chuyển từ '$order[status]' sang '$stt'. Sai quy trình!");
+                    header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
+                    exit();
+                }
+            }
             $paystt = '';
             if ($stt === self::STATUS_MAP['delivered']) {
                 $paystt = ($order['payment_status'] == 0) ? 1 : '';
             }
-            
+
             $data['status'] = $stt;
             $data['payment_status'] = $paystt;
             $data['shipper_id'] = $shipper_id;
