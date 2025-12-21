@@ -17,40 +17,40 @@
             <?php
             ?>
             <ul class="nav nav-tabs" style="margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #e65100;">
-                <li class="<?= ($stt == 'all') ? 'active' : '' ?>">
+                <li class="<?= ($stt == '') ? 'active' : '' ?>">
                     <a href="index.php?page=Order" style="color: #333;">Tất cả</a>
                 </li>
 
                 <li class="<?= ($stt == 'wait') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=wait" style="color: #f0ad4e;">Chờ xác nhận</a>
+                    <a href="index.php?page=Order&status=wait">Chờ xác nhận</a>
                 </li>
 
                 <li class="<?= ($stt == 'confirmed') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=confirmed" style="color: #337ab7;">Đã xác nhận</a>
+                    <a href="index.php?page=Order&status=confirmed" >Đã xác nhận</a>
                 </li>
 
                 <li class="<?= ($stt == 'preparing') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=preparing" style="color: #5bc0de;">Đang chuẩn bị</a>
+                    <a href="index.php?page=Order&status=preparing" >Đang chuẩn bị</a>
                 </li>
 
                 <li class="<?= ($stt == 'wait_ship') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=wait_ship" style="color: #607d8b;">Chờ shipper</a>
+                    <a href="index.php?page=Order&status=wait_ship" >Chờ shipper</a>
                 </li>
 
                 <li class="<?= ($stt == 'shipping') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=shipping" style="color: #e65100;">Đang giao</a>
+                    <a href="index.php?page=Order&status=shipping" >Đang giao</a>
                 </li>
 
                 <li class="<?= ($stt == 'delivered') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=delivered" style="color: #5cb85c;">Đã giao</a>
+                    <a href="index.php?page=Order&status=delivered" >Đã giao</a>
                 </li>
 
                 <li class="<?= ($stt == 'cancelled') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=cancelled" style="color: #d9534f;">Đã hủy</a>
+                    <a href="index.php?page=Order&status=cancelled" >Đã hủy</a>
                 </li>
 
                 <li class="<?= ($stt == 'refund') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order&status=refund" style="color: #999;">Hoàn tiền</a>
+                    <a href="index.php?page=Order&status=refund" >Hoàn tiền</a>
                 </li>
             </ul>
             <?php if (!empty($orders)): ?>
@@ -71,38 +71,9 @@
                             foreach ($orders as $order): ?>
                                 <?php
                                 $statusText = $order->getStatus();
-                                $statusClass = 'label-default';
-
-                                switch ($statusText) {
-                                    case 'Chờ xác nhận':
-                                        $statusClass = 'label-warning';
-                                        break;
-                                    case 'Đã xác nhận':
-                                        $statusClass = 'label-primary';
-                                        break;
-                                    case 'Đang chuẩn bị':
-                                        $statusClass = 'label-info';
-                                        break;
-                                    case 'Chờ shipper':
-                                        $statusClass = 'label-default';
-                                        break;
-                                    case 'Đang giao hàng':
-                                        $statusClass = 'label-warning';
-                                        break;
-                                    case 'Đã giao hàng':
-                                        $statusClass = 'label-success';
-                                        break;
-                                    case 'Đã hủy':
-                                        $statusClass = 'label-danger';
-                                        break;
-                                    case 'Hoàn tiền':
-                                        $statusClass = 'label-primary';
-                                        break;
-                                }
 
                                 $payMethod = $order->getPaymentMethod();
                                 $payText = ($payMethod == 'banking') ? 'Chuyển khoản' : 'Tiền mặt';
-                                $payBadge = ($payMethod == 'banking') ? 'label-info' : 'label-default';
                                 ?>
                                 <tr>
                                     <td><strong>#<?= $order->getOrderId() ?></strong></td>
@@ -113,10 +84,10 @@
                                         <?= number_format($order->getTotal_money(), 0, ',', '.') ?>đ
                                     </td>
                                     <td class="text-center">
-                                        <span class="label <?= $payBadge ?>" style="font-size: 13px; opacity: 0.8;"><?= $payText ?></span>
+                                        <span class="label" style="font-size: 13px; padding:5px 10px; color:black"><?= $payText ?></span>
                                     </td>
                                     <td>
-                                        <span class="label <?= $statusClass ?>" style="font-size:13px;padding:5px 10px;">
+                                        <span class="label"  style="font-size:13px;padding:5px 10px; color:black">
                                             <?= $statusText ?>
                                         </span>
                                     </td>
