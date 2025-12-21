@@ -4,7 +4,6 @@ include_once __DIR__ . '/../Model/RoleModel.php';
 include_once __DIR__ . '/../Model/UserRoleModel.php';
 include_once __DIR__ . '/../Helper/Upload_file.php';
 include_once __DIR__ . '/../Helper/SessionManager.php';
-include_once __DIR__ . '/../core/Validator.php';
 
 class SignUpController{
     public function Index(){
@@ -23,30 +22,27 @@ class SignUpController{
             $address = trim($_POST['address'] ?? '');
             $city = trim($_POST['city'] ?? '');
 
-            // Basic validation using Validator class
-            $err = Validator::required($user_name, 'Tên đăng nhập không được để trống.');
-            if ($err) $errors[] = $err;
+            // Validate using UserModel
+            $tempUser = new UserModel([
+                'user_name' => $user_name,
+                'password' => $password,
+                'full_name' => $full_name,
+                'phone_number' => $phone_number,
+                'address' => $address,
+                'city' => $city
+            ]);
             
-            $err = Validator::required($password, 'Mật khẩu không được để trống.');
-            if ($err) $errors[] = $err;
+            $validationErrors = $tempUser->validate($tempUser);
+            $errors = array_values($validationErrors); // Convert to indexed array
             
-            if ($password !== $confirm) $errors[] = 'Mật khẩu và xác nhận mật khẩu không khớp.';
-            
-            $err = Validator::required($full_name, 'Họ và tên không được để trống.');
-            if ($err) $errors[] = $err;
-            
-            $err = Validator::required($phone_number, 'Số điện thoại không được để trống.');
-            if ($err) $errors[] = $err;
-            
-            $err = Validator::required($address, 'Địa chỉ không được để trống.');
-            if ($err) $errors[] = $err;
-            
-            $err = Validator::required($city, 'Tỉnh/Thành phố không được để trống.');
-            if ($err) $errors[] = $err;
+            // Check password confirmation
+            if ($password !== $confirm) {
+                $errors[] = 'Mật khẩu và xác nhận mật khẩu không khớp.';
+            }
 
             $userModel = new UserModel();
             // Check username exists
-            if (!$errors){
+            if (empty($errors)){
                 $existing = $userModel->getByUserName($user_name);
                 if ($existing) $errors[] = 'Tên đăng nhập đã tồn tại.';
             }

@@ -245,6 +245,11 @@ class UserModel extends BaseModel
         return $this->is_active;
     }
 
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
     public function setUser_id($user_id)
     {
         $this->user_id = $user_id;

@@ -610,3 +610,29 @@ a.socialIcon:hover,
 }
 @media (min-width: 1201px) and (max-width: 1292px) {
 }
+/* Profile spacing overrides (appended) */
+/* Strong overrides to prevent header overlap and footer collision */
+section#center,
+section#profile,
+section#profile-edit,
+.center_shop_1,
+.panel {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+/* Ensure main reserves enough space when header/menu is fixed */
+
+.main .main_1 {
+  position: relative !important;
+}
+
+/* Center content width for profile area */
+.main .container {
+  max-width: 980px !important;
+}
+
+/* Footer gap */
+#footer {
+  padding-top: 100px !important;
+}
