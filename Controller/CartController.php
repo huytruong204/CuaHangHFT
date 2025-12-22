@@ -37,6 +37,8 @@ class CartController
             } else {
                 echo "Thiếu dữ liệu gửi lên!";
             }
+        }else {
+            header('Location: index.php?page=Cart');
         }
     }
     public function UpdateToCart()
@@ -48,6 +50,8 @@ class CartController
                 CartModel::update($food_id, $new_quantity);
                 header('Location: index.php?page=Cart');
             }
+        } else {
+            header('Location: index.php?page=Cart');
         }
     }
     public function DeleteToCart()
