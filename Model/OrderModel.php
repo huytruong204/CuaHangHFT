@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ .'/../core/Validator.php';
+include_once __DIR__ . '/../core/Validator.php';
 include_once __DIR__ . '/../core/BaseModel.php';
 class OrderModel extends BaseModel
 {
@@ -59,8 +59,8 @@ class OrderModel extends BaseModel
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($data as $value) {
-                $value['user_id'] = $value['full_name'] ?? $value['user_id']; 
-                $value['shipper_id'] = $value['full_name'] ?? $value['shipper_id']; 
+                $value['user_id'] = $value['full_name'] ?? $value['user_id'];
+                $value['shipper_id'] = $value['full_name'] ?? $value['shipper_id'];
 
                 $list_orders[] = new OrderModel($value);
             }
@@ -68,6 +68,38 @@ class OrderModel extends BaseModel
             return $list_orders;
         } catch (PDOException $e) {
             $this->error_message = "Lỗi: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    // Thêm vào file OrderModel.php
+
+    public function getDashboardStats()
+    {
+        try {
+            $stats = [
+                'orders_today' => 0,
+                'revenue_day' => 0,
+                'revenue_month' => 0,
+            ];
+
+            $sql = "SELECT COUNT(*) FROM " . self::TB_NAME . " WHERE DATE(created_at) = CURDATE()";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $stats['orders_today'] = $stmt->fetchColumn();
+
+            $sql = "SELECT SUM(total_money) FROM " . self::TB_NAME . " WHERE DATE(created_at) = CURDATE() AND status = 'Đã giao hàng'";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $stats['revenue_day'] = $stmt->fetchColumn() ?: 0;
+
+            $sql = "SELECT SUM(total_money) FROM " . self::TB_NAME . " WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND status = 'Đã giao hàng'";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $stats['revenue_month'] = $stmt->fetchColumn() ?: 0;
+
+            return $stats;
+        } catch (PDOException $e) {
             return [];
         }
     }
@@ -101,8 +133,9 @@ class OrderModel extends BaseModel
             return 0;
         }
     }
-    public function getOrderById($order_id) {
-       $sql = "SELECT 
+    public function getOrderById($order_id)
+    {
+        $sql = "SELECT 
                 o.*, 
                 u.full_name, 
                 u.phone_number, 
@@ -114,7 +147,7 @@ class OrderModel extends BaseModel
             JOIN users u ON o.user_id = u.user_id 
             LEFT JOIN users s ON o.shipper_id = s.user_id 
             WHERE o.order_id = ?";
-        
+
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$order_id]);
@@ -126,15 +159,15 @@ class OrderModel extends BaseModel
     }
 
 
-     public function validate($data)
-        {
-                $errors = [];
-                if ($err = Validator::is_isset($data->shipper_id, "Shipper không tồn tại"))
-                        $errors['shipper_id'] = $err;
-                elseif ($err = Validator::required($data->shipper_id, "Shipper không được để trống"))
-                        $errors['shipper_id'] = $err;
-                return $errors;
-        }
+    public function validate($data)
+    {
+        $errors = [];
+        if ($err = Validator::is_isset($data->shipper_id, "Shipper không tồn tại"))
+            $errors['shipper_id'] = $err;
+        elseif ($err = Validator::required($data->shipper_id, "Shipper không được để trống"))
+            $errors['shipper_id'] = $err;
+        return $errors;
+    }
 
     public function getOrderId()
     {
