@@ -82,7 +82,7 @@
                         <i class="fa fa-users me-2"></i>Quản lý người dùng
                     </a>
                     <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-users me-2"></i>Quản lý đơn hàng
+                        <i class="fa fa-file-invoice-dollar"></i>Quản lý đơn hàng
                     </a>
                     <a href="index.php?page=ReviewAdmin" class="nav-item nav-link <?= ($page == 'ReviewAdmin') ? 'active' : '' ?>">
                         <i class="fa fa-star me-2"></i>Quản lý đánh giá

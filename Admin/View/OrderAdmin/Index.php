@@ -105,11 +105,12 @@
                                                 <i class="fa fa-eye"></i>
                                                 <span class="ml-6">Chi tiết</span>
                                             </a>
-                                        <?php if ($order->getStatus() === 'Đã xác nhận'): ?>
-                                            <a href="index.php?page=OrderAdmin&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success btn-sm-wide minw-90" title="In hóa đơn">
-                                                <i class="fa fa-print"></i>
-                                                <span class="ml-6">In</span>
-                                            </a>
+
+                                        <?php if ($order->getStatus() === $status_map['shipping'] || $order->getStatus() === $status_map['delivered']): ?>
+                                            <form action="../Helper/Pdf.php" method="post">
+                                                <input type="hidden"  name="order_id" value="<?= $order->getOrderId() ?>" >
+                                                <input type="submit" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;" value="In">
+                                            </form>
                                         <?php endif; ?>
                                     </div>
                                 </td>
