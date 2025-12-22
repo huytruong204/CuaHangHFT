@@ -11,22 +11,11 @@ $invoice_no = $invoiceArr['invoice_id'] ?? ('INV-' . ($orderArr['order_id'] ?? '
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Hóa đơn <?= htmlspecialchars($invoice_no) ?></title>
-    <style>
-        body { font-family: Arial, Helvetica, "Noto Sans", "DejaVu Sans", sans-serif; color:#111; padding:20px; }
-        .invoice { max-width:800px; margin:0 auto; }
-        h1, h2, h3 { margin:8px 0; }
-        table { width:100%; border-collapse:collapse; margin-top:10px; }
-        th, td { padding:6px 8px; border:1px solid #ddd; text-align:left; }
-        .no-border { border: none; }
-        .right { text-align:right; }
-        @media print {
-            button#printBtn { display:none; }
-        }
-    </style>
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-<body>
+<body class="print-invoice">
 <div class="invoice">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="invoice-header">
         <div>
             <h2>HÓA ĐƠN BÁN HÀNG</h2>
             <div>Mã hóa đơn: <strong><?= htmlspecialchars($invoice_no) ?></strong></div>
@@ -37,7 +26,7 @@ $invoice_no = $invoiceArr['invoice_id'] ?? ('INV-' . ($orderArr['order_id'] ?? '
 
     <h3>Thông tin khách hàng</h3>
     <table>
-        <tr><td class="no-border" style="width:150px">Họ tên</td><td class="no-border"><?= htmlspecialchars($orderArr['full_name'] ?? '') ?></td></tr>
+        <tr><td class="no-border width-150">Họ tên</td><td class="no-border"><?= htmlspecialchars($orderArr['full_name'] ?? '') ?></td></tr>
         <tr><td class="no-border">SĐT</td><td class="no-border"><?= htmlspecialchars($orderArr['phone_number'] ?? '') ?></td></tr>
         <tr><td class="no-border">Địa chỉ</td><td class="no-border"><?= htmlspecialchars(($orderArr['address'] ?? '') . (!empty($orderArr['city']) ? ', ' . $orderArr['city'] : '')) ?></td></tr>
     </table>
@@ -50,9 +39,9 @@ $invoice_no = $invoiceArr['invoice_id'] ?? ('INV-' . ($orderArr['order_id'] ?? '
         <tbody>
         <?php $i=1; foreach ($items as $it): ?>
             <tr>
-                <td style="width:40px"><?= $i++ ?></td>
+                <td class="width-40"><?= $i++ ?></td>
                 <td><?= htmlspecialchars($it['food_name'] ?? '') ?></td>
-                <td style="width:80px"><?= htmlspecialchars($it['quantity'] ?? '') ?></td>
+                <td class="width-80"><?= htmlspecialchars($it['quantity'] ?? '') ?></td>
                 <td class="right"><?= isset($it['price_at_purchase']) ? number_format($it['price_at_purchase'],0,',','.') . ' đ' : '' ?></td>
                 <td class="right"><?= (isset($it['price_at_purchase']) && isset($it['quantity'])) ? number_format($it['price_at_purchase'] * $it['quantity'],0,',','.') . ' đ' : '' ?></td>
             </tr>
@@ -68,17 +57,17 @@ $invoice_no = $invoiceArr['invoice_id'] ?? ('INV-' . ($orderArr['order_id'] ?? '
 
     <h3>Người giao hàng</h3>
     <table>
-        <tr><td class="no-border" style="width:150px">Shipper</td><td class="no-border"><?= htmlspecialchars($orderArr['shipper_name'] ?? 'Chưa có') ?></td></tr>
+        <tr><td class="no-border width-150">Shipper</td><td class="no-border"><?= htmlspecialchars($orderArr['shipper_name'] ?? 'Chưa có') ?></td></tr>
         <tr><td class="no-border">SĐT shipper</td><td class="no-border"><?= htmlspecialchars($orderArr['shipper_phone'] ?? '') ?></td></tr>
     </table>
 
     <h3>Ghi chú của khách hàng</h3>
-    <div style="padding:10px;border:1px solid #e6e6e6;border-radius:6px;background:#fafafa;">
-        <?= !empty($orderArr['note']) ? nl2br(htmlspecialchars($orderArr['note'])) : '<span class="small">Không có ghi chú</span>' ?>
+    <div class="note-box">
+        <?= !empty($orderArr['note']) ? nl2br(htmlspecialchars($orderArr['note'])) : '<span class="text-small">Không có ghi chú</span>' ?>
     </div>
 
-    <div style="margin-top:18px;text-align:right;">
-        <button id="printBtn" onclick="window.print()" style="padding:8px 14px;border-radius:6px;background:#0d6efd;color:#fff;border:none;">In hóa đơn</button>
+    <div class="" style="margin-top:18px;text-align:right;">
+        <button id="printBtn" onclick="window.print()" class="btn-print">In hóa đơn</button>
     </div>
 </div>
 </body>

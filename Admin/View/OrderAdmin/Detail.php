@@ -80,7 +80,7 @@
                                 <td><?= $index + 1 ?></td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="<?= $img_src ?>" alt="" style="width: 50px; height: 50px; object-fit: cover;" class="rounded me-2 border">
+                                        <img src="<?= $img_src ?>" alt="" class="rounded me-2 border img-food-50 object-fit-cover">
                                         <span><?= $item['food_name'] ?></span>
                                     </div>
                                 </td>

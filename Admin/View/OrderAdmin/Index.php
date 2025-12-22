@@ -40,12 +40,12 @@
             <table class="table table-hover align-middle text-start">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 100px">Mã ĐH</th>
+                        <th scope="col" class="width-100">Mã ĐH</th>
                         <th scope="col">Khách hàng</th>
                         <th scope="col">Ngày đặt</th>
                         <th scope="col">Tổng tiền</th>
                         <th scope="col">Trạng thái</th>
-                        <th scope="col" class="text-center" style="width: 150px">Hành động</th>
+                        <th scope="col" class="text-center width-150">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,14 +101,14 @@
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                             <a href="index.php?page=orderAdmin&action=Detail&order_id=<?= $order->getOrderId() ?>"
-                                                class="btn btn-sm btn-outline-info" title="Xem chi tiết" style="white-space:nowrap;padding:6px 12px;min-width:110px;">
+                                                class="btn btn-sm btn-outline-info btn-sm-wide minw-110" title="Xem chi tiết">
                                                 <i class="fa fa-eye"></i>
-                                                <span style="margin-left:6px;">Chi tiết</span>
+                                                <span class="ml-6">Chi tiết</span>
                                             </a>
                                         <?php if ($order->getStatus() === 'Đã xác nhận'): ?>
-                                            <a href="index.php?page=OrderAdmin&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;">
+                                            <a href="index.php?page=OrderAdmin&action=PrintView&order_id=<?= $order->getOrderId() ?>" target="_blank" class="btn btn-sm btn-outline-success btn-sm-wide minw-90" title="In hóa đơn">
                                                 <i class="fa fa-print"></i>
-                                                <span style="margin-left:6px;">In</span>
+                                                <span class="ml-6">In</span>
                                             </a>
                                         <?php endif; ?>
                                     </div>

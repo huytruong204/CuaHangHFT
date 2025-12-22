@@ -1,3 +1,22 @@
+.img-avatar-150 {
+  max-width: 150px !important;
+  height: auto !important;
+}
+.icon-120 {
+  font-size: 120px !important;
+  color: #ccc !important;
+}
+.profile-avatar {
+  margin-bottom: 15px !important;
+}
+.panel-heading-user {
+  background-color: #f5f5f5 !important;
+  border-bottom: 2px solid #e74c3c !important;
+}
+.panel-title-user {
+  font-weight: bold !important;
+  font-size: 18px !important;
+}
 /*
 Template Name: Online Food
 File: Layout CSS
@@ -427,8 +446,182 @@ a.socialIcon:hover,
   transition: all 0.8s;
 }
 
-.product_1_last {
+product_1_last {
   margin-top: 30px;
+}
+
+/* Utility classes for moving inline styles into CSS */
+.mt-80 {
+  margin-top: 80px !important;
+}
+.mb-50 {
+  margin-bottom: 50px !important;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+/* Additional helpers */
+.min-h-70vh {
+  min-height: 70vh !important;
+}
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+.tabs-underline {
+  border-bottom: 2px solid #e65100 !important;
+  font-weight: bold !important;
+}
+.opacity-50 {
+  opacity: 0.5 !important;
+}
+.p-50 {
+  padding: 50px !important;
+}
+.mt-20 {
+  margin-top: 20px !important;
+}
+.p-20 {
+  padding: 20px !important;
+}
+.p-15 {
+  padding: 15px !important;
+}
+.box-shadow-sm {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+.box-shadow-md {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+.rounded-8 {
+  border-radius: 8px !important;
+}
+.panel-heading-orange {
+  background-color: #f78c52ff !important;
+  color: #fff !important;
+}
+.panel-top-orange {
+  border-top: 3px solid #e65100 !important;
+}
+.table-no-margin {
+  margin-bottom: 0 !important;
+}
+.tr-bg-muted {
+  background: #f9f9f9 !important;
+}
+.tr-bg-contrast {
+  background: #fffcf5 !important;
+}
+.v-middle {
+  vertical-align: middle !important;
+}
+.w-120 {
+  width: 120px !important;
+}
+.w-140 {
+  width: 140px !important;
+}
+.w-160 {
+  width: 160px !important;
+}
+.w-40 {
+  width: 40px !important;
+}
+.min-h-120 {
+  min-height: 120px !important;
+}
+.img-food-50 {
+  width: 50px !important;
+  height: 50px !important;
+  object-fit: cover !important;
+  border-radius: 4px !important;
+  border: 1px solid #ddd !important;
+}
+.img-food-80 {
+  width: 80px !important;
+  height: 80px !important;
+  object-fit: cover !important;
+  border-radius: 5px !important;
+}
+.label-block {
+  display: block !important;
+  text-align: center !important;
+}
+.label-small {
+  font-size: 13px !important;
+  padding: 5px 10px !important;
+  color: black !important;
+}
+.btn-orange {
+  background-color: #e65100 !important;
+  color: white !important;
+}
+.btn-block-orange {
+  background-color: #e65100 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border-radius: 5px !important;
+}
+.card-white {
+  background: #fff !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+}
+.text-muted-padding {
+  padding: 10px !important;
+}
+.border-top-2 {
+  border-top: 2px solid #eee !important;
+}
+
+/* Small utilities */
+.mt-5 {
+  margin-top: 5px !important;
+}
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+.fs-14 {
+  font-size: 14px !important;
+}
+.text-orange {
+  color: #e65100 !important;
+}
+.label-status-orange {
+  background-color: #f69f58ff !important;
+  color: black !important;
+  padding: 10px !important;
+  display: block !important;
+  text-align: center !important;
+}
+.italic {
+  font-style: italic !important;
+}
+.p-15 {
+  padding: 15px !important;
+}
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+.p-10 {
+  padding: 10px !important;
+}
+.fs-12 {
+  font-size: 12px !important;
+}
+.panel-heading-light {
+  background: #f8f9fa !important;
+}
+.border-bottom-dashed {
+  border-bottom: 1px dashed #ddd !important;
+}
+.mt-10 {
+  margin-top: 10px !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
 }
 .product_1_last ul li {
   display: inline-block;

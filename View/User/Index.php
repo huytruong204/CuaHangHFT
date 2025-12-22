@@ -15,8 +15,8 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Thông Tin Cá Nhân</h3>
+					<div class="panel-heading panel-heading-user">
+						<h3 class="panel-title panel-title-user">Thông Tin Cá Nhân</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -24,9 +24,9 @@
 								<div class="profile-avatar">
 									<?php if (!empty($user) && !empty($user->getAvatar_url())): ?>
 										<img src="assets/img/avatars/<?= htmlspecialchars($user->getAvatar_url()) ?>" 
-											 alt="Avatar" class="img-thumbnail" style="max-width: 150px;">
+											 alt="Avatar" class="img-thumbnail img-avatar-150">
 									<?php else: ?>
-										<i class="fa fa-user-circle" style="font-size: 120px; color: #ccc;"></i>
+										<i class="fa fa-user-circle icon-120"></i>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -73,7 +73,7 @@
 									</tbody>
 								</table>
 
-								<div class="text-right" style="margin-top: 20px;">
+								<div class="text-right mt-20">
 									<a href="index.php?page=User&action=Edit" class="btn btn-primary">
 										<i class="fa fa-edit"></i> Chỉnh sửa thông tin
 									</a>
@@ -91,9 +91,5 @@
 	</div>
 </section>
 
-<style>
-.profile-avatar { margin-bottom: 15px; }
-.panel-heading { background-color: #f5f5f5; border-bottom: 2px solid #e74c3c; }
-.panel-title { font-weight: bold; font-size: 18px; }
-</style>
+<!-- styles moved to assets/css/global.css -->
 

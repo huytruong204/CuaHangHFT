@@ -60,7 +60,7 @@
                 <?php if (empty($top_items)): ?>
                     <tr><td colspan="4" class="text-center py-4 text-muted">Không có dữ liệu</td></tr>
                 <?php else: ?>
-                    <?php $i = 1; foreach ($top_items as $it): ?>
+                    <?php $i = 1; $total_sales_sum = 0; foreach ($top_items as $it): $total_sales_sum += (float)$it['total_sales']; ?>
                         <tr>
                             <td><?= $i++ ?></td>
                             <td><?= htmlspecialchars($it['food_name']) ?></td>
@@ -68,6 +68,12 @@
                             <td class="text-danger fw-bold"><?= number_format($it['total_sales'], 0, ',', '.') ?> đ</td>
                         </tr>
                     <?php endforeach; ?>
+                    <tr class="table-light">
+                        <td></td>
+                        <td class="text-end fw-bold">Tổng doanh thu:</td>
+                        <td></td>
+                        <td class="fw-bold"><?= number_format($total_sales_sum, 0, ',', '.') ?> đ</td>
+                    </tr>
                 <?php endif; ?>
                 </tbody>
             </table>

@@ -1,5 +1,5 @@
-<div class="container" style="margin-top: 80px; min-height: 70vh; ">
-    <h2 class="text-center text-uppercase fw-bold" style="margin-bottom: 30px; color: #333;">Lịch sử đơn hàng</h2>
+<div class="container mt-80 min-h-70vh">
+    <h2 class="text-center text-uppercase fw-bold mb-30">Lịch sử đơn hàng</h2>
     <?php if (!empty($msg)): ?>
         <div id="cart-notification" class="success-popup">
             <div class="popup-content">
@@ -16,9 +16,9 @@
         <div class="col-md-12">
             <?php
             ?>
-            <ul class="nav nav-tabs" style="margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #e65100;">
+            <ul class="nav nav-tabs mb-20 tabs-underline">
                 <li class="<?= ($stt == '') ? 'active' : '' ?>">
-                    <a href="index.php?page=Order" style="color: #333;">Tất cả</a>
+                    <a href="index.php?page=Order">Tất cả</a>
                 </li>
                 <?php foreach($status_map as $key => $status):?>
                     <li class="<?= ($stt == $key) ? 'active' : '' ?>">
@@ -27,10 +27,10 @@
                 <?php endforeach; ?>
             </ul>
             <?php if (!empty($orders)): ?>
-                <div class="table-responsive" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <div class="table-responsive card-white box-shadow-md rounded-8">
                     <table class="table table-hover">
                         <thead>
-                            <tr style="background-color: #f9f9f9;">
+                            <tr class="tr-bg-muted">
                                 <th>Mã đơn</th>
                                 <th>Ngày đặt</th>
                                 <th>Tổng tiền</th>
@@ -53,14 +53,14 @@
 
                                     <td><?= date('d/m/Y H:i', strtotime($order->getCreatedAt())) ?></td>
 
-                                    <td style="color:#e65100;font-weight:bold;">
+                                    <td class="text-orange bold">
                                         <?= number_format($order->getTotal_money(), 0, ',', '.') ?>đ
                                     </td>
                                     <td class="text-center">
-                                        <span class="label" style="font-size: 13px; padding:5px 10px; color:black"><?= $payText ?></span>
+                                        <span class="label label-small"><?= $payText ?></span>
                                     </td>
                                     <td>
-                                        <span class="label"  style="font-size:13px;padding:5px 10px; color:black">
+                                        <span class="label label-small">
                                             <?= $statusText ?>
                                         </span>
                                     </td>
@@ -77,8 +77,8 @@
                     </table>
                 </div>
             <?php else: ?>
-                <div class="text-center" style="padding: 50px; background: white; border-radius: 8px;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" width="100" style="opacity: 0.5; margin-bottom: 20px;">
+                <div class="text-center card-white p-50 rounded-8">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" width="100" class="opacity-50 mb-20">
                     <p class="text-muted">Bạn chưa có đơn hàng nào.</p>
                     <a href="index.php?page=Food" class="btn btn-primary">Đặt món ngay</a>
                 </div>

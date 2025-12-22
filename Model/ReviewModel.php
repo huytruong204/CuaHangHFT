@@ -122,6 +122,107 @@ class ReviewModel extends BaseModel
     }
 
     /**
+     * Count reviews for admin listing with optional filters.
+     * $filters: ['keyword'=>string, 'rating'=>int, 'start_date'=>string, 'end_date'=>string]
+     */
+    public function countForAdmin(array $filters = [])
+    {
+        try {
+            $where = '';
+            $params = [];
+            if (!empty($filters['keyword'])) {
+                $kw = '%' . trim($filters['keyword']) . '%';
+                $where .= " AND (f.food_name LIKE ? OR u.full_name LIKE ? )";
+                $params[] = $kw; $params[] = $kw;
+            }
+            if (isset($filters['rating']) && $filters['rating'] !== '') {
+                $where .= " AND r.rating = ?";
+                $params[] = (int)$filters['rating'];
+            }
+            if (!empty($filters['start_date'])) {
+                $where .= " AND r.created_at >= ?";
+                $params[] = $filters['start_date'] . ' 00:00:00';
+            }
+            if (!empty($filters['end_date'])) {
+                $where .= " AND r.created_at <= ?";
+                $params[] = $filters['end_date'] . ' 23:59:59';
+            }
+
+            $sql = "SELECT COUNT(*) FROM " . $this->table_name . " r JOIN foods f ON r.food_id = f.food_id JOIN users u ON r.user_id = u.user_id WHERE 1=1 " . $where;
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Get list of reviews for admin with filters, pagination.
+     * Returns array of associative rows.
+     */
+    public function getListForAdmin(array $filters = [], int $offset = 0, int $limit = 10)
+    {
+        try {
+            $where = '';
+            $params = [];
+            if (!empty($filters['keyword'])) {
+                $kw = '%' . trim($filters['keyword']) . '%';
+                $where .= " AND (f.food_name LIKE ? OR u.full_name LIKE ? )";
+                $params[] = $kw; $params[] = $kw;
+            }
+            if (isset($filters['rating']) && $filters['rating'] !== '') {
+                $where .= " AND r.rating = ?";
+                $params[] = (int)$filters['rating'];
+            }
+            if (!empty($filters['start_date'])) {
+                $where .= " AND r.created_at >= ?";
+                $params[] = $filters['start_date'] . ' 00:00:00';
+            }
+            if (!empty($filters['end_date'])) {
+                $where .= " AND r.created_at <= ?";
+                $params[] = $filters['end_date'] . ' 23:59:59';
+            }
+
+            $sql = "SELECT r.*, u.full_name AS user_name, f.food_name
+                FROM " . $this->table_name . " r
+                JOIN users u ON r.user_id = u.user_id
+                JOIN foods f ON r.food_id = f.food_id
+                WHERE 1=1 " . $where . " ORDER BY r.created_at DESC LIMIT ? , ?";
+
+            $stmt = $this->db->prepare($sql);
+            // bind filter params
+            $i = 1;
+            foreach ($params as $p) {
+                $stmt->bindValue($i, $p);
+                $i++;
+            }
+            // bind offset and limit as integers
+            $stmt->bindValue($i, (int)$offset, PDO::PARAM_INT); $i++;
+            $stmt->bindValue($i, (int)$limit, PDO::PARAM_INT);
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Get a review matching user/order/food (used to check/update user's own review)
+     */
+    public function getByUserOrderFood($user_id, $food_id, $order_id)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM " . $this->table_name . " WHERE user_id = ? AND food_id = ? AND order_id = ? LIMIT 1");
+            $stmt->execute([$user_id, $food_id, $order_id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    /**
      * Full validation including business rules:
      * - rating/comment validation
      * - presence of user_id, food_id, order_id

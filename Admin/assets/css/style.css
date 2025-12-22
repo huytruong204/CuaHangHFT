@@ -356,3 +356,108 @@ input[type="file"] {
   background-color: #fff !important;
   cursor: pointer;
 }
+
+/* PrintInvoice styles (scoped to avoid affecting other admin pages) */
+.print-invoice {
+  font-family: Arial, Helvetica, "Noto Sans", "DejaVu Sans", sans-serif;
+  color: #111;
+  padding: 20px;
+}
+.print-invoice .invoice {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.print-invoice h1,
+.print-invoice h2,
+.print-invoice h3 {
+  margin: 8px 0;
+}
+.print-invoice table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.print-invoice th,
+.print-invoice td {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.print-invoice .no-border {
+  border: none;
+}
+.print-invoice .right {
+  text-align: right;
+}
+@media print {
+  .print-invoice button#printBtn {
+    display: none;
+  }
+}
+
+/* Additional small helpers for PrintInvoice markup widths and note/button styling */
+.print-invoice .invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.print-invoice .width-150 {
+  width: 150px;
+}
+.print-invoice .width-40 {
+  width: 40px;
+}
+.print-invoice .width-80 {
+  width: 80px;
+}
+.print-invoice .note-box {
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  background: #fafafa;
+}
+.print-invoice .btn-print {
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+.print-invoice .text-small {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Small width helpers used by OrderAdmin index */
+.width-100 {
+  width: 100px;
+}
+.width-150 {
+  width: 150px;
+}
+
+/* Button helpers for compact action buttons */
+.btn-sm-wide {
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+.minw-110 {
+  min-width: 110px;
+}
+.minw-90 {
+  min-width: 90px;
+}
+.ml-6 {
+  margin-left: 6px;
+}
+
+/* Image helpers */
+.img-food-50 {
+  width: 50px;
+  height: 50px;
+}
+.object-fit-cover {
+  object-fit: cover;
+}

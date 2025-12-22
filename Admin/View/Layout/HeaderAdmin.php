@@ -20,7 +20,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="assets/css/style.css" rel="stylesheet">
+    <?php $adminStyle = 'assets/css/style.css'; ?>
+    <link href="<?= $adminStyle ?>?v=<?= file_exists(__DIR__ . '/../../assets/css/style.css') ? filemtime(__DIR__ . '/../../assets/css/style.css') : time() ?>" rel="stylesheet">
 </head>
 
 <body>

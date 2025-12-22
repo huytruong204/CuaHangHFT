@@ -51,24 +51,17 @@ class ReviewAdminController
             $where_sql = ' AND ' . implode(' AND ', $filters);
         }
 
-        // Count total
-        $db = $this->reviewModel->getDb();
-        $count_sql = "SELECT COUNT(*) FROM reviews r JOIN foods f ON r.food_id = f.food_id JOIN users u ON r.user_id = u.user_id WHERE 1=1 " . $where_sql;
-        $stmt = $db->prepare($count_sql);
-        $stmt->execute($params);
-        $total_rows = (int)$stmt->fetchColumn();
+        // Use model methods for count and list (moved SQL into model)
+        $filters = [];
+        if (!empty($_GET['keyword'])) $filters['keyword'] = $_GET['keyword'];
+        if (isset($_GET['rating']) && $_GET['rating'] !== '') $filters['rating'] = $_GET['rating'];
+        if (!empty($_GET['start_date'])) $filters['start_date'] = $_GET['start_date'];
+        if (!empty($_GET['end_date'])) $filters['end_date'] = $_GET['end_date'];
+
+        $total_rows = $this->reviewModel->countForAdmin($filters);
         $total_pages = ($rows_per_page > 0) ? ceil($total_rows / $rows_per_page) : 1;
 
-        // Fetch list
-        $list_sql = "SELECT r.*, u.full_name AS user_name, f.food_name
-            FROM reviews r
-            JOIN users u ON r.user_id = u.user_id
-            JOIN foods f ON r.food_id = f.food_id
-            WHERE 1=1 " . $where_sql . " ORDER BY r.created_at DESC LIMIT $offset, $rows_per_page";
-
-        $stmt2 = $db->prepare($list_sql);
-        $stmt2->execute($params);
-        $reviews = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        $reviews = $this->reviewModel->getListForAdmin($filters, $offset, $rows_per_page);
 
         include_once "View/ReviewAdmin/Index.php";
     }
