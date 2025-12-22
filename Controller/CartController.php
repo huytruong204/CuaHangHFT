@@ -1,7 +1,6 @@
 <?php
 class CartController
 {
-
     public function Index()
     {
         $cart_items = CartModel::getCart();
@@ -11,6 +10,10 @@ class CartController
 
     public function AddToCart()
     {
+        if (empty(SessionManager::get('user_name'))) {
+            header("Location: index.php?page=SignIn&action=login");
+            exit();
+        }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (isset($_POST['food_id'], $_POST['food_name'], $_POST['quantity'], $_POST['image_url'], $_POST['price'], $_POST['page'])) {
 
@@ -57,6 +60,10 @@ class CartController
     }
     public function Checkout()
     {
+        if (empty(SessionManager::get('user_name'))) {
+            header("Location: index.php?page=SignIn&action=login");
+            exit();
+        }
         $cart_items = CartModel::getCart();
         $total_amount = CartModel::getTotal();
         $user_model = new UserModel();
@@ -67,6 +74,10 @@ class CartController
 
     public function CheckoutPost()
     {
+        if (empty(SessionManager::get('user_name'))) {
+            header("Location: index.php?page=SignIn&action=login");
+            exit();
+        }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $cart_items = CartModel::getCart();
             try {
