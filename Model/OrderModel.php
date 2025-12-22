@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ .'/../core/Validator.php';
-
+include_once __DIR__ . '/../core/BaseModel.php';
 class OrderModel extends BaseModel
 {
     public const TB_NAME = "orders";

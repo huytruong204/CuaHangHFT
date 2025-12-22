@@ -112,78 +112,81 @@ class OrderAdminController
         include_once "View/OrderAdmin/Detail.php";
     }
     public function UpdateStatus()
-{
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $order_id   = $_POST['order_id'] ?? '';
-        $stt        = $_POST['status'] ?? '';
-        $shipper_id = !empty($_POST['shipper_id']) ? $_POST['shipper_id'] : null;
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $order_id   = $_POST['order_id'] ?? '';
+            $stt        = $_POST['status'] ?? '';
+            $shipper_id = !empty($_POST['shipper_id']) ? $_POST['shipper_id'] : null;
 
-        if (empty($order_id) || empty($stt)) {
-            SessionManager::flash('error', "Dữ liệu không hợp lệ.");
-            header("Location: index.php?page=OrderAdmin");
-            exit();
-        }
-
-        $order = $this->orderModel->getOrderById($order_id);
-        
-        if ($stt !== $order['status']) {
-            $allowed = $this->getAllowedTransitions($order['status']);
-            if (!in_array($stt, $allowed)) {
-                SessionManager::flash('error', "Sai quy trình! Không thể chuyển từ '{$order['status']}' sang '$stt'.");
-                header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
+            if (empty($order_id) || empty($stt)) {
+                SessionManager::flash('error', "Dữ liệu không hợp lệ.");
+                header("Location: index.php?page=OrderAdmin");
                 exit();
             }
-        }
 
-        $data = [
-            'status' => $stt,
-            'shipper_id' => $shipper_id
-        ];
+            $order = $this->orderModel->getOrderById($order_id);
 
-        if ($stt === self::STATUS_MAP['delivered'] && $order['payment_status'] == 0) {
-            $data['payment_status'] = 1; 
-        }
-
-        $tempModel = new OrderModel($data);
-        $error = $this->orderModel->validate($tempModel); 
-        
-        if (!empty($error)) {
-             $er_msg = implode('<br>', $error);
-             SessionManager::flash('error', $er_msg);
-             header("Location: index.php?page=OrderAdmin&action=Detail&order_id=" . $order_id);
-             exit();
-        }
-
-        $update_stt = $this->orderModel->Update($data, 'order_id', $order_id);
-
-        if ($update_stt) {
-            $nofiction = "";
-            
-            if ($stt === self::STATUS_MAP['shipping']) {
-                $invoiceModel = new InvoiceModel();
-                $existingInv = $invoiceModel->getByOrderId($order_id);
-                
-                if (!$existingInv) {
-                    $data_inv = [
-                        'order_id' => $order_id,
-                        'final_amount' => $order['total_money'],
-                    ];
-                    if ($invoiceModel->Insert($data_inv)) {
-                        $nofiction = " và đã tạo hóa đơn mới.";
-                    }
-                } else {
-                    $nofiction = " (Hóa đơn đã tồn tại).";
+            if ($stt !== $order['status']) {
+                $allowed = $this->getAllowedTransitions($order['status']);
+                if (!in_array($stt, $allowed)) {
+                    SessionManager::flash('error', "Sai quy trình! Không thể chuyển từ '{$order['status']}' sang '$stt'.");
+                    header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
+                    exit();
                 }
             }
 
-            SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công$nofiction");
-            header("Location: index.php?page=OrderAdmin");
-            exit();
-        } else {
-            SessionManager::flash('error', "Lỗi CSDL: " . $this->orderModel->error_message);
-            header("Location: index.php?page=OrderAdmin");
-            exit();
+            $data = [
+                'status' => $stt,
+                'shipper_id' => $shipper_id
+            ];
+
+            if ($stt === self::STATUS_MAP['delivered'] && $order['payment_status'] == 0) {
+                $data['payment_status'] = 1;
+            }
+
+            $error = [];
+            if ($stt !== self::STATUS_MAP['cancelled']) {
+                $tempModel = new OrderModel($data);
+                $error = $this->orderModel->validate($tempModel);
+            }
+
+            if (!empty($error)) {
+                $er_msg = implode('<br>', $error);
+                SessionManager::flash('error', $er_msg);
+                header("Location: index.php?page=OrderAdmin&action=Detail&order_id=" . $order_id);
+                exit();
+            }
+
+            $update_stt = $this->orderModel->Update($data, 'order_id', $order_id);
+
+            if ($update_stt) {
+                $nofiction = "";
+
+                if ($stt === self::STATUS_MAP['shipping']) {
+                    $invoiceModel = new InvoiceModel();
+                    $existingInv = $invoiceModel->getByOrderId($order_id);
+
+                    if (!$existingInv) {
+                        $data_inv = [
+                            'order_id' => $order_id,
+                            'final_amount' => $order['total_money'],
+                        ];
+                        if ($invoiceModel->Insert($data_inv)) {
+                            $nofiction = " và đã tạo hóa đơn mới.";
+                        }
+                    } else {
+                        $nofiction = " (Hóa đơn đã tồn tại).";
+                    }
+                }
+
+                SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công$nofiction");
+                header("Location: index.php?page=OrderAdmin");
+                exit();
+            } else {
+                SessionManager::flash('error', "Lỗi CSDL: " . $this->orderModel->error_message);
+                header("Location: index.php?page=OrderAdmin");
+                exit();
+            }
         }
     }
-}
 }
