@@ -31,10 +31,11 @@ class OrderAdminController
     {
         $rows_per_page = 4;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+        $status_map = self::STATUS_MAP;
 
         $stt = isset($_GET['status']) ? $_GET['status'] : '';
         $where_clauses = [
-            'orders.status'  => self::STATUS_MAP[$stt] ?? '',
+            'orders.status'  => $status_map[$stt] ?? '',
         ];
 
         $where_clauses = array_filter($where_clauses);
@@ -45,7 +46,6 @@ class OrderAdminController
         $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $orders = $this->orderModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
-        $status_map = self::STATUS_MAP;
         $msg_success = SessionManager::flash('success');
         $msg_error = SessionManager::flash('error');
 
@@ -108,86 +108,82 @@ class OrderAdminController
             exit;
         }
         $order_items = $this->orderItemModel->getOrderItems($id);
-
+        $error = SessionManager::flash('error');
         include_once "View/OrderAdmin/Detail.php";
     }
     public function UpdateStatus()
-    {
+{
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $order_id   = $_POST['order_id'] ?? '';
+        $stt        = $_POST['status'] ?? '';
+        $shipper_id = !empty($_POST['shipper_id']) ? $_POST['shipper_id'] : null;
 
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : '';
-            $stt = isset($_POST['status']) ? $_POST['status'] : '';
-            $shipper_id =  isset($_POST['shipper_id']) ? $_POST['shipper_id'] : '';
-            if (empty($order_id) || empty($stt)) {
-                SessionManager::flash('error', "Lỗi null");
-                header("Location: index.php?page=OrderAdmin");
-                exit();
-            }
-            $order = $this->orderModel->getOrderById($order_id);
-            if ($stt !== $order['status']) {
-                $allowed = $this->getAllowedTransitions($order['status']);
-
-                if (!in_array($stt, $allowed)) {
-                    SessionManager::flash('error', "Không thể chuyển từ '$order[status]' sang '$stt'. Sai quy trình!");
-                    header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
-                    exit();
-                }
-            }
-            $paystt = '';
-            if ($stt === self::STATUS_MAP['delivered']) {
-                $paystt = ($order['payment_status'] == 0) ? 1 : '';
-            }
-
-            $data['status'] = $stt;
-            $data['payment_status'] = $paystt;
-            $data['shipper_id'] = $shipper_id;
-            $update_stt = $this->orderModel->Update(array_filter($data), 'order_id', $order_id);
-            if ($update_stt) {
-                SessionManager::flash('success', "Cập nhật trạng thái đơn hàng #$order_id thành công");
-                header("Location: index.php?page=OrderAdmin");
-                exit();
-            } else {
-                $dbError = $this->orderModel->error_message;
-                SessionManager::flash('error', "Lỗi CSDL: $dbError");
-                header("Location: index.php?page=OrderAdmin");
-                exit();
-            }
-        }
-    }
-
-    /**
-     * Admin printable invoice view (browser print) under OrderAdmin.
-     */
-    public function PrintView()
-    {
-        $order_id = $_GET['order_id'] ?? '';
-        if (empty($order_id)) {
-            header('Location: index.php?page=OrderAdmin');
+        if (empty($order_id) || empty($stt)) {
+            SessionManager::flash('error', "Dữ liệu không hợp lệ.");
+            header("Location: index.php?page=OrderAdmin");
             exit();
         }
 
         $order = $this->orderModel->getOrderById($order_id);
-        if (!$order) {
-            SessionManager::flash('error', 'Không tìm thấy đơn hàng.');
-            header('Location: index.php?page=OrderAdmin');
-            exit();
-        }
-
-        $items = $this->orderItemModel->getOrderItems($order_id);
-
-        $invoiceModel = new InvoiceModel();
-        $invoice = $invoiceModel->getByOrderId($order_id);
-        if (!$invoice) {
-            $final_amount = $order['total_money'] ?? 0;
-            $newId = $invoiceModel->Insert(['order_id' => $order_id, 'final_amount' => $final_amount]);
-            if ($newId) {
-                $invoice = $invoiceModel->getById($newId);
+        
+        if ($stt !== $order['status']) {
+            $allowed = $this->getAllowedTransitions($order['status']);
+            if (!in_array($stt, $allowed)) {
+                SessionManager::flash('error', "Sai quy trình! Không thể chuyển từ '{$order['status']}' sang '$stt'.");
+                header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
+                exit();
             }
         }
 
-        $msg_success = SessionManager::flash('success');
-        $msg_error = SessionManager::flash('error');
+        $data = [
+            'status' => $stt,
+            'shipper_id' => $shipper_id
+        ];
 
-        include_once "View/OrderAdmin/PrintInvoice.php";
+        if ($stt === self::STATUS_MAP['delivered'] && $order['payment_status'] == 0) {
+            $data['payment_status'] = 1; 
+        }
+
+        $tempModel = new OrderModel($data);
+        $error = $this->orderModel->validate($tempModel); 
+        
+        if (!empty($error)) {
+             $er_msg = implode('<br>', $error);
+             SessionManager::flash('error', $er_msg);
+             header("Location: index.php?page=OrderAdmin&action=Detail&order_id=" . $order_id);
+             exit();
+        }
+
+        $update_stt = $this->orderModel->Update($data, 'order_id', $order_id);
+
+        if ($update_stt) {
+            $nofiction = "";
+            
+            if ($stt === self::STATUS_MAP['shipping']) {
+                $invoiceModel = new InvoiceModel();
+                $existingInv = $invoiceModel->getByOrderId($order_id);
+                
+                if (!$existingInv) {
+                    $data_inv = [
+                        'order_id' => $order_id,
+                        'final_amount' => $order['total_money'],
+                    ];
+                    if ($invoiceModel->Insert($data_inv)) {
+                        $nofiction = " và đã tạo hóa đơn mới.";
+                    }
+                } else {
+                    $nofiction = " (Hóa đơn đã tồn tại).";
+                }
+            }
+
+            SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công$nofiction");
+            header("Location: index.php?page=OrderAdmin");
+            exit();
+        } else {
+            SessionManager::flash('error', "Lỗi CSDL: " . $this->orderModel->error_message);
+            header("Location: index.php?page=OrderAdmin");
+            exit();
+        }
     }
+}
 }

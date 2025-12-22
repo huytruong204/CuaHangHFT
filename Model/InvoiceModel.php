@@ -1,7 +1,7 @@
 <?php
 class InvoiceModel extends BaseModel
 {
-    public const TB_NAME = 'invoice';
+    public const TB_NAME = 'invoices';
 
     public function __construct()
     {

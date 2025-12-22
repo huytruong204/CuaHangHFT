@@ -14,9 +14,9 @@
             <div class="col-md-6">
                 <div class="bg-secondary rounded h-100 p-4">
                     <h5 class="mb-3 text-dark border-bottom pb-2"><i class="fa fa-user me-2"></i>Thông tin khách hàng</h5>
-                    <p class="mb-2 text-dark"><strong>Họ tên:</strong> <?= $order['full_name'] ?></p>
-                    <p class="mb-2 text-dark"><strong>Số điện thoại:</strong> <?= $order['phone_number'] ?></p>
-                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= $order['address'].", ".$order['city'] ?></p>
+                    <p class="mb-2 text-dark"><strong>Họ tên:</strong> <?= htmlspecialchars($order['full_name']) ?></p>
+                    <p class="mb-2 text-dark"><strong>Số điện thoại:</strong> <?= htmlspecialchars($order['phone_number']) ?></p>
+                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= htmlspecialchars($order['address'].", ".$order['city']) ?></p>
                 </div>
             </div>
 
@@ -105,9 +105,9 @@
             <?php
             $is_locked = (count($allowed_statuses) <= 1 && $allowed_statuses[0] == $order['status']);
 
-            $is_delivered = ($order['status'] == 'Đã giao hàng');
+            $is_delivered = ($order['status'] == 'Đang giao hàng' || $order['status'] == 'Đã giao hàng');
             ?>
-            <form action="index.php?page=orderAdmin&action=updateStatus" method="POST" class="row g-3 align-items-end">
+            <form action="index.php?page=OrderAdmin&action=UpdateStatus" method="POST" class="row g-3 align-items-end">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
 
                 <div class="col-md-4">
@@ -124,6 +124,9 @@
 
                 <div class="col-md-4">
                     <label class="form-label text-dark">Người giao hàng</label>
+                    <?php if ($is_locked || $is_delivered): ?>
+                        <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
+                    <?php endif; ?>
                     <select name="shipper_id" class="form-select text-dark" <?= ($is_locked || $is_delivered) ? 'disabled' : '' ?>>
                         <option value="">-- Chưa gán shipper --</option>
                         <?php if (!empty($shippers)): ?>
@@ -135,6 +138,9 @@
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
+                    <?php if (!empty($error)): ?>
+                        <span class="text-danger small"><?= $error ?></span>
+                    <?php endif; ?>
                 </div>
 
                 <div class="col-md-4">

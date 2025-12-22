@@ -1,4 +1,6 @@
 <?php
+include_once __DIR__ .'/../core/Validator.php';
+
 class OrderModel extends BaseModel
 {
     public const TB_NAME = "orders";
@@ -122,6 +124,17 @@ class OrderModel extends BaseModel
             return null;
         }
     }
+
+
+     public function validate($data)
+        {
+                $errors = [];
+                if ($err = Validator::is_isset($data->shipper_id, "Shipper không tồn tại"))
+                        $errors['shipper_id'] = $err;
+                elseif ($err = Validator::required($data->shipper_id, "Shipper không được để trống"))
+                        $errors['shipper_id'] = $err;
+                return $errors;
+        }
 
     public function getOrderId()
     {
