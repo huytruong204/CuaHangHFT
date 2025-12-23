@@ -16,33 +16,30 @@
 		<div class="item slides active">
 		  <div class="slide-1"></div>
 		  <div class="hero clearfix">
-		    <div class="col-sm-12">
-				<h2 class="mgt col_1">Welcome To</h2>
-                <h1 class="col">Feel Taste</h1>
-				<h4 class="big col_3">Venue of the best food </h4>
-				<h5><a class="button" href="#">VIEW MENU</a></h5>
+			<div class="col-sm-12">
+				<h1 class="col">Cảm nhận hương vị</h1>
+				<h4 class="big col_3">Nơi trải nghiệm ẩm thực tuyệt vời</h4>
+				<h5><a class="button" href="#">XEM THỰC ĐƠN</a></h5>
 			</div>
 		  </div>
 		</div>
 		<div class="item slides">
 		  <div class="slide-2"></div>
 		  <div class="hero clearfix">
-		    <div class="col-sm-12">
-				<h2 class="mgt col_1">Welcome To</h2>
-                <h1 class="col">Order Food</h1>
-				<h4 class="big col_3">Venue of the best food </h4>
-				<h5><a class="button" href="#">VIEW MENU</a></h5>
+			<div class="col-sm-12">			
+				<h1 class="col">Đặt món</h1>
+				<h4 class="big col_3">Nơi trải nghiệm ẩm thực tuyệt vời</h4>
+				<h5><a class="button" href="#">ĐẶT NGAY</a></h5>
 			</div>
 		  </div>
 		</div>
 		<div class="item slides">
 		  <div class="slide-3"></div>
 		  <div class="hero clearfix">
-		    <div class="col-sm-12">
-				<h2 class="mgt col_1">Welcome To</h2>
-                <h1 class="col">Book Online</h1>
-				<h4 class="big col_3">Venue of the best food </h4>
-				<h5><a class="button" href="#">VIEW MENU</a></h5>
+			<div class="col-sm-12">			
+				<h1 class="col">Đặt bàn trực tuyến</h1>
+				<h4 class="big col_3">Nơi trải nghiệm ẩm thực tuyệt vời</h4>
+				<h5><a class="button" href="#">ĐẶT BÀN</a></h5>
 			</div>
 		  </div>
 	  </div> 
@@ -68,467 +65,188 @@
   <div class="row">
     <div class="discount_t text-center clearfix">
 	  <div class="col-sm-12">
-	    <h2 class="mgt col">Check Our <span class="col_1">Menu</span></h2>
+	    <h2 class="mgt col">Món Ăn Nổi Bật</h2>
 	    <hr class="line">
 	  </div>
 	  </div>
-	<div class="dish_1 clearfix">
-	 <div class="col-sm-12">
+ 	 <div class="dish_1 clearfix">
+ 	 <div class="col-sm-12">
+ 	  <?php
+ 	    // Ensure $list_cat is available for other logic; prefer controller-provided variable
+ 	    if (!isset($list_cat) || empty($list_cat)) {
+ 	        include_once __DIR__ . '/../../Model/CategoryModel.php';
+ 	        $cm = new CategoryModel();
+ 	        $list_cat = $cm->getAllCategories();
+ 	    }
+ 	  ?>
+	  <?php
+	    // Determine Combo category id so we can mark it active on initial load when no cat_filter is present
+	    $comboCatId = null;
+	    if (!empty($list_cat)) {
+	        foreach ($list_cat as $c_check) {
+	            if (strtolower(trim($c_check->getCategory_name())) === 'combo') {
+	                $comboCatId = $c_check->getCategory_id();
+	                break;
+	            }
+	        }
+	    }
+	  ?>
 	  <ul class="nav_1">
-			  <li class="active"><a data-toggle="tab" href="#home"> Starters</a></li>
-			  <li class=""><a data-toggle="tab" href="#menu1"> Breakfast </a></li>
-			  <li class=""><a data-toggle="tab" href="#menu2">   Lunch </a></li>
-			  <li class=""><a data-toggle="tab" href="#menu3"> Dinner </a></li>
-			  <li class=""><a data-toggle="tab" href="#menu4"> Beverage </a></li>
-          </ul>
-	 </div>
-	</div>
-	<div class="tab-content clearfix">
-			  <div id="home" class="tab-pane fade  clearfix active in">
-				  <div class="click clearfix">
-			         <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">RECOMMENDED</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/13.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 52</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">LATEST</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/14.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 42</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">POPULAR</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/15.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 48</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-				  </div> 
-			  </div>
-			  <div id="menu1" class="tab-pane fade   clearfix ">
-				   <div class="click clearfix">
-			         <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">RECOMMENDED</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/16.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 52</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">LATEST</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/17.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 42</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">POPULAR</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/18.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 48</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-				  </div>
-			  </div>
-			  <div id="menu2" class="tab-pane fade  clearfix ">
-				 <div class="click clearfix">
-			         <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">RECOMMENDED</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/19.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 52</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">LATEST</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/20.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 42</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">POPULAR</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/21.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 48</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-				  </div>
-			  </div>
-			  <div id="menu3" class="tab-pane fade  clearfix ">
-				 <div class="click clearfix">
-			         <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">RECOMMENDED</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/22.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 52</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">LATEST</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/23.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 42</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">POPULAR</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/24.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 48</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-				  </div>
-			  </div>
-			  <div id="menu4" class="tab-pane fade  clearfix ">
-				 <div class="click clearfix">
-			         <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">RECOMMENDED</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/25.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 52</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">LATEST</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/26.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 42</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-					 <div class="col-sm-4">
-					  <div class="dish_2 clearfix">
-					  <div class="dish_2i1 clearfix">
-					   <h6 class="mgt col">POPULAR</h6>
-					  </div>
-					  <div class="dish_2i2 text-center clearfix">
-					   <img src="./assets/img/27.jpg" class="./assets/img/-circle" alt="abc">
-					  </div>
-					  <div class="dish_2i3 clearfix">
-					   <h4 class="mgt">$ 48</h4>
-					  </div>
-					  <div class="dish_2i4 text-center clearfix">
-					   <h4>Spicy Club</h4>
-					   <p>Pork, chicken and vegetable fried rolls served with lettuce wraps</p>
-					   <h5><a class="button block" href="#">ORDER NOW</a></h5>
-					  </div>
-					 </div>
-					 </div>
-				  </div>
-			  </div>
-			</div>
-  </div>
+	  <?php
+			foreach ($list_cat as $cat) {
+				$catIdRaw = $cat->getCategory_id();
+				// Active logic: prefer explicit GET filter; otherwise default to Combo category if present
+				if (isset($_GET['cat_filter'])) {
+					$active = ($_GET['cat_filter'] == $catIdRaw) ? 'active' : '';
+				} else {
+					$active = ($comboCatId !== null && $comboCatId == $catIdRaw) ? 'active' : '';
+				}
+				$catId = htmlspecialchars($catIdRaw);
+				$catName = htmlspecialchars($cat->getCategory_name());
+				echo "<li class='" . $active . "'><a href='index.php?page=Home&cat_filter=$catId' >$catName</a></li>";
+			}
+			?>
+	  </ul>
+ 	 </div>
+ 	</div>
+	<div class="row state-card">
+		<?php
+		// If controller didn't provide $list_foods, check for cat_filter and load foods
+		if ((empty($list_foods) || !isset($list_foods)) && !empty($_GET['cat_filter'])) {
+			include_once __DIR__ . '/../../Model/FoodModel.php';
+			$fm = new FoodModel();
+			$catFilter = $_GET['cat_filter'];
+			$list_foods = $fm->getAll(0, 100, ['foods.category_id' => $catFilter]);
+		}
+
+		// ensure $current_page exists to avoid undefined variable notices
+		$current_page = isset($current_page) ? $current_page : (isset($_GET['p']) ? intval($_GET['p']) : 1);
+
+		if (!empty($list_foods)) {
+            foreach ($list_foods as $food) {
+                $price_format = number_format($food->getPrice(), 0, ',', '.') . 'đ';
+                $img_src = 'assets/img/img_foods/' . $food->getImage_url();
+                $is_sold_out = false;
+                if ($food->getStatus() == 0) {
+                    $is_sold_out = true;
+                }
+                $card_class = $is_sold_out ? 'sold-out-mode' : '';
+                $badge_html = $is_sold_out ? "<span class='badge-sold-out'>Tạm ngừng bán</span>" : "";
+                if ($is_sold_out) {
+                    $action_btn = "
+                    <button type='button' class='btn-disabled' disabled title='Sản phẩm tạm ngưng bán'>
+                        <span class='glyphicon glyphicon-ban-circle'></span>
+                    </button>
+                ";
+                } else {
+                    $action_btn = "
+                        <form action='index.php?page=Cart&action=AddToCart' method='post'>
+                            <input type='hidden' name='page' value='Food'>
+                            <input type='hidden' name='food_id' value='{$food->getFood_id()}'>
+                            <input type='hidden' name='food_name' value='{$food->getFood_name()}'>
+                            <input type='hidden' name='quantity' value='1'>
+                            <input type='hidden' name='image_url' value='{$food->getImage_url()}'>
+                            <input type='hidden' name='price' value='{$food->getPrice()}'>
+                            <button type='submit' class='btn-add shadow-sm'>
+                                <span class='glyphicon glyphicon-plus'></span>
+                            </button>
+                        </form>
+                    ";
+                }
+                echo "
+                <div class='col-xs-12 col-sm-6 col-lg-4 food-col'>
+                    <div class='food-card $card_class' style='cursor: pointer;'>
+                        
+                        <div class='img-wrapper' onclick='window.location.href=\"index.php?page=Food&action=Detail&food_id={$food->getFood_id()}&p=$current_page\"' style='position: relative; background: #edededff; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;'>
+                            $badge_html  <img src='$img_src' style='width: 100%; height: 100%; object-fit: contain;'>
+                        </div>
+
+                        <div class='card-body'>
+                            <span class='text-muted' style='font-size: 12px; text-transform: uppercase; font-weight: 600; color: #999;'>
+                                {$food->getCategory_id()}
+                            </span>
+                            <h4 class='card-title fw-bold text-dark'>{$food->getFood_name()}</h4>
+                            <p class='card-desc'>
+                                {$food->getDescription()}
+                            </p>
+                            <div class='clearfix'>
+                                <span class='pull-left price-tag'>$price_format</span>
+                                <div class='pull-right'>
+                                    $action_btn
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ";
+            }
+        } else {
+            echo "
+                <div class='col-xs-12'>
+                    <div class=' text-center'>
+                        <div class='empty-icon-wrapper'>
+                            <span class='glyphicon glyphicon-search'></span>
+                        </div>
+                        
+                        <h3 class='empty-title'>Không tìm thấy kết quả</h3>
+                        <p class='empty-desc'>
+                            Rất tiếc, hiện tại chưa có món ăn nào trong danh mục này hoặc từ khóa tìm kiếm không khớp.
+                        </p>
+                    </div>
+                </div>
+            ";
+        }
+        ?>
+
+    </div>
  </div>
 </div>
 </section>
-
+<br>
 <section id="gallery" class="clearfix">
 <div class="discount_t text-center clearfix">
 	  <div class="col-sm-12">
-	    <h2 class="mgt">Our Food &  <span class="col_1">Gallery</span></h2>
+	    <h2 class="mgt">Combo Siêu Hot</h2>
 	    <hr class="line">
 	  </div>
 	  </div>
  <div class="gallery_1 clearfix">
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/31.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/31.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/32.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/32.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/33.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/33.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/34.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/34.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-   </div>
- <div class="gallery_1 clearfix">
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/35.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/35.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/36.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/36.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/37.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/37.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-	<article class="col-sm-3 space_all">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<a href="./assets/img/38.jpg" title="Online Food Portfolio" class="zoom" data-title="Online Food" data-footer="Online Food World" data-type="image" data-toggle="lightbox">
-				<img src="./assets/img/38.jpg" alt="Nature Portfolio">
-				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"></i></span>
-			</a>
-		</div>
-		
-	</div>
-	</article>
-   </div>
+    <?php
+    // Combo Siêu Hot: lấy ảnh các món thuộc danh mục 'Gà'
+    include_once __DIR__ . '/../../Model/FoodModel.php';
+    $fm = new FoodModel();
+    $db = $fm->getDb();
+	try {
+		$stmt = $db->prepare("SELECT f.* FROM foods f JOIN categories c ON f.category_id = c.category_id WHERE c.category_name = ? AND f.status = 1 ORDER BY f.created_at DESC LIMIT 8");
+		// load items from category named 'Combo'
+		$stmt->execute(['Combo']);
+		$comboFoods = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	} catch (Exception $e) {
+		$comboFoods = [];
+	}
+
+    if (!empty($comboFoods)) {
+        foreach ($comboFoods as $f) {
+            $imgPath = 'assets/img/img_foods/' . ($f['image_url'] ?? '');
+            if (empty($f['image_url']) || !file_exists(__DIR__ . '/../../' . $imgPath)) {
+                $imgPath = 'assets/img/13.jpg';
+            }
+            $foodId = htmlspecialchars($f['food_id']);
+            $foodName = htmlspecialchars($f['food_name']);
+            echo "<article class='col-sm-3 space_all'>";
+            echo "<div class='panel panel-default'><div class='panel-body'>";
+			// plain link to food detail (remove lightbox intercept)
+			echo "<a href='index.php?page=Food&action=Detail&food_id=$foodId' title='$foodName'>";
+            echo "<img src='$imgPath' alt='$foodName'>";
+            echo "<span class='overlay'><i class='glyphicon glyphicon-fullscreen'></i></span>";
+            echo "</a></div></div></article>";
+        }
+	} else {
+		echo "<div class='col-sm-12 text-center'>Không tìm thấy combo cho danh mục Combo.</div>";
+	}
+    ?>
+    </div>
 </section>
 
-<section id="testim">
- <div class="container">
-  <div class="row">
-   <div class="discount_t text-center clearfix">
-	  <div class="col-sm-12">
-	    <h2 class="mgt">Happy Clients &  <span class="col_1">Feedbacks</span></h2>
-	    <hr class="line">
-	  </div>
-	  </div>
-   <div class="testim_1 clearfix">
-    <div class="col-sm-4">
-	 <div class="testim_1i clearfix">
-	   <div class="testim_1i1 clearfix"><span><i class="fa fa-quote-left"></i></span></div>
-	   <div class="testim_1i2 clearfix">
-	     <p class="col_2">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		 <div class="testim_1i2i clearfix">
-		   <img src="./assets/img/28.jpg" class="./assets/img/-circle" alt="abc">
-		   <h4 class="col_1 mgt">Eget Nulla <br> <span class="small_tag col_2">Mraketing Manager</span></h4>
-		 </div>
-	   </div>
-	 </div>
-	</div>
-	<div class="col-sm-4">
-	 <div class="testim_1i clearfix">
-	   <div class="testim_1i1 clearfix"><span><i class="fa fa-quote-left"></i></span></div>
-	   <div class="testim_1i2 clearfix">
-	     <p class="col_2">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		 <div class="testim_1i2i clearfix">
-		   <img src="./assets/img/29.jpg" class="./assets/img/-circle" alt="abc">
-		   <h4 class="col_1 mgt">Semper Porta <br> <span class="small_tag col_2">Mraketing Manager</span></h4>
-		 </div>
-	   </div>
-	 </div>
-	</div>
-	<div class="col-sm-4">
-	 <div class="testim_1i clearfix">
-	   <div class="testim_1i1 clearfix"><span><i class="fa fa-quote-left"></i></span></div>
-	   <div class="testim_1i2 clearfix">
-	     <p class="col_2">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-		 <div class="testim_1i2i clearfix">
-		   <img src="./assets/img/30.jpg" class="./assets/img/-circle" alt="abc">
-		   <h4 class="col_1 mgt">Dapibus Diam <br> <span class="small_tag col_2">Mraketing Manager</span></h4>
-		 </div>
-	   </div>
-	 </div>
-	</div>
-   </div>
-  </div>
- </div>
-</section>
+<br>
  </div>

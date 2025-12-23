@@ -10,7 +10,7 @@ class FoodController
 
     public function Index()
     {
-        $rows_per_page = 1;
+        $rows_per_page = 6;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
 
         $where_clauses = [
@@ -42,7 +42,6 @@ class FoodController
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
         $price_format = number_format($food->getPrice(), 0, ',', '.') . ' đ';
-        
         include_once "View/Food/Detail.php";
     }
 }

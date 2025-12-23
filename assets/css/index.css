@@ -30,7 +30,8 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 /********************************/
 .hero {
   position: absolute;
-  width: 50%;
+  width: 80%;
+  max-width: 1200px;
   top: 59%;
   left: 50%;
   padding: 15px 15px 27px 15px;
@@ -90,13 +91,13 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
   background-repeat: no-repeat;
 }
 .fade-carousel .slides .slide-1 {
-  background-image: url(../img/1.jpg);
+  background-image: url(../img/banners/banner_1.jpg);
 }
 .fade-carousel .slides .slide-2 {
-  background-image: url(../img/2.jpg);
+  background-image: url(../img/banners/banner_2.jpg);
 }
 .fade-carousel .slides .slide-3 {
-  background-image: url(../img/3.jpg);
+  background-image: url(../img/banners/banner_3.jpg);
 }
 #center .carousel-indicators {
   bottom: 100px;
@@ -474,6 +475,24 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 
 /*********************gallery_end****************/
 
+/* Combo Siêu Hot gallery: force equal image sizes and allow taller images */
+#gallery .gallery_1 article .panel .panel-body {
+  height: 380px; /* parent container height so images can be taller */
+  overflow: hidden;
+}
+#gallery .gallery_1 article .panel .panel-body a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+#gallery .gallery_1 article .panel .panel-body img,
+#gallery .gallery_1 .panel .panel-body img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crop to fill while keeping aspect */
+  display: block;
+}
+
 /*********************team****************/
 #team {
   padding-top: 50px;
@@ -711,43 +730,43 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 }
 /* Tùy chỉnh thanh Menu */
 .navbar-nav > li > a {
-    color: white !important;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-    padding: 15px 15px;
-    transition: all 0.3s;
+  color: white !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 15px 15px;
+  transition: all 0.3s;
 }
 
 /* Hiệu ứng khi di chuột vào menu */
-.navbar-nav > li > a:hover, 
-.navbar-nav > li > a:focus, 
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus,
 .navbar-nav > li.open > a {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
 }
 
 /* Dropdown menu con */
 .dropdown-menu {
-    border: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    border-radius: 0 0 5px 5px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 5px 5px;
 }
 
 .dropdown-menu > li > a {
-    padding: 10px 20px;
-    color: #333;
-    font-weight: 500;
+  padding: 10px 20px;
+  color: #333;
+  font-weight: 500;
 }
 
 .dropdown-menu > li > a:hover {
-    background-color: #fff3e0;
-    color: #e65100;
+  background-color: #fff3e0;
+  color: #e65100;
 }
 
 /* Nút Admin & Giỏ hàng nổi bật */
 .nav-highlight {
-    background: rgba(0,0,0,0.1);
-    border-radius: 4px;
-    margin: 0 5px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin: 0 5px;
 }
