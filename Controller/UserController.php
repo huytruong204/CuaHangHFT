@@ -1,7 +1,8 @@
 <?php
 include_once __DIR__ . '/../Helper/Upload_file.php';
 
-class UserController{
+class UserController
+{
     private $userModel;
 
     public function __construct()
@@ -9,17 +10,20 @@ class UserController{
         $this->userModel = new UserModel();
     }
 
-    public function Index(){
-        if (!SessionManager::exists('user_id')){
+    public function Index()
+    {
+        if (!SessionManager::exists('user_id')) {
             header('Location: index.php?page=SignIn');
             exit;
         }
         $user = $this->userModel->getDetail(SessionManager::get('user_id'));
+        $msg = SessionManager::flash("success");
         return require_once "./View/User/Index.php";
     }
 
-    public function Edit(){
-        if (!SessionManager::exists('user_id')){
+    public function Edit()
+    {
+        if (!SessionManager::exists('user_id')) {
             header('Location: index.php?page=SignIn');
             exit;
         }
@@ -27,8 +31,9 @@ class UserController{
         return require_once "./View/User/Edit.php";
     }
 
-    public function Update(){
-        if (!SessionManager::exists('user_id')){
+    public function Update()
+    {
+        if (!SessionManager::exists('user_id')) {
             header('Location: index.php?page=SignIn');
             exit;
         }
@@ -36,7 +41,7 @@ class UserController{
         $user_id = SessionManager::get('user_id');
         $errors = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $full_name = trim($_POST['full_name'] ?? '');
             $phone_number = trim($_POST['phone_number'] ?? '');
             $address = trim($_POST['address'] ?? '');
@@ -52,7 +57,7 @@ class UserController{
                 'address' => $address,
                 'city' => $city
             ]);
-            
+
             $validationErrors = $tempUser->validate($tempUser);
             // Only keep validation errors for fields we care about in update
             $relevantFields = ['full_name', 'phone_number', 'address', 'city'];
@@ -70,25 +75,25 @@ class UserController{
             ];
 
             // handle password change if provided
-            if (!empty($password)){
+            if (!empty($password)) {
                 $updateData['password'] = password_hash($password, PASSWORD_DEFAULT);
             }
 
             // handle avatar upload
-            if (isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])){
+            if (isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])) {
                 $upload = Helper::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
-                if ($upload['status']){
+                if ($upload['status']) {
                     $updateData['avatar_url'] = $upload['file_name'];
                 } else {
                     $errors[] = 'Ảnh đại diện: ' . $upload['message'];
                 }
             }
 
-            if (empty($errors)){
+            if (empty($errors)) {
                 $ok = $this->userModel->Update($updateData, 'user_id', $user_id);
-                if ($ok){
+                if ($ok) {
                     // refresh session username if changed
-                    if (!empty($updateData['user_name'])){
+                    if (!empty($updateData['user_name'])) {
                         SessionManager::set('user_name', $updateData['user_name']);
                     }
                     SessionManager::flash('success', 'Cập nhật thông tin thành công!');
@@ -105,11 +110,10 @@ class UserController{
         return require_once "./View/User/Edit.php";
     }
 
-    public function Logout(){
+    public function Logout()
+    {
         SessionManager::destroy();
         header('Location: index.php?page=Home');
         exit;
     }
 }
-
-?>

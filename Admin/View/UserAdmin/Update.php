@@ -1,8 +1,9 @@
-<div class="container-fluid py-3">
-	<div class="d-flex align-items-center justify-content-between mb-3">
-		<h3 class="mb-0">Phân quyền người dùng</h3>
-		<a class="btn btn-secondary" href="index.php?page=UserAdmin">← Quay lại danh sách</a>
-	</div>
+<div class="container-fluid pt-4 px-4">
+	<div class="bg-secondary rounded h-100 p-4">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h6 class="mb-0 text-primary">Phân quyền người dùng</h6>
+			<a href="index.php?page=UserAdmin" class="btn btn-outline-primary btn-sm"><i class="fa fa-arrow-left me-2"></i>Quay lại</a>
+		</div>
 
 	<?php if (!empty($errors)): ?>
 		<div class="alert alert-danger">
@@ -15,11 +16,20 @@
 	<form method="post" action="index.php?page=UserAdmin&action=UpdatePost">
 		<input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id ?? ($user->getUser_id() ?? '')) ?>">
 
-		<div class="row g-4">
-			<!-- Cột trái: Thông tin người dùng -->
-			<div class="col-lg-6">
-				<div class="card h-100">
-					<div class="card-header bg-light">
+		<?php
+			$currentRoleId = !empty($current_role_ids) ? $current_role_ids[0] : null;
+			$currentRoleName = '';
+			if (!empty($list_roles)) {
+				foreach ($list_roles as $r) {
+					if ($r->getRole_id() == $currentRoleId) { $currentRoleName = $r->getRole_name(); break; }
+				}
+			}
+		?>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="card mb-4 h-100">
+					<div class="card-header bg-warning text-white">
 						<h5 class="mb-0"><i class="fa fa-user"></i> Thông tin người dùng</h5>
 					</div>
 					<div class="card-body">
@@ -55,45 +65,40 @@
 								<span class="badge <?= $is_active ? 'bg-success' : 'bg-secondary' ?> fs-6"><?= $is_active === 1 ? 'Hoạt động' : 'Khoá' ?></span>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
 
-			<!-- Cột phải: Phân quyền -->
-			<div class="col-lg-6">
-				<div class="card h-100">
-					<div class="card-header bg-primary text-white">
-						<h5 class="mb-0"><i class="fa fa-shield"></i> Phân quyền</h5>
-					</div>
-					<div class="card-body">
-						
-						<div class="d-flex flex-column gap-3">
-							<?php if (!empty($list_roles)): ?>
-								<?php 
-									$currentRoleId = !empty($current_role_ids) ? $current_role_ids[0] : null;
-								?>
-								<?php foreach ($list_roles as $role): ?>
-									<?php $rid = $role->getRole_id(); ?>
-									<div class="form-check p-3 border rounded" style="background-color: #f8f9fa;">
-										<input class="form-check-input" type="radio" name="role" value="<?= htmlspecialchars($rid) ?>" id="role<?= htmlspecialchars($rid) ?>" <?= ($rid == $currentRoleId) ? 'checked' : '' ?> style="width:20px;height:20px;" required>
-										<label class="form-check-label ms-2 fs-5" for="role<?= htmlspecialchars($rid) ?>">
-											<?= htmlspecialchars($role->getRole_name()) ?>
-										</label>
-									</div>
-								<?php endforeach; ?>
-							<?php else: ?>
-								<div class="alert alert-warning">Chưa có vai trò nào trong hệ thống.</div>
-							<?php endif; ?>
+						<!-- Phân quyền: chuyển thành select dưới dòng Trạng thái -->
+						<div class="mb-3">
+							<label class="form-label fw-bold text-secondary">Phân quyền</label>
+							<div class="form-floating">
+								<select class="form-select" id="roleSelect" name="role" required>
+									<?php if (!empty($list_roles)): ?>
+										<?php foreach ($list_roles as $role): $rid = $role->getRole_id(); ?>
+											<option value="<?= htmlspecialchars($rid) ?>" <?= ($rid == $currentRoleId) ? 'selected' : '' ?>><?= htmlspecialchars($role->getRole_name()) ?></option>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<option value="">-- Chưa có vai trò --</option>
+									<?php endif; ?>
+								</select>
+								<label for="roleSelect">Chọn vai trò</label>
+							</div>
+						</div>
+						<div class="card-footer bg-white">
+							<p class="text-muted">Vai trò hiện tại</p>
+						<?php if (!empty($currentRoleName)): ?>
+							<span class="badge bg-info text-dark fs-6"><?= htmlspecialchars($currentRoleName) ?></span>
+						<?php else: ?>
+							<span class="text-muted">Chưa có vai trò</span>
+						<?php endif; ?>
+						<br>
+						<div class="d-flex justify-content-end align-items-center gap-2">
+							<a class="btn btn-outline-primary btn-sm px-3" href="index.php?page=UserAdmin"><i class="fa fa-arrow-left me-1"></i>Quay lại</a>
+							<button class="btn btn-warning btn-sm px-3" type="submit"><i class="fa fa-save me-1"></i>Lưu</button>
 						</div>
 					</div>
-					<div class="card-footer bg-white">
-						<div class="d-flex justify-content-end gap-2">
-							<a class="btn btn-outline-secondary" href="index.php?page=UserAdmin"><i class="fa fa-times"></i> Huỷ</a>
-							<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Cập nhật vai trò</button>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
+    </div>
 </div>

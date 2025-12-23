@@ -30,6 +30,8 @@ class CartController
 
                 if ($page == 'Detail') {
                     header("Location: index.php?page=Food&action=Detail&food_id=$cart->food_id");
+                } elseif ($page == 'Home') {
+                    header("Location: index.php");
                 } else {
                     header("Location: index.php?page=Food");
                 }
@@ -37,7 +39,7 @@ class CartController
             } else {
                 echo "Thiếu dữ liệu gửi lên!";
             }
-        }else {
+        } else {
             header('Location: index.php?page=Cart');
         }
     }

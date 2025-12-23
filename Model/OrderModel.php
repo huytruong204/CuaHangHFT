@@ -181,6 +181,73 @@ class OrderModel extends BaseModel
         }
     }
 
+    /**
+     * Get aggregated revenue data between two datetimes grouped by granularity
+     * @param string $status
+     * @param string $start_datetime
+     * @param string $end_datetime
+     * @param string $granularity 'day'|'month'|'year'
+     * @return array
+     */
+    public function getRevenueData($status, $start_datetime, $end_datetime, $granularity = 'day')
+    {
+        try {
+            switch ($granularity) {
+                case 'month':
+                    $period_expr = "DATE_FORMAT(created_at, '%Y-%m')";
+                    break;
+                case 'year':
+                    $period_expr = "YEAR(created_at)";
+                    break;
+                case 'day':
+                default:
+                    $period_expr = "DATE(created_at)";
+                    break;
+            }
+
+            $sql = "SELECT $period_expr AS period, SUM(total_money) AS revenue
+                FROM " . self::TB_NAME . "
+                WHERE status = ? AND created_at BETWEEN ? AND ?
+                GROUP BY period
+                ORDER BY period ASC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$status, $start_datetime, $end_datetime]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Get top selling items between two datetimes
+     * @param string $status
+     * @param string $start_datetime
+     * @param string $end_datetime
+     * @param int $limit
+     * @return array
+     */
+    public function getTopItems($status, $start_datetime, $end_datetime, $limit = 20)
+    {
+        try {
+            $limit = (int)$limit;
+            $sql = "SELECT oi.food_id, f.food_name, SUM(oi.quantity) AS qty_sold, SUM(oi.quantity * oi.price_at_purchase) AS total_sales
+                FROM order_items oi
+                JOIN " . self::TB_NAME . " o ON oi.order_id = o.order_id
+                JOIN foods f ON oi.food_id = f.food_id
+                WHERE o.status = ? AND o.created_at BETWEEN ? AND ?
+                GROUP BY oi.food_id
+                ORDER BY qty_sold DESC
+                LIMIT $limit";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$status, $start_datetime, $end_datetime]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
 
     public function validate($data)
     {

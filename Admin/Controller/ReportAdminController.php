@@ -26,6 +26,11 @@ class ReportAdminController
         $start_date = $_GET['start_date'] ?? '';
         $end_date = $_GET['end_date'] ?? '';
 
+        // Detect whether the user explicitly provided both dates
+        $user_provided_start = isset($_GET['start_date']) && $_GET['start_date'] !== '';
+        $user_provided_end = isset($_GET['end_date']) && $_GET['end_date'] !== '';
+        $show_results = false;
+
         // Determine default range based on granularity
         $today = date('Y-m-d');
         if (empty($end_date)) $end_date = $today . ' 23:59:59';
@@ -56,48 +61,30 @@ class ReportAdminController
             $end_date = date('Y-m-d H:i:s');
         }
 
-        $db = $this->orderModel->getDb();
+        // If user-provided range has start > end, swap and inform via $msg_error
+        $msg_error = '';
+        if ($user_provided_start && $user_provided_end) {
+            if (strtotime($start_date) > strtotime($end_date)) {
+                // Swap
+                $tmp = $start_date;
+                $start_date = $end_date;
+                $end_date = $tmp;
+                $msg_error = 'Ngày bắt đầu không được lớn hơn ngày kết thúc. Đã hoán đổi tự động.';
+            }
+        }
 
         // Only consider delivered orders for revenue and top items
         $status_delivered = 'Đã giao hàng';
 
-        // Revenue aggregation SQL
-        switch ($granularity) {
-            case 'month':
-                $period_expr = "DATE_FORMAT(o.created_at, '%Y-%m')";
-                break;
-            case 'year':
-                $period_expr = "YEAR(o.created_at)";
-                break;
-            case 'day':
-            default:
-                $period_expr = "DATE(o.created_at)";
-                break;
+        // Only fetch results when user explicitly provided both start and end dates
+        if ($user_provided_start && $user_provided_end) {
+            $show_results = true;
+            $revenue_data = $this->orderModel->getRevenueData($status_delivered, $start_date, $end_date, $granularity);
+            $top_items = $this->orderModel->getTopItems($status_delivered, $start_date, $end_date, 20);
+        } else {
+            $revenue_data = [];
+            $top_items = [];
         }
-
-        $revenue_sql = "SELECT $period_expr AS period, SUM(o.total_money) AS revenue
-            FROM orders o
-            WHERE o.status = ? AND o.created_at BETWEEN ? AND ?
-            GROUP BY period
-            ORDER BY period ASC";
-
-        $stmt = $db->prepare($revenue_sql);
-        $stmt->execute([$status_delivered, $start_date, $end_date]);
-        $revenue_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Top selling items
-        $top_sql = "SELECT oi.food_id, f.food_name, SUM(oi.quantity) AS qty_sold, SUM(oi.quantity * oi.price_at_purchase) AS total_sales
-            FROM order_items oi
-            JOIN orders o ON oi.order_id = o.order_id
-            JOIN foods f ON oi.food_id = f.food_id
-            WHERE o.status = ? AND o.created_at BETWEEN ? AND ?
-            GROUP BY oi.food_id
-            ORDER BY qty_sold DESC
-            LIMIT 20";
-
-        $stmt2 = $db->prepare($top_sql);
-        $stmt2->execute([$status_delivered, $start_date, $end_date]);
-        $top_items = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
         // Pass data to view
         $granularity_options = ['day' => 'Ngày', 'month' => 'Tháng', 'year' => 'Năm'];
