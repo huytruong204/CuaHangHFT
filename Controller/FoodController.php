@@ -34,7 +34,7 @@ class FoodController
     }
     public function Detail()
     {
-        if (!isset($_GET['id'])) {
+        if (!isset($_GET['food_id'])) {
             header("Location: index.php?page=Food");
             exit();
         }
@@ -42,6 +42,7 @@ class FoodController
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
         $price_format = number_format($food->getPrice(), 0, ',', '.') . ' đ';
+        
         include_once "View/Food/Detail.php";
     }
 }
