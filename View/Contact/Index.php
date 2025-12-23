@@ -1,118 +1,97 @@
-<section id="center" class="center_about" style="margin-top: 80px;"> 
+<section class="breadcrumb-area">
   <div class="container">
-   <div class="row">
-    <div class="center_about_1 text-center clearfix">
-	 <div class="col-sm-12">
-	  <h1 class="mgt">Contact Us</h1>
-	  <h5 class="col_2"><a href="#">HOME</a> | CONTACT US</h5>
-	 </div>
-	</div>
-   </div>
+     <div class="row">
+        <div class="col-sm-12">
+           <a href="index.php">Trang chủ</a> <span>/</span> <strong>Liên hệ</strong>
+        </div>
+     </div>
   </div>
 </section>
 
 <section id="contact" class="clearfix">
- <div class="container">
-  <div class="row">
-    <div class="contact_1  clearfix">
-	 <div class="col-sm-8">
-	  <div class="contact_1lm clearfix">
-	  <div class="contact_1l clearfix">
-	   <h4 class="col_1 mgt">Get in touch</h4>
-	   <h3>Write Us A Message</h3>
-	  </div><br>
-	  <div class="checkout_1l1 clearfix">
-       <div class="col-sm-6 space_left">
-	    <h5>Your Name <span class="col_3">*</span></h5>
-		<input class="form-control" type="text">
-	   </div>
-	   <div class="col-sm-6 space_left">
-	    <h5>Your Subjects <span class="col_3">*</span></h5>
-		<input class="form-control" type="text">
-	   </div>
-	  </div>
-	  <div class="checkout_1l1 clearfix">
-       <div class="col-sm-6 space_left">
-	    <h5>Your Email<span class="col_3">*</span></h5>
-		<input class="form-control" type="text">
-	   </div>
-	   <div class="col-sm-6 space_left">
-	    <h5>Your Phone <span class="col_3">*</span></h5>
-		<input class="form-control" type="text">
-	   </div>
-	  </div>
-	  <div class="checkout_1l1 clearfix">
-	   <div class="col-sm-12 space_left">
-	    <h5>Your Message <span class="col_3">*</span></h5>
-		<textarea class="form-control form_1"></textarea>
-		<h6><a class="button" href="#">SEND MESSAGE</a></h6>
-	   </div>
-	  </div>
-	 </div>
-	 </div>
-	 <div class="col-sm-4">
-	  <div class="contact_1rm clearfix">
-	    <div class="contact_1r1 mgt clearfix">
-		 <span><i class="fa fa-phone"></i></span>
-		 <h4>Call us Now:</h4>
-		 <p>+123 456-789-0000</p>
-		 <p class="mgt">+123 456-789-0000</p>
-		</div>
-		<div class="contact_1r1 clearfix">
-		 <span><i class="fa fa-phone"></i></span>
-		 <h4>Email:</h4>
-		 <p><a href="#">info@gmail.com</a></p>
-		 <p class="mgt">info@gmail.com</p>
-		</div>
-		<div class="contact_1r1 clearfix">
-		 <span><i class="fa fa-phone"></i></span>
-		 <h4>Our Address:</h4>
-		 <p>LB-61/1, Travel Agency, 15 Grand</p>
-		 <p class="mgt">Central Terminal, London.</p>
-		</div>
-	  </div>
-	 </div>
-	</div>
-	<div class="contact_2 clearfix">
-	  <div class="col-sm-12">
-	   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.53925916665!2d-80.29949920266738!3d25.782390733064336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C+FL%2C+USA!5e0!3m2!1sen!2sin!4v1530774403788"   style="border:0; height:500px; width:100%;" allowfullscreen=""></iframe>
-	  </div>
-	 </div>
-  </div>
- </div>
-</section>
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-sm-8">
+        <div class="card-box">
+          <h3 class="card-title">Gửi tin nhắn cho chúng tôi</h3>
+          <div class="contact_form">
+            <div class="row">
+               <div class="col-sm-6 space_left">
+                  <h5>Họ và tên <span class="col_3" style="color:red">*</span></h5>
+                  <input class="form-control" type="text" placeholder="Nhập tên của bạn...">
+               </div>
+               <div class="col-sm-6 space_left">
+                  <h5>Chủ đề <span class="col_3" style="color:red">*</span></h5>
+                  <input class="form-control" type="text" placeholder="Vấn đề cần hỗ trợ...">
+               </div>
+            </div>
+            <br>
+            <div class="row">
+               <div class="col-sm-6 space_left">
+                  <h5>Email <span class="col_3" style="color:red">*</span></h5>
+                  <input class="form-control" type="email" placeholder="Nhập email...">
+               </div>
+               <div class="col-sm-6 space_left">
+                  <h5>Số điện thoại <span class="col_3" style="color:red">*</span></h5>
+                  <input class="form-control" type="text" placeholder="Nhập số điện thoại...">
+               </div>
+            </div>
+            <br>
+            <div class="row">
+               <div class="col-sm-12 space_left">
+                  <h5>Nội dung lời nhắn <span class="col_3" style="color:red">*</span></h5>
+                  <textarea class="form-control form_1" placeholder="Nhập nội dung..."></textarea>
+                  <br>
+                  <h6><a class="btn-orange" href="#">Gửi tin nhắn</a></h6>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<section id="contact_h" class="clearfix">
- <div class="container">
-  <div class="row">
-    <div class="contact_h1 clearfix">
-	 <div class="col-sm-4">
-	  <div class="contact_h1l text-center clearfix">
-	   <h3 class="mgt">Contatc Us</h3>
-	   <h4 class="col_1"><i class="fa fa-phone"></i> +123-456 7899</h4>
-	   <p>Tel: +1 123-456-789 <br>
-Email: info@gmail.com</p>
-       <h5><a class="button" href="#">BOOK A TABLE</a></h5>
-	  </div>
-	 </div>
-	 <div class="col-sm-4">
-	  <div class="contact_h1m text-center clearfix">
-	   <span class="span_1 col_1"><i class="fa fa-map"></i></span>
-	   <h3>Get Direction</h3>
-	   <p> 35 Bay Semper Drive Ironstock, HB <br>10234, United States</p>
-       <h5><a class="button" href="#">VIEW ON MAP</a></h5>
-	  </div>
-	 </div>
-	 <div class="col-sm-4">
-	  <div class="contact_h1r text-center clearfix">
-	   <h3 class="mgt">Opening Hours</h3>
-       <h5 class="text-left">Monday <span class="pull-right span_2">08.00 - 20.00</span></h5>
-	   <h5 class="text-left">Tuesday <span class="pull-right span_2">10.00 - 21.00</span></h5>
-	   <h5 class="text-left">Saturday <span class="pull-right span_2">09.00 - 19.00</span></h5>
-	   <h5 class="text-left">Sunday <span class="pull-right span_2">08.00 - 15.00</span></h5>
-	  </div>
-	 </div>
-	</div>
+      <div class="col-sm-4">
+        <div class="card-box">
+           <h3 class="card-title">Thông tin liên hệ</h3>
+           
+           <div class="info-item">
+              <div class="info-icon"><i class="fa fa-phone"></i></div>
+              <div class="info-content">
+                 <h5>Điện thoại:</h5>
+                 <p>0123 456 789</p>
+                 <p>0987 654 321</p>
+              </div>
+           </div>
+
+           <div class="info-item">
+              <div class="info-icon"><i class="fa fa-envelope"></i></div>
+              <div class="info-content">
+                 <h5>Email:</h5>
+                 <p>cskh@hftfood.com</p>
+                 <p>lienhe@gmail.com</p>
+              </div>
+           </div>
+
+           <div class="info-item">
+              <div class="info-icon"><i class="fa fa-map-marker"></i></div>
+              <div class="info-content">
+                 <h5>Địa chỉ:</h5>
+                 <p>123 Đường ABC, Quận XYZ</p>
+                 <p>Thành phố Hồ Chí Minh</p>
+              </div>
+           </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+       <div class="col-sm-12">
+          <div class="card-box" style="padding: 10px;">
+             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.494572234!2d106.6!3d10.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ2JzEwLjgiTiAxMDbCsDQwJzU0LjEiRQ!5e0!3m2!1svi!2s!4v1" 
+             width="100%" height="400" style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+       </div>
+    </div>
   </div>
- </div> 
 </section>

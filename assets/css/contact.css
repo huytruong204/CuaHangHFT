@@ -1,72 +1,98 @@
-/*
-Template Name: Online Food
-File: Layout CSS
-Author: TemplatesOnWeb
-Author URI: https://www.templateonweb.com/
-Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
-*/
-/*********************contact****************/
-#contact{
-padding-top:40px;
-padding-bottom:40px; 
- }
-.checkout_1l1 .form-control {
-    border-color:#bc906b38;
-	box-shadow:none;
-    height: 50px;
-    margin-top: 15px;
-    border-radius: 0;
+
+/* Style cho phần Breadcrumb (Trang chủ / Liên hệ) */
+.breadcrumb-area {
+    padding: 20px 0;
     font-size: 16px;
+    color: #333;
 }
-.checkout_1l1 .form_1 {
-height:180px;
+.breadcrumb-area a {
+    color: #333;
+    text-decoration: none;
 }
-.contact_1lm{
-box-shadow: 0 0 10px #bc906b;
-padding:40px 20px; 
- }
-.contact_1r1 span{
-display:inline-block;
-background:#bc906b;
-color:#fff;
-width:45px;
-height:45px;
-line-height:45px;
-border-radius:3px;
-text-align:center;
-font-size:18px; 
- }
-.contact_1rm{
-box-shadow: 0 0 10px #bc906b;
-padding:40px 20px; 
- }
-.contact_1r1{
-margin-top:30px; 
- }
-.contact_2{
-margin-top:30px; 
- }
-/*********************contact_end****************/
-
-@media screen and (max-width : 767px){
-#contact{
-text-align:center; 
- }
-.contact_1rm {
-margin-top:15px; 
- }
+.breadcrumb-area span {
+    color: #888;
+    margin: 0 5px;
+}
+.breadcrumb-area strong {
+    color: #333;
+    font-weight: bold;
 }
 
-@media (min-width:768px) and (max-width:991px) {
+/* Tạo khối hộp màu trắng, bo tròn, đổ bóng (Giống khung danh mục món ăn) */
+.card-box {
+    background: #fff; 
+    padding: 30px;
+    border-radius: 15px; /* Bo góc tròn */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+    margin-bottom: 30px;
+}
 
- }
-@media (min-width:992px) and (max-width:1200px) {
+/* Tiêu đề trong card */
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
 
- }
-@media (min-width:1201px) and (max-width:1292px) {
+/* Form input đẹp hơn */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #eee;
+    background-color: #fdfdfd;
+    height: 45px;
+    box-shadow: none;
+}
+.form-control:focus {
+    border-color: #f26522; /* Màu cam chủ đạo */
+    box-shadow: none;
+}
+textarea.form-control {
+    height: 120px;
+}
 
- }
+/* Nút bấm màu cam */
+.btn-orange {
+    background-color: #f26522;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 30px; /* Bo tròn nút */
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+    text-transform: uppercase;
+    display: inline-block;
+}
+.btn-orange:hover {
+    background-color: #d9531e;
+    color: #fff;
+    text-decoration: none;
+}
 
-
-
-
+/* Style cho phần thông tin bên phải */
+.info-item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: start;
+}
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: #fff5f0; /* Màu cam rất nhạt */
+    color: #f26522;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 18px;
+}
+.info-content h5 {
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.info-content p {
+    color: #666;
+    margin-bottom: 0;
+}
