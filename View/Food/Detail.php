@@ -30,7 +30,7 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
 
         <div class="col-md-6 col-sm-12">
             <div class="detail-img-wrapper<?= $sold_class ?>">
-                
+
                 <?php if ($is_sold_out): ?>
                     <span class="sold-badge">TẠM HẾT</span>
                 <?php endif; ?>
@@ -51,7 +51,7 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
             <p class="description"><?= $food->getDescription() ?></p>
 
             <?php if ($is_sold_out): ?>
-                
+
                 <div class="alert detail-alert">
                     <i class="glyphicon glyphicon-info-sign"></i> Sản phẩm này hiện đang tạm ngưng kinh doanh.
                 </div>
@@ -69,25 +69,35 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
                     <input type='hidden' name='food_name' value='<?= $food->getFood_name() ?>'>
                     <input type='hidden' name='image_url' value='<?= $food->getImage_url() ?>'>
                     <input type='hidden' name='price' value='<?= $food->getPrice() ?>'>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label qty-label">Số lượng:</label>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" onclick="updateQty(-1)">-</button>
-                                </span>
-                                <input type="text" name="quantity" id="quantity" class="form-control text-center" value="1" min="1" max="10">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" onclick="updateQty(1)">+</button>
-                                </span>
-                            </div>
-                        </div>
+
+                    <div class="input-group" style="width: 120px;">
+
+                        <span class="input-group-btn" style="width: 35px;">
+                            <button type="button" class="btn btn-default btn-number" onclick="updateQty(-1)">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </span>
+
+                        <input type="text"
+                            name="quantity"
+                            id="quantity"
+                            class="form-control text-center"
+                            value="1"
+                            min="1"
+                            max="10"
+                            style="width: 50px !important; min-width: 50px; height: 34px; padding: 0;">
+
+                        <span class="input-group-btn" style="width: 35px;">
+                            <button type="button" class="btn btn-default btn-number" onclick="updateQty(1)">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+
                     </div>
 
                     <div class="form-group form-group margin-top-lg">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary btn-lg shadow-sm btn-add-to-cart" >
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm btn-add-to-cart">
                                 <i class="glyphicon glyphicon-shopping-cart"></i> Thêm vào giỏ
                             </button>
                         </div>
@@ -128,9 +138,9 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
             <?php else: ?>
                 <?php foreach ($reviews as $r): ?>
                     <?php
-                        $userName = htmlspecialchars($r['full_name'] ?? 'Người dùng');
-                        $avatarSrc = UserHelper::avatar($r['avatar_url'] ?? '');
-                        $created = !empty($r['created_at']) ? htmlspecialchars(date('d/m/Y', strtotime($r['created_at']))) : '';
+                    $userName = htmlspecialchars($r['full_name'] ?? 'Người dùng');
+                    $avatarSrc = UserHelper::avatar($r['avatar_url'] ?? '');
+                    $created = !empty($r['created_at']) ? htmlspecialchars(date('d/m/Y', strtotime($r['created_at']))) : '';
                     ?>
                     <div class="media review-item">
                         <div class="media-left review-avatar">
@@ -139,7 +149,8 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
                         <div class="media-body">
                             <h4 class="media-heading fw-bold"><?= $userName ?> <small class="text-muted"><?= $created ? ('- ' . $created) : '' ?></small></h4>
                             <div class="review-stars">
-                                <?php $stars = (int)($r['rating'] ?? 0); for ($s=1;$s<=5;$s++): ?>
+                                <?php $stars = (int)($r['rating'] ?? 0);
+                                for ($s = 1; $s <= 5; $s++): ?>
                                     <?php if ($s <= $stars): ?>
                                         <i class="glyphicon glyphicon-star"></i>
                                     <?php else: ?>
@@ -165,9 +176,14 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
             qtyInput.value = newQty;
         }
     }
+
     function closePopup() {
         var popup = document.getElementById("cart-notification");
-        if (popup) { popup.style.display = "none"; }
+        if (popup) {
+            popup.style.display = "none";
+        }
     }
-    setTimeout(function() { closePopup(); }, 3000);
+    setTimeout(function() {
+        closePopup();
+    }, 3000);
 </script>

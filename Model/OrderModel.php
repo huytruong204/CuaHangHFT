@@ -41,10 +41,24 @@ class OrderModel extends BaseModel
             $sql_clauses_arr = [];
             $values = [];
 
-            if (!empty($where_clauses)) {
-                foreach ($where_clauses as $column => $value) {
-                    $sql_clauses_arr[] = "$column = ?";
-                    $values[] = $value;
+           if (!empty($where_clauses)) {
+                foreach ($where_clauses as $key => $value) {
+                    if ($key === 'search_id') {
+                        $sql_clauses_arr[] = "orders.order_id LIKE ?";
+                        $values[] = "%$value%";
+                    } 
+                    elseif ($key === 'date_from') {
+                        $sql_clauses_arr[] = "DATE(orders.created_at) >= ?";
+                        $values[] = $value;
+                    } 
+                    elseif ($key === 'date_to') {
+                        $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
+                        $values[] = $value;
+                    } 
+                    else {
+                        $sql_clauses_arr[] = "$key = ?";
+                        $values[] = $value;
+                    }
                 }
                 $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
             }
@@ -113,12 +127,21 @@ class OrderModel extends BaseModel
             $values = [];
 
             if (!empty($where_clauses)) {
-                foreach ($where_clauses as $column => $value) {
-                    if ($column == 'orders.note') {
-                        $sql_clauses_arr[] = "$column LIKE ?";
+                foreach ($where_clauses as $key => $value) {
+                    if ($key === 'search_id') {
+                        $sql_clauses_arr[] = "orders.order_id LIKE ?";
                         $values[] = "%$value%";
-                    } else {
-                        $sql_clauses_arr[] = "$column = ?";
+                    } 
+                    elseif ($key === 'date_from') {
+                        $sql_clauses_arr[] = "DATE(orders.created_at) >= ?";
+                        $values[] = $value;
+                    } 
+                    elseif ($key === 'date_to') {
+                        $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
+                        $values[] = $value;
+                    }
+                    else {
+                        $sql_clauses_arr[] = "$key = ?";
                         $values[] = $value;
                     }
                 }

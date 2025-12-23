@@ -24,10 +24,17 @@ class OrderController
         $rows_per_page = 4;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $status_map =self::STATUS_MAP;
+
         $stt = isset($_GET['status']) ? $_GET['status'] : '';
+        $search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : '';
+        $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+        $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
         $where_clauses = [
             'orders.user_id' => SessionManager::get('user_id'),
-            'orders.status'  => $status_map[$stt] ?? ''
+            'orders.status'  => $status_map[$stt] ?? '',
+            'search_id' => $search_id,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
         ];
 
         $where_clauses = array_filter($where_clauses);

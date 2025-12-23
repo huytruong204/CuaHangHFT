@@ -1,4 +1,4 @@
-<div class="container" style="padding-top: 30px; margin-top: 70px; margin-bottom: 50px;">
+<div class="container" style="padding-top: 30px;  margin-bottom: 50px;">
 
     <div class="row">
         <div class="col-md-12">
@@ -67,12 +67,12 @@
                                                     </button>
                                                 </span>
                                                 <input type="hidden" name="food_id" value="<?= $id ?>">
-                                                <input type="text"
-                                                    name="quantity"
-                                                    value="<?= $item->quantity ?>"
-                                                    class="form-control text-center"
-                                                    min="1"
-                                                    max="99"
+                                                <input type="text" 
+                                                    name="quantity" 
+                                                    value="<?= $item->quantity ?>" 
+                                                    class="form-control text-center" 
+                                                    style="width: 45px; min-width: 45px; height: 34px; padding: 0;" 
+                                                    min="1" max="99"
                                                     onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" onclick="updateQty(this, 1)">
@@ -128,13 +128,8 @@
                     </div>
 
                     <a href="index.php?page=Cart&action=Checkout" class="btn btn-block btn-lg" style="background-color: #e65100; color: white; font-weight: bold; border-radius: 5px;">
-                        TIẾN HÀNH THANH TOÁN
+                        THANH TOÁN
                     </a>
-                </div>
-
-                <div style="margin-top: 20px; background: #fffbe6; padding: 15px; border-radius: 5px; border: 1px dashed #e65100; color: #e65100; font-size: 13px;">
-                    <i class="glyphicon glyphicon-gift"></i>
-                    <strong>Ưu đãi:</strong> Miễn phí vận chuyển cho đơn hàng trên 200.000đ.
                 </div>
             </div>
         </div>

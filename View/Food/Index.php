@@ -1,4 +1,4 @@
-<div class="container " style="padding-top: 30px; margin-top: 70px;">
+<div class="container " style="padding-top: 30px; ">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background: none; padding-left: 0;">
             <li><a href="index.php">Trang chủ</a></li>

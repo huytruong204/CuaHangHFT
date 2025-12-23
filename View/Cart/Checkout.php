@@ -1,4 +1,4 @@
-<div class="container" style="padding-top: 30px; margin-top: 70px; margin-bottom: 50px;">
+<div class="container" style="padding-top: 20px;  margin-bottom: 50px;">
 
     <?php if (!empty($msg)): ?>
         <div id="cart-notification" class="success-popup">
@@ -20,8 +20,8 @@
         <form action="index.php?page=Cart&action=CheckoutPost" method="POST">
             <div class="row">
                 <div class="col-md-7 col-sm-12">
-                    <div class="panel panel-default" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 20px">
-                        <div class="panel-heading" style="background-color: #e65100; color: white; font-weight: bold;">
+                    <div class="panel panel-default" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 15px">
+                        <div class="panel-heading" style="background-color: #e65100; color: white; font-weight: bold; margin-bottom: 10px;">
                             <i class="glyphicon glyphicon-user"></i> Thông tin giao hàng
                         </div>
                         <div class="panel-body">
@@ -37,35 +37,12 @@
 
                             <div class="form-group">
                                 <label>Địa chỉ giao hàng </label>
-                                <textarea name="address" class="form-control" rows="2" readonly><?= $user->getAddress(). ", " .$user->getCity()  ?></textarea>
+                                <textarea name="address" class="form-control" rows="2" readonly><?= $user->getAddress() . ", " . $user->getCity()  ?></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>Ghi chú cho đơn hàng</label>
                                 <textarea name="note" class="form-control" rows="2"><?= isset($_POST['note']) ? $_POST['note'] : '' ?></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 20px; padding: 20px">
-                        <div class="panel-heading" style="background-color: #f8f9fa; color: #333; font-weight: bold;">
-                            <i class="glyphicon glyphicon-credit-card"></i> Phương thức thanh toán
-                        </div>
-                        <div class="panel-body">
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="payment_method" value="cod" checked>
-                                    <strong>Thanh toán khi nhận hàng (COD)</strong>
-                                    <p class="text-muted small">Bạn sẽ thanh toán tiền mặt cho shipper khi nhận được món ăn.</p>
-                                </label>
-                            </div>
-                            <hr style="margin: 10px 0;">
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="payment_method" value="banking">
-                                    <strong>Chuyển khoản ngân hàng</strong>
-                                    <p class="text-muted small">Quét mã QR hoặc chuyển khoản qua STK ngân hàng.</p>
-                                </label>
                             </div>
                         </div>
                     </div>
@@ -110,7 +87,30 @@
                                 <div class="col-xs-6 text-right"><?= number_format($total_amount, 0, ',', '.') ?>đ</div>
                             </div>
                         </div>
-                        <div class="panel-footer" style="background: white; padding: 20px;">
+                        <div class="panel panel-default" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 20px; padding: 20px">
+                            <div class="panel-heading" style="background-color: #f8f9fa; color: #333; font-weight: bold;">
+                                <i class="glyphicon glyphicon-credit-card"></i> Phương thức thanh toán
+                            </div>
+                            <div class="panel-body">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="payment_method" value="cod" checked>
+                                        <strong>Thanh toán khi nhận hàng (COD)</strong>
+                                        <p class="text-muted small">Bạn sẽ thanh toán tiền mặt cho shipper khi nhận được món ăn.</p>
+                                    </label>
+                                </div>
+                                <hr style="margin: 10px 0;">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="payment_method" value="banking">
+                                        <strong>Chuyển khoản ngân hàng</strong>
+                                        <p class="text-muted small">Quét mã QR hoặc chuyển khoản qua STK ngân hàng.</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-footer" style="background: white; padding: 10px;">
                             <button type="submit" class="btn btn-block btn-lg" style="background-color: #e65100; color: white; border: none; text-transform: uppercase; font-weight: bold;">
                                 Đặt hàng ngay
                             </button>
