@@ -287,56 +287,83 @@ h6 {
 /*********************menu_end****************/
 
 /*********************footer****************/
+/* --- STYLE CHO FOOTER --- */
+
 #footer {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background: #000;
+    background-color: #222; /* Nền màu xám đen chuyên nghiệp */
+    padding: 40px 0;
+    color: #ccc; /* Màu chữ xám nhạt cho dễ đọc */
+    border-top: 3px solid #f26522; /* Viền cam trên cùng tạo điểm nhấn */
 }
+
+/* Logo HFT trong footer */
 #footer .navbar-brand {
-  font-size: 36px;
-  height: auto;
-  padding: 0;
-  margin: 0;
-  font-weight: bold;
-  padding-right: 0;
-  color: #fff;
+    color: #fff !important;
+    font-size: 24px;
+    font-weight: bold;
+    height: auto;
+    padding: 0;
 }
-#footer .navbar-brand span {
-  display: block;
-  text-align: center;
-  font-weight: 100;
+
+/* Icon cái thìa/dĩa màu cam */
+#footer .col_1 {
+    color: #f26522;
 }
-#footer .navbar-brand i {
-  margin-right: 5px;
-  font-size: 30px;
+
+/* Slogan nhỏ dưới logo */
+#footer .small_tag {
+    font-size: 13px;
+    color: #999;
+    letter-spacing: 1px;
 }
-.footer_1r .form-control {
-  height: 48px;
-  font-size: 16px;
-  border: none;
-  background: #333;
-  box-shadow: none;
-  border-radius: 0;
-  color: #ddd;
+
+/* Đoạn văn giới thiệu */
+#footer .footer_1m p {
+    color: #bbb;
+    line-height: 1.6;
+    font-size: 14px;
 }
-.footer_1r .input-group .btn {
-  background: #bc906b;
-  margin-left: 0 !important;
-  padding: 11.5px 20px;
-  font-size: 18px;
-  border-radius: 0;
-  border: none;
+
+/* Input nhập email */
+#footer .form_2 {
+    background-color: #333;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 0; /* Vuông vức hoặc bo tròn tùy bạn */
 }
-.footer_1r .input-group .btn:hover {
-  background: #111;
+#footer .form_2:focus {
+    border-color: #f26522;
+    box-shadow: none;
 }
-.footer_2r ul li a {
-  background-color: #333;
+
+/* Nút gửi tin nhắn màu cam */
+.btn-orange-footer {
+    background-color: #f26522;
+    border-color: #f26522;
+    color: #fff;
+    border-radius: 0;
 }
+.btn-orange-footer:hover {
+    background-color: #d9531e;
+    border-color: #d9531e;
+}
+
+/* Dòng bản quyền dưới cùng */
 .footer_2 {
-  border-top: 1px solid #212020;
-  margin-top: 20px;
-  padding-top: 20px;
+    border-top: 1px solid #444; /* Đường kẻ ngang mờ */
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+/* Icon mạng xã hội */
+.social-circle li a {
+    background: #333;
+    color: #ccc;
+    transition: .3s;
+}
+.social-circle li a:hover {
+    background: #f26522; /* Hover vào đổi màu cam */
+    color: #fff;
 }
 /*********************footer_end****************/
 
