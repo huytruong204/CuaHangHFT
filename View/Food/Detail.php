@@ -102,22 +102,6 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
         <div class="col-xs-12">
             <h3 class="reviews-heading">Đánh giá khách hàng</h3>
 
-            <?php
-            include_once __DIR__ . '/../../Model/ReviewModel.php';
-            include_once __DIR__ . '/../../Helper/UserHelper.php';
-            $reviewModel = new ReviewModel();
-            $foodId = is_object($food) ? $food->getFood_id() : ($food['food_id'] ?? null);
-            $reviews = $reviews ?? [];
-            $ratingInfo = $ratingInfo ?? ['avg' => 0.0, 'count' => 0];
-            // Controller should populate $reviews and $ratingInfo; fall back to model when not set.
-            if (empty($reviews) && !empty($foodId)) {
-                $reviews = $reviewModel->getReviewsByFood($foodId);
-            }
-            if ((empty($ratingInfo) || !isset($ratingInfo['avg'])) && !empty($foodId)) {
-                $ratingInfo = $reviewModel->getAvgRatingByFood($foodId);
-            }
-            ?>
-
             <div class="rating-summary">
                 <div class="rating-stars">
                     <?php

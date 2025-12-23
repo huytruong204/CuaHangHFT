@@ -42,6 +42,13 @@ class FoodController
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
         $price_format = number_format($food->getPrice(), 0, ',', '.') . ' đ';
+        $reviewModel = new ReviewModel();
+        $reviews = [];
+        $ratingInfo = ['avg' => 0.0, 'count' => 0];
+        if (!empty($food_id)) {
+            $reviews = $reviewModel->getReviewsByFood($food_id);
+            $ratingInfo = $reviewModel->getAvgRatingByFood($food_id);
+        }
         include_once "View/Food/Detail.php";
     }
 }
