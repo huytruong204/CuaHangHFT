@@ -83,7 +83,7 @@
                         </tbody>
                         <tfoot>
                             <tr class="tr-bg-contrast">
-                                <td colspan="3" class="text-right border-top-2">
+                                <td colspan="4" class="text-right border-top-2">
                                     <h4 class="m-0">TỔNG CỘNG:</h4>
                                 </td>
                                 <td class="text-right border-top-2">
