@@ -1,14 +1,14 @@
 <?php
 
 $is_sold_out = (method_exists($food, 'getStatus') && $food->getStatus() == 0);
-
-$img_style = $is_sold_out ? "filter: grayscale(100%); opacity: 0.6;" : "";
+$sold_class = $is_sold_out ? ' sold-out' : '';
 ?>
+<link rel="stylesheet" href="assets/css/detail.css">
 
-<div class="container" style="padding-top: 30px; margin-top: 70px;">
+<div class="container detail-page-container">
 
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="background: none; padding-left: 0;">
+        <ol class="breadcrumb detail-breadcrumb">
             <li><a href="index.php">Trang chủ</a></li>
             <li><a href="index.php?page=Food">Thực đơn</a></li>
             <li class="active"><?= $food->getFood_name() ?></li>
@@ -26,47 +26,37 @@ $img_style = $is_sold_out ? "filter: grayscale(100%); opacity: 0.6;" : "";
         </div>
     <?php endif; ?>
 
-    <div class="row" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+    <div class="row detail-card">
 
         <div class="col-md-6 col-sm-12">
-            <div class="detail-img-wrapper" style="width: 100%; height: 400px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; border: 1px solid #eee; position: relative;">
+            <div class="detail-img-wrapper<?= $sold_class ?>">
                 
                 <?php if ($is_sold_out): ?>
-                    <span style="position: absolute; top: 20px; right: 20px; background: #999; color: white; padding: 10px 20px; font-weight: bold; border-radius: 5px; font-size: 16px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                        TẠM HẾT
-                    </span>
+                    <span class="sold-badge">TẠM HẾT</span>
                 <?php endif; ?>
 
-                <img src="assets/img/img_foods/<?= $food->getImage_url() ?>" alt="<?= $food->getFood_name() ?>" style="max-width: 100%; max-height: 100%; object-fit: contain; <?= $img_style ?>">
+                <img class="food-image" src="assets/img/img_foods/<?= $food->getImage_url() ?>" alt="<?= $food->getFood_name() ?>">
             </div>
         </div>
 
         <div class="col-md-6 col-sm-12">
-            <h2 class="fw-bold text-dark" style="margin-top: 0; font-weight: 700;"><?= $food->getFood_name() ?></h2>
+            <h2 class="fw-bold text-dark food-title"><?= $food->getFood_name() ?></h2>
 
-            <div style="margin-bottom: 15px;">
-                <span class="label label-warning" style="font-size: 100%;">Danh mục: <?= $food->getCategory_id()  ?></span>
-                <span class="text-warning" style="margin-left: 10px;">
-                    <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i>
-                    (5 đánh giá)
-                </span>
+            <div class="food-meta">
+                <span class="label label-warning">Danh mục: <?= $food->getCategory_id()  ?></span>
             </div>
 
-            <h3 class="text-danger" style="font-size: 28px; font-weight: bold; margin: 20px 0;">
-                <?= $price_format ?>
-            </h3>
+            <h3 class="text-danger price"><?= $price_format ?></h3>
 
-            <p class="description" style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 30px;">
-                <?= $food->getDescription() ?>
-            </p>
+            <p class="description"><?= $food->getDescription() ?></p>
 
             <?php if ($is_sold_out): ?>
                 
-                <div class="alert alert-warning" style="background-color: #fcf8e3; color: #8a6d3b; border-color: #faebcc;">
+                <div class="alert detail-alert">
                     <i class="glyphicon glyphicon-info-sign"></i> Sản phẩm này hiện đang tạm ngưng kinh doanh.
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
-                    <button type="button" class="btn btn-default btn-lg" disabled style="width: 100%; background: #e0e0e0; color: #999; border: none; font-weight: bold;">
+                    <button type="button" class="btn btn-default btn-lg btn-fullwidth" disabled>
                         <i class="glyphicon glyphicon-ban-circle"></i> TẠM NGƯNG BÁN
                     </button>
                 </div>
@@ -81,7 +71,7 @@ $img_style = $is_sold_out ? "filter: grayscale(100%); opacity: 0.6;" : "";
                     <input type='hidden' name='price' value='<?= $food->getPrice() ?>'>
                     
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" style="text-align: left;">Số lượng:</label>
+                        <label class="col-sm-3 control-label qty-label">Số lượng:</label>
                         <div class="col-sm-4">
                             <div class="input-group">
                                 <span class="input-group-btn">
@@ -95,9 +85,9 @@ $img_style = $is_sold_out ? "filter: grayscale(100%); opacity: 0.6;" : "";
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-top: 40px;">
+                    <div class="form-group form-group margin-top-lg">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary btn-lg shadow-sm" style="padding: 10px 40px; border-radius: 5px;">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm btn-add-to-cart" >
                                 <i class="glyphicon glyphicon-shopping-cart"></i> Thêm vào giỏ
                             </button>
                         </div>
@@ -108,35 +98,76 @@ $img_style = $is_sold_out ? "filter: grayscale(100%); opacity: 0.6;" : "";
         </div>
     </div>
 
-    <div class="row" style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-top: 30px; margin-bottom: 30px">
+    <div class="row reviews-card">
         <div class="col-xs-12">
-            <h3 style="border-bottom: 2px solid #e65100; display: inline-block; padding-bottom: 10px; margin-bottom: 30px; font-weight: bold;">
-                Đánh giá khách hàng
-            </h3>
-            <div class="media" style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
-                <div class="media-left">
-                    <img class="media-object img-circle" src="https://via.placeholder.com/64" alt="Avatar" style="width: 50px;">
+            <h3 class="reviews-heading">Đánh giá khách hàng</h3>
+
+            <?php
+            include_once __DIR__ . '/../../Model/ReviewModel.php';
+            include_once __DIR__ . '/../../Helper/UserHelper.php';
+            $reviewModel = new ReviewModel();
+            $foodId = is_object($food) ? $food->getFood_id() : ($food['food_id'] ?? null);
+            $reviews = $reviews ?? [];
+            $ratingInfo = $ratingInfo ?? ['avg' => 0.0, 'count' => 0];
+            // Controller should populate $reviews and $ratingInfo; fall back to model when not set.
+            if (empty($reviews) && !empty($foodId)) {
+                $reviews = $reviewModel->getReviewsByFood($foodId);
+            }
+            if ((empty($ratingInfo) || !isset($ratingInfo['avg'])) && !empty($foodId)) {
+                $ratingInfo = $reviewModel->getAvgRatingByFood($foodId);
+            }
+            ?>
+
+            <div class="rating-summary">
+                <div class="rating-stars">
+                    <?php
+                    $avg = round($ratingInfo['avg'] ?? 0, 1);
+                    $filled = (int)floor($avg);
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $filled) {
+                            echo '<i class="glyphicon glyphicon-star"></i>';
+                        } elseif ($i == $filled + 1 && $avg - $filled >= 0.5) {
+                            echo '<i class="glyphicon glyphicon-star"></i>';
+                        } else {
+                            echo '<i class="glyphicon glyphicon-star-empty"></i>';
+                        }
+                    }
+                    ?>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading fw-bold">Nguyễn Văn A <small class="text-muted">- 10/12/2025</small></h4>
-                    <div class="text-warning" style="font-size: 12px; margin-bottom: 5px;">
-                         <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i>
-                    </div>
-                    <p>Món này rất ngon, giao hàng nhanh, sẽ ủng hộ shop dài dài!</p>
+                <div class="rating-value">
+                    <strong><?= htmlspecialchars(number_format($avg, 1)) ?></strong> / 5 - <span class="text-muted"><?= (int)($ratingInfo['count'] ?? 0) ?> đánh giá</span>
                 </div>
             </div>
-             <div class="media">
-                <div class="media-left">
-                    <img class="media-object img-circle" src="https://via.placeholder.com/64" alt="Avatar" style="width: 50px;">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading fw-bold">Trần Thị B <small class="text-muted">- 09/12/2025</small></h4>
-                    <div class="text-warning" style="font-size: 12px; margin-bottom: 5px;">
-                        <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star-empty"></i>
+
+            <?php if (empty($reviews)): ?>
+                <div class="alert alert-info">Chưa có đánh giá nào cho sản phẩm này.</div>
+            <?php else: ?>
+                <?php foreach ($reviews as $r): ?>
+                    <?php
+                        $userName = htmlspecialchars($r['full_name'] ?? 'Người dùng');
+                        $avatarSrc = UserHelper::avatar($r['avatar_url'] ?? '');
+                        $created = !empty($r['created_at']) ? htmlspecialchars(date('d/m/Y', strtotime($r['created_at']))) : '';
+                    ?>
+                    <div class="media review-item">
+                        <div class="media-left review-avatar">
+                            <img class="media-object img-circle" src="<?= $avatarSrc ?>" alt="Avatar">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading fw-bold"><?= $userName ?> <small class="text-muted"><?= $created ? ('- ' . $created) : '' ?></small></h4>
+                            <div class="review-stars">
+                                <?php $stars = (int)($r['rating'] ?? 0); for ($s=1;$s<=5;$s++): ?>
+                                    <?php if ($s <= $stars): ?>
+                                        <i class="glyphicon glyphicon-star"></i>
+                                    <?php else: ?>
+                                        <i class="glyphicon glyphicon-star-empty"></i>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+                            </div>
+                            <p class="review-text"><?= nl2br(htmlspecialchars($r['comment'] ?? '')) ?></p>
+                        </div>
                     </div>
-                    <p>Hương vị ổn, nhưng mình thích ngọt hơn một chút.</p>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
