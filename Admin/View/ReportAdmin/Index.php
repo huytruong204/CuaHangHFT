@@ -44,15 +44,19 @@
             </div>
         </form>
 
+        <?php if (!empty($revenue_data)): ?>
         <div class="card mb-4">
             <div class="card-body">
                 <canvas id="revenueChart" height="120"></canvas>
             </div>
         </div>
+        <?php else: ?>
+        <div class="alert alert-info text-center">Không có dữ liệu để hiển thị</div>
+        <?php endif; ?>
 
         <h3 class="text-start">Top món bán chạy</h3>
         <div class="table-responsive card p-3">
-            <table class="table table-hover align-middle text-start mb-0">
+            <table class="table table-hover align-middle text-start mb-0 report-table">
                 <thead>
                     <tr><th style="width:40px">#</th><th>Tên món</th><th style="width:140px">Số lượng bán</th><th style="width:160px">Doanh thu</th></tr>
                 </thead>
@@ -70,7 +74,7 @@
                     <?php endforeach; ?>
                     <tr class="table-light">
                         <td></td>
-                        <td class="text-end fw-bold">Tổng doanh thu:</td>
+                        <td class="fw-bold">Tổng doanh thu:</td>
                         <td></td>
                         <td class="fw-bold"><?= number_format($total_sales_sum, 0, ',', '.') ?> đ</td>
                     </tr>
@@ -82,6 +86,7 @@
     </div>
 </div>
 
+<?php if (!empty($revenue_data)): ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const revenueData = <?php echo json_encode(array_map(function($r){ return (float)$r['revenue']; }, $revenue_data)); ?>;
@@ -104,3 +109,4 @@
         }
     });
 </script>
+<?php endif; ?>

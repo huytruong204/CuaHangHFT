@@ -461,3 +461,27 @@ input[type="file"] {
 .object-fit-cover {
   object-fit: cover;
 }
+
+/* ReportAdmin: remove gray background for the total row */
+.report-table tr.table-light,
+.report-table tr.table-light td {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+/* Disable hover effect for the total row in report table */
+.report-table tr.table-light:hover,
+.report-table tr.table-light:hover td {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+/* Ensure Bootstrap table variables don't reapply background via box-shadow */
+.report-table tr.table-light {
+  --bs-table-bg: transparent !important;
+  --bs-table-accent-bg: transparent !important;
+  --bs-table-hover-bg: transparent !important;
+}
+.report-table tr.table-light td {
+  box-shadow: none !important;
+}

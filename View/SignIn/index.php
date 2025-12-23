@@ -10,9 +10,9 @@
 					<?php if (!empty($error_message) || !empty($errors) || !empty($auth_error)): ?>
 						<div class="alert alert-danger">
 							<?php
-								if (!empty($auth_error)) echo $auth_error;
-								elseif (!empty($error_message)) echo $error_message;
-								elseif (!empty($errors) && is_array($errors)) echo implode('<br>', $errors);
+							if (!empty($auth_error)) echo $auth_error;
+							elseif (!empty($error_message)) echo $error_message;
+							elseif (!empty($errors) && is_array($errors)) echo implode('<br>', $errors);
 							?>
 						</div>
 					<?php endif; ?>
@@ -29,9 +29,6 @@
 						</div>
 
 						<div class="form-group clearfix">
-							<div class="checkbox pull-left">
-								<label><input type="checkbox" name="remember" <?= isset($_POST['remember']) ? 'checked' : '' ?>> Ghi nhớ</label>
-							</div>
 							<div class="pull-right"><a href="index.php?page=Forgot">Quên mật khẩu?</a></div>
 						</div>
 
@@ -46,6 +43,3 @@
 		</div>
 	</div>
 </section>
-
-
-

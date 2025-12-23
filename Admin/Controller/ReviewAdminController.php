@@ -26,6 +26,20 @@ class ReviewAdminController
         $filters = [];
         $params = [];
 
+        // Validate date inputs: ensure start_date <= end_date
+        $msg_error = '';
+        $start_raw = isset($_GET['start_date']) ? trim($_GET['start_date']) : '';
+        $end_raw = isset($_GET['end_date']) ? trim($_GET['end_date']) : '';
+        if ($start_raw !== '' && $end_raw !== '') {
+            if (strtotime($start_raw) > strtotime($end_raw)) {
+                // Swap and set message
+                $tmp = $start_raw;
+                $start_raw = $end_raw;
+                $end_raw = $tmp;
+                $msg_error = 'Ngày bắt đầu không được lớn hơn ngày kết thúc. Đã hoán đổi tự động.';
+            }
+        }
+
         // Keyword can match food name or user full_name
         if (!empty($_GET['keyword'])) {
             $kw = '%' . trim($_GET['keyword']) . '%';
@@ -37,13 +51,13 @@ class ReviewAdminController
             $params[] = (int)$_GET['rating'];
         }
 
-        if (!empty($_GET['start_date'])) {
+        if (!empty($start_raw)) {
             $filters[] = "r.created_at >= ?";
-            $params[] = $_GET['start_date'] . ' 00:00:00';
+            $params[] = $start_raw . ' 00:00:00';
         }
-        if (!empty($_GET['end_date'])) {
+        if (!empty($end_raw)) {
             $filters[] = "r.created_at <= ?";
-            $params[] = $_GET['end_date'] . ' 23:59:59';
+            $params[] = $end_raw . ' 23:59:59';
         }
 
         $where_sql = '';
@@ -55,8 +69,13 @@ class ReviewAdminController
         $filters = [];
         if (!empty($_GET['keyword'])) $filters['keyword'] = $_GET['keyword'];
         if (isset($_GET['rating']) && $_GET['rating'] !== '') $filters['rating'] = $_GET['rating'];
-        if (!empty($_GET['start_date'])) $filters['start_date'] = $_GET['start_date'];
-        if (!empty($_GET['end_date'])) $filters['end_date'] = $_GET['end_date'];
+        if (!empty($start_raw)) $filters['start_date'] = $start_raw;
+        if (!empty($end_raw)) $filters['end_date'] = $end_raw;
+
+        // expose possible message to view
+        if (!empty($msg_error)) {
+            $GLOBALS['msg_error'] = $msg_error;
+        }
 
         $total_rows = $this->reviewModel->countForAdmin($filters);
         $total_pages = ($rows_per_page > 0) ? ceil($total_rows / $rows_per_page) : 1;
@@ -64,51 +83,6 @@ class ReviewAdminController
         $reviews = $this->reviewModel->getListForAdmin($filters, $offset, $rows_per_page);
 
         include_once "View/ReviewAdmin/Index.php";
-    }
-
-    public function UpdateGet()
-    {
-        if (!isset($_GET['review_id'])) {
-            echo "<script>alert('Không tồn tại review_id'); window.location.href='index.php?page=ReviewAdmin';</script>";
-            exit;
-        }
-        $review_id = $_GET['review_id'];
-        $review = $this->reviewModel->getById($review_id);
-        if (!$review) {
-            echo "<script>alert('Không tìm thấy đánh giá.'); window.location.href='index.php?page=ReviewAdmin';</script>";
-            exit;
-        }
-        include_once "View/ReviewAdmin/Update.php";
-    }
-
-    public function UpdatePost()
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: index.php?page=ReviewAdmin');
-            exit;
-        }
-
-        $review_id = $_POST['review_id'] ?? '';
-        if (empty($review_id)) {
-            echo "<script>alert('Thiếu review_id'); window.location.href='index.php?page=ReviewAdmin';</script>";
-            exit;
-        }
-
-        $data = [
-            'rating' => isset($_POST['rating']) ? (int)$_POST['rating'] : null,
-            'comment' => trim($_POST['comment'] ?? '')
-        ];
-
-        $result = $this->reviewModel->Update(array_filter($data, function($v){ return $v !== null; }), 'review_id', $review_id);
-        if ($result) {
-            SessionManager::flash('success', 'Cập nhật đánh giá thành công');
-            echo "<script>window.location.href='index.php?page=ReviewAdmin';</script>";
-            exit;
-        } else {
-            $dbError = $this->reviewModel->error_message;
-            echo "<script>alert('Lỗi CSDL: $dbError'); window.location.href='index.php?page=ReviewAdmin';</script>";
-            exit;
-        }
     }
 
     public function Delete()

@@ -77,10 +77,9 @@
                                 <td><?= date('d/m/Y H:i', strtotime($rv['created_at'] ?? 'now')) ?></td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="index.php?page=ReviewAdmin&action=UpdateGet&review_id=<?= $rv['review_id'] ?>" class="btn btn-sm btn-outline-info" title="Sửa">Sửa</a>
                                         <form method="POST" action="index.php?page=ReviewAdmin&action=Delete" onsubmit="return confirm('Xác nhận xóa đánh giá #<?= $rv['review_id'] ?>?');" style="display:inline-block;">
                                             <input type="hidden" name="review_id" value="<?= $rv['review_id'] ?>">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class='fa fa-trash'></i></button>
                                         </form>
                                     </div>
                                 </td>

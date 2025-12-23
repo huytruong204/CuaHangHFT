@@ -1,12 +1,17 @@
-<div class="container-fluid py-3">
-	<div class="d-flex align-items-center justify-content-between mb-3">
-		<h3 class="mb-0">Quản lý người dùng</h3>
-		<form class="d-flex align-items-center gap-2" method="get" action="index.php" style="min-width: 400px;">
-			<input type="hidden" name="page" value="UserAdmin">
-			<input class="form-control" type="text" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" placeholder="Tìm theo tên đăng nhập hoặc họ tên" style="flex: 1;">
-			<button class="btn btn-primary" type="submit" style="white-space: nowrap;"><i class="fa fa-search"></i> Tìm</button>
-		</form>
-	</div>
+<div class="container-fluid pt-4 px-4">
+	<div class="bg-secondary text-center rounded p-4">
+
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h3 class="mb-0 text-primary">Quản lý người dùng</h3>
+			<form class="d-flex align-items-center" method="get" action="index.php" style="min-width: 420px;">
+				<input type="hidden" name="page" value="UserAdmin">
+				<div class="input-group">
+					<span class="input-group-text border-end-0"><i class="fa fa-search text-muted"></i></span>
+					<input class="form-control border-start-0" type="text" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" placeholder="Tìm theo tên đăng nhập hoặc họ tên">
+				</div>
+				<button class="btn btn-dark ms-2" type="submit" style="white-space: nowrap;"><i class="fa fa-search"></i> Tìm</button>
+			</form>
+		</div>
 
 	<?php if (!empty($msg = SessionManager::flash('success'))): ?>
 		<div class="alert alert-success"><?= htmlspecialchars($msg) ?></div>
@@ -16,7 +21,7 @@
 	<?php endif; ?>
 
 	<div class="table-responsive">
-		<table class="table table-striped table-hover align-middle">
+		<table class="table table-hover align-middle">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -27,7 +32,7 @@
 					<th>Vai trò</th>
 					<th>Trạng thái</th>
 					<th>Ngày tạo</th>
-					<th class="text-end">Thao tác</th>
+					<th class="text-end">Hành động</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,18 +78,21 @@
 							</td>
 							<td><?= htmlspecialchars($u['created_at'] ?? '') ?></td>
 							<td class="text-end">
-								<a href="index.php?page=UserAdmin&action=UpdateGet&user_id=<?= urlencode($u['user_id']) ?>" class="btn btn-sm btn-outline-primary">
-									<i class="fa fa-pencil"></i> Sửa
+								<a href="index.php?page=UserAdmin&action=UpdateGet&user_id=<?= urlencode($u['user_id']) ?>" class="btn btn-sm btn-outline-warning" title="Sửa">
+									<i class="fa fa-pen"></i>
 								</a>
-								<a href="index.php?page=UserAdmin&action=ToggleStatus&user_id=<?= urlencode($u['user_id']) ?>&status=<?= $active ?>" class="btn btn-sm btn-outline-warning ms-1">
-									<i class="fa fa-toggle-on"></i> <?= $active ? 'Khoá' : 'Mở' ?>
+								<a href="index.php?page=UserAdmin&action=ToggleStatus&user_id=<?= urlencode($u['user_id']) ?>&status=<?= $active ?>" class="btn btn-sm btn-outline-info ms-1" title="<?= $active ? 'Khoá' : 'Mở' ?>">
+									<i class="fa fa-lock"></i>
 								</a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
 				<?php else: ?>
 					<tr>
-						<td colspan="9" class="text-center py-4">Không có dữ liệu người dùng.</td>
+						<td colspan="9" class="text-center py-5 text-muted">
+							<i class='fa fa-box-open fa-3x mb-3'></i>
+							<p>Không có dữ liệu người dùng.</p>
+						</td>
 					</tr>
 				<?php endif; ?>
 			</tbody>
@@ -110,4 +118,5 @@
 			</ul>
 		</nav>
 	<?php endif; ?>
+	</div>
 </div>
