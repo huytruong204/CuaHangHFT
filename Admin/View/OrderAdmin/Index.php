@@ -107,9 +107,9 @@
                                             </a>
 
                                         <?php if ($order->getStatus() === $status_map['shipping'] || $order->getStatus() === $status_map['delivered']): ?>
-                                            <form action="../Helper/Pdf.php" method="post">
+                                            <form action="../Helper/Pdf.php"  target="_blank" method="post">
                                                 <input type="hidden"  name="order_id" value="<?= $order->getOrderId() ?>" >
-                                                <input type="submit" target="_blank" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;" value="In">
+                                                <input type="submit" class="btn btn-sm btn-outline-success" title="In hóa đơn" style="white-space:nowrap;padding:6px 12px;min-width:90px;" value="In">
                                             </form>
                                         <?php endif; ?>
                                     </div>
