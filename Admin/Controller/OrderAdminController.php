@@ -3,7 +3,6 @@ include_once "../Model/OrderModel.php";
 include_once "../Model/OrderItemModel.php";
 include_once "../Helper/SessionManager.php";
 include_once "../Model/UserRoleModel.php";
-include_once '../Model/InvoiceModel.php';
 
 class OrderAdminController
 {
@@ -165,26 +164,7 @@ class OrderAdminController
             $update_stt = $this->orderModel->Update($data, 'order_id', $order_id);
 
             if ($update_stt) {
-                $nofiction = "";
-
-                if ($stt === self::STATUS_MAP['shipping']) {
-                    $invoiceModel = new InvoiceModel();
-                    $existingInv = $invoiceModel->getByOrderId($order_id);
-
-                    if (!$existingInv) {
-                        $data_inv = [
-                            'order_id' => $order_id,
-                            'final_amount' => $order['total_money'],
-                        ];
-                        if ($invoiceModel->Insert($data_inv)) {
-                            $nofiction = " và đã tạo hóa đơn mới.";
-                        }
-                    } else {
-                        $nofiction = " (Hóa đơn đã tồn tại).";
-                    }
-                }
-
-                SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công$nofiction");
+                SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công");
                 header("Location: index.php?page=OrderAdmin");
                 exit();
             } else {

@@ -105,15 +105,13 @@
                                             class="btn btn-sm btn-outline-info btn-sm-wide minw-110" title="Xem chi tiết">
                                             <i class="fa fa-eye"></i> <span class="ml-6">Chi tiết</span>
                                         </a>
-                                        <?php if ($order->getStatus() === $status_map['shipping'] || $order->getStatus() === $status_map['delivered']): ?>
-                                            <button type="button" 
+                                         <button type="button" 
                                                     class="btn btn-sm btn-outline-success" 
                                                     title="In hóa đơn" 
                                                     style="white-space:nowrap;padding:6px 12px;min-width:90px;" 
                                                     onclick="printInvoice(<?= $order->getOrderId() ?>)">
                                                 In
-                                            </button>
-                                        <?php endif; ?>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

@@ -86,7 +86,6 @@ class OrderModel extends BaseModel
         }
     }
 
-    // Thêm vào file OrderModel.php
 
     public function getDashboardStats()
     {

@@ -1,7 +1,6 @@
 <?php
 include_once "../Model/OrderModel.php";
 include_once "../Model/OrderItemModel.php";
-include_once "../Model/InvoiceModel.php";
 
 class ReportAdminController
 {
