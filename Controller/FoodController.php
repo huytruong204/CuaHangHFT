@@ -10,8 +10,8 @@ class FoodController
 
     public function Index()
     {
-        $rows_per_page = 6;
-        $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
+        $rows_per_page = -1;
+        $offset = 0;
 
         $where_clauses = [
             'foods.food_name' => $_GET['keyword'] ?? '',
@@ -19,12 +19,16 @@ class FoodController
         ];
         $where_clauses = array_filter($where_clauses);
 
-        $count_rows = $this->foodModel->CountRows($where_clauses);
-        $total_pages = ceil($count_rows / $rows_per_page);
-
-        $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
-        $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+
+        $all_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+        $grouped_foods = [];
+        if (!empty($all_foods)) {
+            foreach ($all_foods as $food) {
+                $cat_name = $food->getCategory_id();
+                $grouped_foods[$cat_name][] = $food;
+            }
+        }
 
         $cat = new CategoryModel();
         $list_cat = $cat->getAllCategories();

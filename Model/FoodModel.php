@@ -58,7 +58,9 @@ class FoodModel extends BaseModel
                                 $sql .= " ORDER BY foods.created_at DESC";
                         }
 
-                        $sql .= " LIMIT $offset, $rows_per_page";
+                       if ($rows_per_page > 0) {
+                                $sql .= " LIMIT $offset, $rows_per_page";
+                        }
 
                         $stmt = $this->db->prepare($sql);
 
