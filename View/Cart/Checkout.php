@@ -17,7 +17,7 @@
 
         <h2 class="text-center text-uppercase fw-bold" style="margin-bottom: 30px; color: #333;">Xác nhận thanh toán</h2>
 
-        <form action="index.php?page=Cart&action=CheckoutPost" method="POST">
+        <form action="index.php?page=Cart&action=Checkout" method="POST">
             <div class="row">
                 <div class="col-md-7 col-sm-12">
                     <div class="panel panel-default" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 15px">
@@ -27,17 +27,26 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label>Họ và tên người nhận </label>
-                                <input type="text" name="fullname" value="<?= $user->getUser_name() ?>" class="form-control" readonly>
+                                <input type="text" name="fullname" value="<?= isset($_POST['fullname']) ? $_POST['fullname'] : $user->getUser_name() ?>" class="form-control" >
+                                <?php if (isset($errors['fullname'])): ?>
+                                    <span class="text-danger small"><?= $errors['fullname'] ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group">
                                 <label>Số điện thoại </label>
-                                <input type="text" name="phone" class="form-control" value="<?= $user->getPhone_number() ?>" readonly>
+                                <input type="text" name="phone_number" class="form-control" value="<?= isset($_POST['phone_number']) ? $_POST['phone_number'] : $user->getPhone_number() ?>" >
+                                <?php if (isset($errors['phone_number'])): ?>
+                                    <span class="text-danger small"><?= $errors['phone_number'] ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group">
                                 <label>Địa chỉ giao hàng </label>
-                                <textarea name="address" class="form-control" rows="2" readonly><?= $user->getAddress() . ", " . $user->getCity()  ?></textarea>
+                                <textarea name="address" class="form-control" rows="2" ><?= isset($_POST['address']) ? $_POST['address'] : ($user->getAddress() . ", " . $user->getCity()) ?></textarea>
+                                <?php if (isset($errors['address'])): ?>
+                                    <span class="text-danger small"><?= $errors['address'] ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group">

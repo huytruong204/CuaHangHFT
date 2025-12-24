@@ -14,9 +14,9 @@
             <div class="col-md-6">
                 <div class="bg-secondary rounded h-100 p-4">
                     <h5 class="mb-3 text-dark border-bottom pb-2"><i class="fa fa-user me-2"></i>Thông tin khách hàng</h5>
-                    <p class="mb-2 text-dark"><strong>Họ tên:</strong> <?= htmlspecialchars($order['full_name']) ?></p>
+                    <p class="mb-2 text-dark"><strong>Họ tên:</strong> <?= htmlspecialchars($order['fullname']) ?></p>
                     <p class="mb-2 text-dark"><strong>Số điện thoại:</strong> <?= htmlspecialchars($order['phone_number']) ?></p>
-                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= htmlspecialchars($order['address'].", ".$order['city']) ?></p>
+                    <p class="mb-2 text-dark"><strong>Địa chỉ:</strong> <?= htmlspecialchars($order['address']) ?></p>
                 </div>
             </div>
 
@@ -37,8 +37,6 @@
                         case 'Đã xác nhận':
                             $statusColor = 'info text-dark';
                             break;
-                        case 'Đang chuẩn bị':
-                        case 'Chờ shipper':
                         case 'Đang giao hàng':
                             $statusColor = 'primary';
                             break;
@@ -114,10 +112,9 @@
                     <label class="form-label text-dark">Trạng thái đơn hàng</label>
                     <select name="status" class="form-select text-dark" <?= $is_locked ? 'disabled' : '' ?>>
                         <?php foreach ($allowed_statuses as $stt): ?>
-                            <option value="<?= $stt ?>" <?= $order['status'] == $stt ? 'selected' : '' ?>>
+                            <option value="<?= $stt ?>" <?= ($stt == $display_status) ? 'selected' : '' ?>>
                                 <?= $stt ?>
-                            </option>
-                        <?php endforeach; ?>
+                            </option> <?php endforeach; ?>
                     </select>
                     </select>
                 </div>
@@ -132,10 +129,9 @@
                         <?php if (!empty($shippers)): ?>
                             <?php foreach ($shippers as $shipper): ?>
                                 <option value="<?= $shipper['user_id'] ?>"
-                                    <?= (isset($order['shipper_id']) && $order['shipper_id'] == $shipper['user_id']) ? 'selected' : '' ?>>
+                                    <?= ($display_shipper == $shipper['user_id']) ? 'selected' : '' ?>>
                                     <?= $shipper['full_name'] ?> (<?= $shipper['user_name'] ?>)
-                                </option>
-                            <?php endforeach; ?>
+                                </option> <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
                     <?php if (!empty($error)): ?>

@@ -6,11 +6,13 @@ class OrderModel extends BaseModel
     public const TB_NAME = "orders";
     protected $order_id;
     protected $user_id;
+    protected $fullname;
+    protected $phone_number;
+    protected $address;
     protected $shipper_id;
     protected $payment_method;
     protected $payment_status;
     protected $total_money;
-
     protected $status;
     protected $note;
     protected $created_at;
@@ -21,6 +23,9 @@ class OrderModel extends BaseModel
         if (!empty($data)) {
             $this->order_id        = $data['order_id'] ?? null;
             $this->user_id         = $data['user_id'] ?? null;
+            $this->fullname        = $data['fullname'] ?? null;
+            $this->phone_number    = $data['phone_number'] ?? null;
+            $this->address         = $data['address'] ?? null;
             $this->shipper_id      = $data['shipper_id'] ?? null;
             $this->total_money     = $data['total_money'] ?? null;
             $this->payment_method  = $data['payment_method'] ?? null;
@@ -34,28 +39,23 @@ class OrderModel extends BaseModel
     {
         try {
             $list_orders = [];
-            $sql = "SELECT orders.*, users.full_name 
-                    FROM " . self::TB_NAME . " 
-                    JOIN users ON " . self::TB_NAME . ".user_id = users.user_id";
-
+            $sql = "SELECT orders.*
+                    FROM " . self::TB_NAME;
             $sql_clauses_arr = [];
             $values = [];
 
-           if (!empty($where_clauses)) {
+            if (!empty($where_clauses)) {
                 foreach ($where_clauses as $key => $value) {
                     if ($key === 'search_id') {
                         $sql_clauses_arr[] = "orders.order_id LIKE ?";
                         $values[] = "%$value%";
-                    } 
-                    elseif ($key === 'date_from') {
+                    } elseif ($key === 'date_from') {
                         $sql_clauses_arr[] = "DATE(orders.created_at) >= ?";
                         $values[] = $value;
-                    } 
-                    elseif ($key === 'date_to') {
+                    } elseif ($key === 'date_to') {
                         $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
                         $values[] = $value;
-                    } 
-                    else {
+                    } else {
                         $sql_clauses_arr[] = "$key = ?";
                         $values[] = $value;
                     }
@@ -73,7 +73,6 @@ class OrderModel extends BaseModel
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($data as $value) {
-                $value['user_id'] = $value['full_name'] ?? $value['user_id'];
                 $value['shipper_id'] = $value['full_name'] ?? $value['shipper_id'];
 
                 $list_orders[] = new OrderModel($value);
@@ -120,7 +119,7 @@ class OrderModel extends BaseModel
     public function CountRows($where_clauses)
     {
         try {
-            $sql = "SELECT COUNT(*) FROM " . $this->table_name . " JOIN users ON " . $this->table_name . ".user_id = users.user_id";
+            $sql = "SELECT COUNT(*) FROM " . $this->table_name;
 
             $sql_clauses_arr = [];
             $values = [];
@@ -130,16 +129,13 @@ class OrderModel extends BaseModel
                     if ($key === 'search_id') {
                         $sql_clauses_arr[] = "orders.order_id LIKE ?";
                         $values[] = "%$value%";
-                    } 
-                    elseif ($key === 'date_from') {
+                    } elseif ($key === 'date_from') {
                         $sql_clauses_arr[] = "DATE(orders.created_at) >= ?";
                         $values[] = $value;
-                    } 
-                    elseif ($key === 'date_to') {
+                    } elseif ($key === 'date_to') {
                         $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
                         $values[] = $value;
-                    }
-                    else {
+                    } else {
                         $sql_clauses_arr[] = "$key = ?";
                         $values[] = $value;
                     }
@@ -159,14 +155,9 @@ class OrderModel extends BaseModel
     {
         $sql = "SELECT 
                 o.*, 
-                u.full_name, 
-                u.phone_number, 
-                u.address, 
-                u.city,
                 s.full_name AS shipper_name,    
                 s.phone_number AS shipper_phone 
             FROM " . self::TB_NAME . " o
-            JOIN users u ON o.user_id = u.user_id 
             LEFT JOIN users s ON o.shipper_id = s.user_id 
             WHERE o.order_id = ?";
 
@@ -180,14 +171,6 @@ class OrderModel extends BaseModel
         }
     }
 
-    /**
-     * Get aggregated revenue data between two datetimes grouped by granularity
-     * @param string $status
-     * @param string $start_datetime
-     * @param string $end_datetime
-     * @param string $granularity 'day'|'month'|'year'
-     * @return array
-     */
     public function getRevenueData($status, $start_datetime, $end_datetime, $granularity = 'day')
     {
         try {
@@ -218,14 +201,6 @@ class OrderModel extends BaseModel
         }
     }
 
-    /**
-     * Get top selling items between two datetimes
-     * @param string $status
-     * @param string $start_datetime
-     * @param string $end_datetime
-     * @param int $limit
-     * @return array
-     */
     public function getTopItems($status, $start_datetime, $end_datetime, $limit = 20)
     {
         try {
@@ -255,6 +230,23 @@ class OrderModel extends BaseModel
             $errors['shipper_id'] = $err;
         elseif ($err = Validator::required($data->shipper_id, "Shipper không được để trống"))
             $errors['shipper_id'] = $err;
+        return $errors;
+    }
+    public function validateUser($data)
+    {
+        $errors = [];
+        if ($err = Validator::is_isset($data->fullname, "Họ và tên người nhận không tồn tại"))
+            $errors['fullname'] = $err;
+        elseif ($err = Validator::required($data->fullname, "Họ tên người nhận không được để trống"))
+            $errors['fullname'] = $err;
+        if ($err = Validator::is_isset($data->phone_number, "Số điện thoại không tồn tại"))
+            $errors['phone_number'] = $err;
+        elseif ($err = Validator::required($data->phone_number, "Số điện thoại không được để trống"))
+            $errors['phone_number'] = $err;
+        if ($err = Validator::is_isset($data->address, "Địa chỉ không tồn tại"))
+            $errors['address'] = $err;
+        elseif ($err = Validator::required($data->address, "Địa chỉ không được để trống"))
+            $errors['address'] = $err;
         return $errors;
     }
 
@@ -347,6 +339,66 @@ class OrderModel extends BaseModel
     public function setTotal_money($total_money)
     {
         $this->total_money = $total_money;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fullname
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * Set the value of fullname
+     *
+     * @return  self
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of phone_number
+     */
+    public function getPhone_number()
+    {
+        return $this->phone_number;
+    }
+
+    /**
+     * Set the value of phone_number
+     *
+     * @return  self
+     */
+    public function setPhone_number($phone_number)
+    {
+        $this->phone_number = $phone_number;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of address
+     *
+     * @return  self
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
 
         return $this;
     }

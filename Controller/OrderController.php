@@ -6,8 +6,6 @@ class OrderController
     const STATUS_MAP = [
             'wait'        => 'Chờ xác nhận',
             'confirmed'   => 'Đã xác nhận',
-            'preparing'   => 'Đang chuẩn bị',
-            'wait_ship'   => 'Chờ shipper',
             'shipping'    => 'Đang giao hàng',
             'delivered'   => 'Đã giao hàng',
             'cancelled'   => 'Đã hủy',
@@ -118,4 +116,49 @@ class OrderController
             exit();
         }
     }
+    public function Refund()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $order_id = isset($_POST['order_id']) ? $_POST['order_id'] : '';
+
+            if (empty($order_id)) {
+                SessionManager::flash('error', 'Không tìm thấy đơn hàng.');
+                header("Location: index.php?page=Order");
+                exit();
+            }
+
+            $order = $this->orderModel->getOrderById($order_id);
+            $current_user_id = SessionManager::get('user_id');
+
+            if (!$order || $order['user_id'] != $current_user_id) {
+                SessionManager::flash('error', 'Bạn không có quyền thao tác trên đơn hàng này.');
+                header("Location: index.php?page=Order");
+                exit();
+            }
+
+            $allow_refund_status = [
+                self::STATUS_MAP['cancelled'], 
+                self::STATUS_MAP['delivered']  
+            ];
+
+            if ($order['payment_status'] == 1 && in_array($order['status'], $allow_refund_status) && $order['status'] !== self::STATUS_MAP['refund']) {
+                
+                $data = ['status' => self::STATUS_MAP['refund']];
+                
+                $result = $this->orderModel->Update($data, 'order_id', $order_id);
+
+                if ($result) {
+                    SessionManager::flash('success', 'Đã gửi yêu cầu hoàn tiền thành công. Vui lòng chờ Admin xử lý.');
+                } else {
+                    SessionManager::flash('error', 'Lỗi hệ thống, vui lòng thử lại.');
+                }
+            } else {
+                SessionManager::flash('error', 'Đơn hàng không đủ điều kiện để hoàn tiền (Chưa thanh toán hoặc trạng thái không hợp lệ).');
+            }
+
+            header("Location: index.php?page=Order&action=detail&order_id=$order_id");
+            exit();
+        }
+    }
+    
 }

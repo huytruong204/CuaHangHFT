@@ -12,8 +12,6 @@ class OrderAdminController
     const STATUS_MAP = [
         'wait'        => 'Chờ xác nhận',
         'confirmed'   => 'Đã xác nhận',
-        'preparing'   => 'Đang chuẩn bị',
-        'wait_ship'   => 'Chờ shipper',
         'shipping'    => 'Đang giao hàng',
         'delivered'   => 'Đã giao hàng',
         'cancelled'   => 'Đã hủy',
@@ -65,20 +63,12 @@ class OrderAdminController
                 return [$s['confirmed'], $s['cancelled']];
 
             case $s['confirmed']:
-                return [$s['preparing'], $s['cancelled']];
-
-            case $s['preparing']:
-                return [$s['wait_ship'], $s['cancelled']];
-
-            case $s['wait_ship']:
                 return [$s['shipping'], $s['cancelled']];
 
             case $s['shipping']:
                 return [$s['delivered'], $s['cancelled']];
 
             case $s['delivered']:
-                return [$s['refund']];
-
             case $s['cancelled']:
             case $s['refund']:
                 return [];
@@ -97,6 +87,15 @@ class OrderAdminController
 
         $id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($id);
+
+        $old_input = isset($_SESSION['old_input']) ? $_SESSION['old_input'] : null;
+        if ($old_input) {
+            SessionManager::remove('old_input');
+        }
+
+        $display_status = isset($old_input['status']) ? $old_input['status'] : $order['status'];
+        $display_shipper = isset($old_input['shipper_id']) ? $old_input['shipper_id'] : ($order['shipper_id'] ?? '');
+
         $allowed_statuses = $this->getAllowedTransitions($order['status']);
 
         if (!empty($allowed_statuses)) {
@@ -134,6 +133,7 @@ class OrderAdminController
                 $allowed = $this->getAllowedTransitions($order['status']);
                 if (!in_array($stt, $allowed)) {
                     SessionManager::flash('error', "Sai quy trình! Không thể chuyển từ '{$order['status']}' sang '$stt'.");
+                    SessionManager::set('old_input', $_POST);
                     header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
                     exit();
                 }
@@ -157,6 +157,7 @@ class OrderAdminController
             if (!empty($error)) {
                 $er_msg = implode('<br>', $error);
                 SessionManager::flash('error', $er_msg);
+                SessionManager::set('old_input', $_POST);
                 header("Location: index.php?page=OrderAdmin&action=Detail&order_id=" . $order_id);
                 exit();
             }

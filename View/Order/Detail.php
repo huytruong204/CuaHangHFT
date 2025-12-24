@@ -131,6 +131,23 @@
                                 </p>
                             </div>
                         <?php endif; ?>
+                        <?php 
+                        $refundable_statuses = ['Đã hủy', 'Đã giao hàng'];
+                        
+                        if ($order['payment_status'] == 1 && in_array($order['status'], $refundable_statuses) && $order['status'] !== 'Hoàn tiền'): 
+                        ?>
+                            <div class="p-15 border-top-dashed mt-10">
+                                <form action="index.php?page=Order&action=Refund" method="POST" onsubmit="return confirm('Gửi yêu cầu hoàn tiền cho đơn hàng này?');">
+                                    <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
+                                    <button type="submit" class="btn btn-warning btn-block" style="color: #fff; font-weight: bold;">
+                                         Hoàn tiền
+                                    </button>
+                                </form>
+                                <p class="text-warning small mt-5 italic">
+                                    Dành cho đơn hàng đã thanh toán.
+                                </p>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -147,7 +164,7 @@
                                 </p>
                                 <p class="mb-5">
                                     <strong>Điện thoại:</strong>
-                                    <a href="tel:<?= $order['shipper_phone'] ?>"><?= $order['shipper_phone'] ?></a>
+                                    <?= $order['shipper_phone'] ?>
                                 </p>
                             <?php else: ?>
                                 <p class="mb-5 text-muted italic text-center">
@@ -165,7 +182,7 @@
                     <div class="panel-body">
                         <p class="mb-5">
                             <strong>Họ tên:</strong>
-                            <?= $order['full_name'] ?>
+                            <?= $order['fullname'] ?>
                         </p>
                         <p class="mb-5">
                             <strong>Điện thoại:</strong>

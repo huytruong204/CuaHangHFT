@@ -64,6 +64,7 @@ class CartController
             header('Location: index.php?page=Cart');
         }
     }
+
     public function Checkout()
     {
         if (empty(SessionManager::get('user_name'))) {
@@ -74,16 +75,7 @@ class CartController
         $total_amount = CartModel::getTotal();
         $user_model = new UserModel();
         $user = $user_model->getByUserName(SessionManager::get('user_name'));
-        $msg = SessionManager::flash('error');
-        include_once "View/Cart/Checkout.php";
-    }
 
-    public function CheckoutPost()
-    {
-        if (empty(SessionManager::get('user_name'))) {
-            header("Location: index.php?page=SignIn&action=login");
-            exit();
-        }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $cart_items = CartModel::getCart();
             try {
@@ -95,33 +87,40 @@ class CartController
                 $data = [
                     'note' => $_POST['note'] ?? '',
                     'user_id' => SessionManager::get('user_id'),
+                    'fullname' => $_POST['fullname'] ?? '',
+                    'phone_number' => $_POST['phone_number'] ?? '',
+                    'address' => $_POST['address'] ?? '',
                     'total_money' => CartModel::getTotal(),
                     'payment_method' => $_POST['payment_method'] ?? '',
                     'payment_status' => $payment_status,
                     'status' => 'Chờ xác nhận',
                 ];
-                $order_id = $order->Insert($data);
-                $orderItemModel = new BaseModel('order_items');
-                foreach ($cart_items as $item) {
-                    $itemData = [
-                        'order_id' => $order_id,
-                        'food_id' => $item->food_id,
-                        'quantity' => $item->quantity,
-                        'price_at_purchase' => $item->price
-                    ];
-                    $orderItemModel->Insert($itemData);
+
+                $errors = $order->validateUser(new OrderModel($data));
+
+                if (empty($errors)) {
+                    $order_id = $order->Insert($data);
+                    $orderItemModel = new BaseModel('order_items');
+                    foreach ($cart_items as $item) {
+                        $itemData = [
+                            'order_id' => $order_id,
+                            'food_id' => $item->food_id,
+                            'quantity' => $item->quantity,
+                            'price_at_purchase' => $item->price
+                        ];
+                        $orderItemModel->Insert($itemData);
+                    }
+                    $db->commit();
+                    CartModel::clear();
+                    SessionManager::flash('success', 'Đặt hàng thành công! Mã đơn: #' . $order_id);
+                    header('Location: index.php?page=Order');
+                    exit();
                 }
-                $db->commit();
-                CartModel::clear();
-                SessionManager::flash('success', 'Đặt hàng thành công! Mã đơn: #' . $order_id);
-                header('Location: index.php?page=Order');
-                exit();
             } catch (PDOException $e) {
                 $db->getDb()->rollBack();
                 SessionManager::flash('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-                header('Location: index.php?page=Cart&action=Checkout');
-                exit();
             }
         }
+        include_once "./View/Cart/Checkout.php";
     }
 }
