@@ -104,6 +104,7 @@
             $is_locked = (count($allowed_statuses) <= 1 && $allowed_statuses[0] == $order['status']);
 
             $is_delivered = ($order['status'] == 'Đang giao hàng' || $order['status'] == 'Đã giao hàng');
+            $check_shipper = $is_locked || $is_delivered || ($role === 'shipper');
             ?>
             <form action="index.php?page=OrderAdmin&action=UpdateStatus" method="POST" class="row g-3 align-items-end">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
@@ -118,35 +119,33 @@
                     </select>
                     </select>
                 </div>
-
-                <div class="col-md-4">
-                    <label class="form-label text-dark">Người giao hàng</label>
-
-                    <?php if ($is_locked || $is_delivered): ?>
-                        <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
-                    <?php endif; ?>
-
-                    <select name="shipper_id" class="form-select text-dark <?= !empty($error) ? 'is-invalid border-danger' : '' ?>"
-                        <?= ($is_locked || $is_delivered) ? 'disabled' : '' ?>>
-
-                        <option value="">-- Chưa gán shipper --</option>
-                        <?php if (!empty($shippers)): ?>
-                            <?php foreach ($shippers as $shipper): ?>
-                                <option value="<?= $shipper['user_id'] ?>"
-                                    <?= ($display_shipper == $shipper['user_id']) ? 'selected' : '' ?>>
-                                    <?= $shipper['full_name'] ?> (<?= $shipper['user_name'] ?>)
-                                </option>
-                            <?php endforeach; ?>
+                    <div class="col-md-4">
+                        <label class="form-label text-dark">Người giao hàng</label>
+                            
+                        <?php if ($check_shipper): ?>
+                            <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
                         <?php endif; ?>
-                    </select>
 
-                    <?php if (!empty($error)): ?>
-                        <div class="invalid-feedback d-block text-danger fw-bold mt-2">
-                            <?= $error ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                        <select name="shipper_id" class="form-select text-dark <?= !empty($error) ? 'is-invalid border-danger' : '' ?>"
+                            <?= ($check_shipper) ? 'disabled' : '' ?>>
 
+                            <option value="">-- Chưa gán shipper --</option>
+                            <?php if (!empty($shippers)): ?>
+                                <?php foreach ($shippers as $shipper): ?>
+                                    <option value="<?= $shipper['user_id'] ?>"
+                                        <?= ($display_shipper == $shipper['user_id']) ? 'selected' : '' ?>>
+                                        <?= $shipper['full_name'] ?> (<?= $shipper['user_name'] ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+
+                        <?php if (!empty($error)): ?>
+                            <div class="invalid-feedback d-block text-danger fw-bold mt-2">
+                                <?= $error ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 <div class="col-md-4">
                     <?php if ($is_locked): ?>
                         <div class="alert alert-success m-0 p-2 text-center">

@@ -40,6 +40,10 @@ class OrderAdminController
             'date_from' => $date_from,
             'date_to' => $date_to,
         ];
+        $role = SessionManager::get('user_role');
+        if($role === 'shipper'){
+            $where_clauses['orders.shipper_id'] = SessionManager::get('user_id'); 
+        }
         $where_clauses = array_filter($where_clauses);
 
         $count_rows = $this->orderModel->CountRows($where_clauses);
@@ -84,7 +88,7 @@ class OrderAdminController
             header("Location: index.php?page=orderAdmin");
             exit;
         }
-
+        $role = SessionManager::get('user_role');
         $id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($id);
 

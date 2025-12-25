@@ -28,7 +28,7 @@ class SignInController{
                 SessionManager::flash('success', 'Đăng nhập thành công!');
                 
                 // Chuyển hướng dựa trên vai trò
-                if ($roleName === 'admin') {
+                if ($roleName === 'admin' || $roleName === 'shipper') {
                     header('Location: ./Admin/index.php?page=HomeAdmin');
                 } else {
                     if (!empty(SessionManager::get('redirect_after_login'))){
