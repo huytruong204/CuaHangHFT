@@ -109,11 +109,11 @@
                             TRẠNG THÁI ĐƠN HÀNG
                         </h5>
                         <div class="p-15">
-                            <span class="label label-status-orange" style="display: inline-block; width: auto; padding: 10px 20px; font-size: 17px; border-radius: 4px;">
+                            <span class="label label-status-orange" style="padding: 5px 10px; font-size: 17px; border-radius: 4px;">
                                 <?= $order['status'] ?>
                             </span>
                         </div>
-                        <p class="text-muted small text-muted-padding"><i class="glyphicon glyphicon-time"></i> Ngày đặt: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
+                        <p class="text-muted" style="margin: 5px 15px;"><i class="glyphicon glyphicon-time"></i> Ngày đặt: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
                         <?php
                         $cancellable_statuses = ['Chờ xác nhận', 'Đã xác nhận'];
 
@@ -214,9 +214,9 @@
                         <p>
                             <strong>Trạng thái:</strong>
                             <?php if ($order['payment_status'] == 1): ?>
-                                <span class="text-success fw-bold"><i class="glyphicon glyphicon-ok"></i> Đã thanh toán</span>
+                                <span class="text-success fw-bold">Đã thanh toán</span>
                             <?php else: ?>
-                                <span class="text-danger fw-bold"><i class="glyphicon glyphicon-remove"></i> Chưa thanh toán</span>
+                                <span class="text-danger fw-bold">Chưa thanh toán</span>
                             <?php endif; ?>
                         </p>
                     </div>
