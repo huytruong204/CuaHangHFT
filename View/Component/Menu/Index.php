@@ -38,7 +38,7 @@
 
         <li>
             <a href="index.php?page=Cart" class="nav-highlight">
-                <i class="glyphicon glyphicon-shopping-cart"></i> Giỏ hàng
+                <i class="glyphicon glyphicon-shopping-cart"></i> Giỏ hàng <?= "(".$count.")" ?>
             </a>
         </li>
 

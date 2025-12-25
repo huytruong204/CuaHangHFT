@@ -60,6 +60,15 @@ class CartModel
         }
         return $total;
     }
+    public static function getCountCart()
+    {
+        $cart = self::getCart();
+        $sl = 0;
+        foreach ($cart as $item) {
+            $sl += $item->quantity;
+        }
+        return $sl;
+    }
     public static function clear()
     {
         SessionManager::remove('cart');
