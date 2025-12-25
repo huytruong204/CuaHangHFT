@@ -78,7 +78,7 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
                             </button>
                         </span>
 
-                        <input type="text"
+                        <input type="number"
                             name="quantity"
                             id="quantity"
                             class="form-control text-center"
