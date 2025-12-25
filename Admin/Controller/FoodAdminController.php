@@ -13,14 +13,14 @@ class FoodAdminController
 
     public function Index()
     {
-        $rows_per_page = 2;
+        $rows_per_page = 8;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $where_clauses = [
             'foods.food_name' => $_GET['keyword'] ?? '',
             'foods.category_id' => $_GET['cat_filter'] ?? '',
             'foods.status' => $_GET['status_filter'] ?? '',
         ];
-        
+
         $where_clauses = array_filter($where_clauses, function ($value) {
             return ($value !== null && $value !== false && $value !== '');
         });
