@@ -32,7 +32,7 @@ class InvoicePDF extends TFPDF {
     }
 
     function Footer() {
-        $this->SetY(137);
+        $this->SetY(122);
         $this->SetFont('DejaVu', 'I', 9); 
         $this->Cell(0, 10, 'Cảm ơn và hẹn gặp lại!', 0, 0, 'C');
     }
