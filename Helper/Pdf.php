@@ -31,11 +31,11 @@ class InvoicePDF extends TFPDF {
         $this->Ln(3);
     }
 
-    function Footer() {
-        $this->SetY(122);
-        $this->SetFont('DejaVu', 'I', 9); 
-        $this->Cell(0, 10, 'Cảm ơn và hẹn gặp lại!', 0, 0, 'C');
-    }
+    // function Footer() {
+    //     $this->SetY();
+    //     $this->SetFont('DejaVu', 'I', 9); 
+    //     $this->Cell(0, 10, 'Cảm ơn và hẹn gặp lại!', 0, 0, 'C');
+    // }
 
     function currency_format($number) {
         return number_format($number, 0, ',', '.'); 
@@ -141,9 +141,10 @@ $pdf->Ln(2);
 $pdf->SetFont('DejaVu', 'B', 10);
 $pdf->Cell(17, 5, "Ghi chú: ", 0, 0);
 
-$pdf->SetFont('DejaVu', '', 10);
+$pdf->SetFont('DejaVu', 'I', 10);
 $pdf->MultiCell(0, 5, $note);
 
-
+$pdf->SetFont('DejaVu', 'I', 10);
+$pdf->Cell(0, 6, "Cảm ơn và hẹn gặp lại", 0, 0, 'C');
 $pdf->Output();
 ?>
