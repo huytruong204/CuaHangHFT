@@ -24,8 +24,15 @@
                         <option value="">-- Danh mục --</option>
                         <?php
                             foreach ($list_cat as $value) {
-                                echo "<option value='{$value->getCategory_id()}'>".$value->getCategory_name()."</option>";
-                            }
+                                $selected = '';
+                                if(isset($_GET['cat_filter']) && $_GET['cat_filter']== $value->getCategory_id()){
+                                    $selected = "selected";
+                                }
+                                echo "
+                                    <option value='{$value->getCategory_id()}' $selected >{$value->getCategory_name()}</option>
+                                    
+                                ";
+                                }
                         ?>
                         
                     </select>
