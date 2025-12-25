@@ -28,10 +28,15 @@ class SignInController{
                 SessionManager::flash('success', 'Đăng nhập thành công!');
                 
                 // Chuyển hướng dựa trên vai trò
-                if ($roleName === 'admin') {
+                if ($roleName === 'admin' || $roleName === 'shipper') {
                     header('Location: ./Admin/index.php?page=HomeAdmin');
                 } else {
-                    header('Location: index.php?page=Food');
+                    if (!empty(SessionManager::get('redirect_after_login'))){
+                        $redirect_url = SessionManager::get('redirect_after_login');
+                        SessionManager::remove('redirect_after_login');
+                        header("Location: $redirect_url");
+                    }else
+                        header('Location: index.php?page=Food');
                 }
                 exit;
             } else {

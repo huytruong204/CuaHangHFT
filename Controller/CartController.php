@@ -10,10 +10,10 @@ class CartController
 
     public function AddToCart()
     {
-        if (empty(SessionManager::get('user_name'))) {
-            header("Location: index.php?page=SignIn&action=login");
-            exit();
-        }
+        // if (empty(SessionManager::get('user_name'))) {
+        //     header("Location: index.php?page=SignIn&action=login");
+        //     exit();
+        // }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (isset($_POST['food_id'], $_POST['food_name'], $_POST['quantity'], $_POST['image_url'], $_POST['price'], $_POST['page'])) {
 
@@ -68,6 +68,7 @@ class CartController
     public function Checkout()
     {
         if (empty(SessionManager::get('user_name'))) {
+            SessionManager::set('redirect_after_login', 'index.php?page=Cart&action=Checkout');
             header("Location: index.php?page=SignIn&action=login");
             exit();
         }

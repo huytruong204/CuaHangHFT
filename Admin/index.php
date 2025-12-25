@@ -11,7 +11,7 @@ if (!SessionManager::exists('user_id')) {
 }
 
 $userRole = SessionManager::get('user_role');
-if ($userRole !== 'admin') {
+if ($userRole !== 'admin' && $userRole !== 'shipper' ) {
     echo "<script>alert('Bạn không có quyền truy cập khu vực này'); window.location.href='../index.php?page=Home';</script>";
     exit;
 }

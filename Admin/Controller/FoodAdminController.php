@@ -13,7 +13,7 @@ class FoodAdminController
 
     public function Index()
     {
-        $rows_per_page = 8;
+        $rows_per_page = 10;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $where_clauses = [
             'foods.food_name' => $_GET['keyword'] ?? '',
@@ -29,6 +29,8 @@ class FoodAdminController
         $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
+        $cat = new CategoryModel();
+        $list_cat = $cat->getAllCategories();
         include_once "View/FoodAdmin/Index.php";
     }
 

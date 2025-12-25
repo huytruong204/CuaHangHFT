@@ -22,7 +22,12 @@
                 <div class="col-md-2">
                     <select class="form-select" name="cat_filter">
                         <option value="">-- Danh mục --</option>
-                        <option value="1" <?= (isset($_GET['cat_filter']) && $_GET['cat_filter'] == '1') ? 'selected' : '' ?>>Đồ uống</option>
+                        <?php
+                            foreach ($list_cat as $value) {
+                                echo "<option value='{$value->getCategory_id()}'>".$value->getCategory_name()."</option>";
+                            }
+                        ?>
+                        
                     </select>
                 </div>
 

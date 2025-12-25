@@ -28,7 +28,7 @@
 
     <ul class="nav navbar-nav navbar-right">
 
-        <?php if (SessionManager::get('user_role') === 'admin'): ?>
+        <?php if (SessionManager::get('user_role') === 'admin' || SessionManager::get('user_role') === 'shipper'): ?>
             <li>
                 <a href="./Admin/index.php?page=HomeAdmin" class="nav-highlight">
                     <i class="glyphicon glyphicon-cog"></i> Admin
