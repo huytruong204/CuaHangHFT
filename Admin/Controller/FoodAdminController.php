@@ -13,7 +13,7 @@ class FoodAdminController
 
     public function Index()
     {
-        $rows_per_page = 2;
+        $rows_per_page = 10;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $where_clauses = [
             'foods.food_name' => $_GET['keyword'] ?? '',

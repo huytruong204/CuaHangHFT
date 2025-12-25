@@ -26,7 +26,7 @@ class OrderAdminController
 
     public function Index()
     {
-        $rows_per_page = 4;
+        $rows_per_page = 10;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $status_map = self::STATUS_MAP;
 
