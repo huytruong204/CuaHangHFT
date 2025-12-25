@@ -1,6 +1,6 @@
 <div class="container min-h-70vh" style="margin-top: 20px">
     <h2 class="text-center text-uppercase fw-bold mb-30">Lịch sử đơn hàng</h2>
-    
+
     <?php if (!empty($msg)): ?>
         <div id="cart-notification" class="success-popup">
             <div class="popup-content">
@@ -11,24 +11,26 @@
             </div>
         </div>
     <?php endif; ?>
-
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
     <div class="row">
         <div class="col-md-12">
             <div class="card-white box-shadow-sm rounded-8 p-15 mb-20">
                 <form action="index.php" method="GET" class="form-inline" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;">
                     <input type="hidden" name="page" value="Order">
-                    
+
                     <div class="form-group">
                         <label for="search_id" class="sr-only">Mã đơn</label>
-                        <input type="text" class="form-control" name="search_id" id="search_id" 
-                               value="<?= isset($_GET['search_id']) ? htmlspecialchars($_GET['search_id']) : '' ?>" 
-                               placeholder="Nhập mã đơn hàng...">
+                        <input type="text" class="form-control" name="search_id" id="search_id"
+                            value="<?= isset($_GET['search_id']) ? htmlspecialchars($_GET['search_id']) : '' ?>"
+                            placeholder="Nhập mã đơn hàng...">
                     </div>
 
                     <div class="form-group">
                         <select name="status" class="form-control">
                             <option value="">-- Tất cả trạng thái --</option>
-                            <?php foreach($status_map as $key => $status_label): ?>
+                            <?php foreach ($status_map as $key => $status_label): ?>
                                 <option value="<?= $key ?>" <?= ($stt == $key) ? 'selected' : '' ?>>
                                     <?= $status_label ?>
                                 </option>
@@ -38,18 +40,18 @@
 
                     <div class="form-group">
                         <label class="fs-12" style="display:block; margin-bottom: 2px;">Từ ngày:</label>
-                        <input type="date" class="form-control" name="date_from" 
-                               value="<?= isset($_GET['date_from']) ? $_GET['date_from'] : '' ?>">
+                        <input type="date" class="form-control" name="date_from"
+                            value="<?= isset($_GET['date_from']) ? $_GET['date_from'] : '' ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="fs-12" style="display:block; margin-bottom: 2px;">Đến ngày:</label>
-                        <input type="date" class="form-control" name="date_to" 
-                               value="<?= isset($_GET['date_to']) ? $_GET['date_to'] : '' ?>">
+                        <input type="date" class="form-control" name="date_to"
+                            value="<?= isset($_GET['date_to']) ? $_GET['date_to'] : '' ?>">
                     </div>
 
                     <div class="form-group">
-                         <button type="submit" class="btn btn-primary btn-orange">
+                        <button type="submit" class="btn btn-primary btn-orange">
                             <i class="glyphicon glyphicon-search"></i> Lọc
                         </button>
                         <a href="index.php?page=Order" class="btn btn-default">Xóa lọc</a>
@@ -58,7 +60,7 @@
             </div>
             <?php if (!empty($orders)): ?>
                 <div class="table-responsive card-white box-shadow-md rounded-8">
-                   <table class="table table-hover">
+                    <table class="table table-hover">
                         <thead>
                             <tr class="tr-bg-muted">
                                 <th>Mã đơn</th>
@@ -101,7 +103,7 @@
                 </div>
             <?php else: ?>
                 <div class="text-center card-white p-50 rounded-8">
-                     <p class="text-muted">Không tìm thấy đơn hàng nào phù hợp.</p>
+                    <p class="text-muted">Không tìm thấy đơn hàng nào phù hợp.</p>
                 </div>
             <?php endif; ?>
         </div>

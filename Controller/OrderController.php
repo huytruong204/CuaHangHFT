@@ -44,6 +44,7 @@ class OrderController
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $orders = $this->orderModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
         $msg = SessionManager::flash('success');
+        $error = SessionManager::flash('error');
         include_once "View/Order/Index.php";
     }
 
@@ -57,10 +58,13 @@ class OrderController
         $order_id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($order_id);
         $items =  $this->orderItemModel->getOrderItems($order_id);
-        // load any existing reviews by this user for items in the order
-        include_once __DIR__ . '/../Model/ReviewModel.php';
         $reviewModel = new ReviewModel();
         $current_user = SessionManager::get('user_id');
+        if ($order['user_id'] != $current_user) {
+                SessionManager::flash('error', 'Bạn không có đơn hàng này.');
+                header("Location: index.php?page=Order");
+                exit();
+            }
         $userReviews = [];
         if (!empty($current_user) && is_array($items)) {
             foreach ($items as $it) {

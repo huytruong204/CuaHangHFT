@@ -121,21 +121,29 @@
 
                 <div class="col-md-4">
                     <label class="form-label text-dark">Người giao hàng</label>
+
                     <?php if ($is_locked || $is_delivered): ?>
                         <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
                     <?php endif; ?>
-                    <select name="shipper_id" class="form-select text-dark" <?= ($is_locked || $is_delivered) ? 'disabled' : '' ?>>
+
+                    <select name="shipper_id" class="form-select text-dark <?= !empty($error) ? 'is-invalid border-danger' : '' ?>"
+                        <?= ($is_locked || $is_delivered) ? 'disabled' : '' ?>>
+
                         <option value="">-- Chưa gán shipper --</option>
                         <?php if (!empty($shippers)): ?>
                             <?php foreach ($shippers as $shipper): ?>
                                 <option value="<?= $shipper['user_id'] ?>"
                                     <?= ($display_shipper == $shipper['user_id']) ? 'selected' : '' ?>>
                                     <?= $shipper['full_name'] ?> (<?= $shipper['user_name'] ?>)
-                                </option> <?php endforeach; ?>
+                                </option>
+                            <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
+
                     <?php if (!empty($error)): ?>
-                        <span class="text-danger small"><?= $error ?></span>
+                        <div class="invalid-feedback d-block text-danger fw-bold mt-2">
+                            <?= $error ?>
+                        </div>
                     <?php endif; ?>
                 </div>
 
