@@ -82,16 +82,7 @@
  }
 
  .category-scroll {
-   white-space: nowrap;
-   overflow-x: auto;
-   padding-bottom: 10px;
-   /* Ẩn thanh cuộn */
-   -ms-overflow-style: none;
-   scrollbar-width: none;
- }
-
- .category-scroll::-webkit-scrollbar {
-   display: none;
+   padding: 5px;
  }
 
 .category-btn {
@@ -100,7 +91,7 @@
     
     padding: 12px 30px; 
     
-    margin-right: 15px; 
+    margin: 10px 15px; 
     
     border: 1px solid #dee2e6;
     background-color: #fff;
@@ -252,35 +243,6 @@
    /* Căn giữa với nút */
  }
 
- /* --- Pagination Style Override --- */
- .pagination>li>a,
- .pagination>li>span {
-   color: #6b7280;
-   border: none;
-   margin: 0 2px;
-   border-radius: 50% !important;
-   width: 40px;
-   height: 40px;
-   line-height: 28px;
-   /* Điều chỉnh line-height để căn giữa số */
-   text-align: center;
-   background: transparent;
- }
-
- .pagination>li>a:hover {
-   background-color: var(--bg-orange-light);
-   color: var(--primary-color);
- }
-
- .pagination>.active>a,
- .pagination>.active>span,
- .pagination>.active>a:hover,
- .pagination>.active>span:hover {
-   background-color: var(--primary-color);
-   border-color: var(--primary-color);
-   color: #fff;
-   box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3);
- }
  /* Lớp phủ mờ toàn màn hình */
 .success-popup {
     position: fixed;

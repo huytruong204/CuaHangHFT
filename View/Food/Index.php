@@ -15,10 +15,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-12 mb-2">
                     <div class="input-group" style="width: 100%;">
-                        <input type="text" class="form-control" name="keyword" placeholder="Tìm tên món ăn..." value="<?= (isset($_GET['keyword'])) ? htmlspecialchars($_GET['keyword']) : '' ?>">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                        </span>
+                        <input type="text" style="border-radius: 10px" class="form-control" name="keyword" placeholder="Tìm tên món ăn..." value="<?= (isset($_GET['keyword'])) ? htmlspecialchars($_GET['keyword']) : '' ?>">
                     </div>
                 </div>
 
