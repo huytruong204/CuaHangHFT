@@ -1,0 +1,46 @@
+.card-title {
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.avatar-lg {
+  max-width: 160px;
+  border-radius: 8px;
+}
+
+.profile-card {
+  padding: 15px;
+}
+
+.profile-card .profile-meta {
+  margin-top: 12px;
+}
+
+.profile-card .profile-meta p {
+  margin: 2px 0;
+}
+
+.card-box {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+@media (max-width: 767px) {
+  .avatar-lg {
+    max-width: 120px;
+  }
+}
+
+.avatar-wrapper {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.avatar-wrapper img {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.avatar-wrapper img:hover {
+  opacity: 0.85;
+}
