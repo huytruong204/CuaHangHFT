@@ -43,7 +43,7 @@ class InvoicePDF extends TFPDF {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {   
-    header("Location: index.php?page=orderAdmin");
+    header("Location: index.php?page=OrderAdmin");
     exit();
 }
 

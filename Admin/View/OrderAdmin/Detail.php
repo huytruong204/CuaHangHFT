@@ -3,7 +3,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0 text-primary">Chi tiết đơn hàng #<?= $order['order_id'] ?></h3>
-            <a href="index.php?page=orderAdmin" class="btn btn-outline-danger">
+            <a href="index.php?page=OrderAdmin" class="btn btn-outline-danger">
                 <i class="fa fa-arrow-left me-2"></i>Quay lại
             </a>
         </div>

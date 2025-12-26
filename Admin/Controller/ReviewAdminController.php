@@ -1,8 +1,4 @@
 <?php
-include_once __DIR__ . '/../../Model/ReviewModel.php';
-include_once __DIR__ . '/../../Model/FoodModel.php';
-include_once __DIR__ . '/../../Model/UserModel.php';
-include_once __DIR__ . '/../../Helper/SessionManager.php';
 
 class ReviewAdminController
 {

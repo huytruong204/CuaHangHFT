@@ -1,6 +1,4 @@
 <?php
-include_once "../Model/OrderModel.php";
-include_once "../Model/OrderItemModel.php";
 
 class ReportAdminController
 {

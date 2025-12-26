@@ -1,9 +1,4 @@
 <?php
-include_once "../Model/OrderModel.php";
-include_once "../Model/OrderItemModel.php";
-include_once "../Helper/SessionManager.php";
-include_once "../Model/UserRoleModel.php";
-
 class OrderAdminController
 {
     public $orderModel;
@@ -85,7 +80,7 @@ class OrderAdminController
     public function Detail()
     {
         if (!isset($_GET['order_id'])) {
-            header("Location: index.php?page=orderAdmin");
+            header("Location: index.php?page=OrderAdmin");
             exit;
         }
         $role = SessionManager::get('user_role');
@@ -111,7 +106,7 @@ class OrderAdminController
 
         $shippers = $this->userRoleModel->getUsersByRole(3);
         if (!$order || !$shippers) {
-            header("Location: index.php?page=orderAdmin");
+            header("Location: index.php?page=OrderAdmin");
             exit;
         }
         $order_items = $this->orderItemModel->getOrderItems($id);
@@ -138,7 +133,7 @@ class OrderAdminController
                 if (!in_array($stt, $allowed)) {
                     SessionManager::flash('error', "Sai quy trình! Không thể chuyển từ '{$order['status']}' sang '$stt'.");
                     SessionManager::set('old_input', $_POST);
-                    header("Location: index.php?page=orderAdmin&action=detail&order_id=$order_id");
+                    header("Location: index.php?page=OrderAdmin&action=detail&order_id=$order_id");
                     exit();
                 }
             }

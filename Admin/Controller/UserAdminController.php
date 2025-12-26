@@ -1,10 +1,4 @@
 <?php
-include_once __DIR__ . "/../../Model/UserAdminModel.php";
-include_once __DIR__ . "/../../Model/RoleModel.php";
-include_once __DIR__ . "/../../Model/UserRoleModel.php";
-include_once __DIR__ . "/../../Helper/SessionManager.php";
-include_once __DIR__ . "/../../Helper/Upload_file.php";
-
 class UserAdminController {
     private $userAdminModel;
     private $roleModel;

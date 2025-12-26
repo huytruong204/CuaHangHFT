@@ -1,4 +1,10 @@
 <div class="container-fluid pt-4 px-4">
+    <?php if (!empty($msg_success)): ?>
+        <div class="alert alert-success text-center"><?= htmlspecialchars($msg_success) ?></div>
+    <?php endif; ?>
+    <?php if (!empty($msg_error)): ?>
+        <div class="alert alert-danger text-center"><?= htmlspecialchars($msg_error) ?></div>
+    <?php endif; ?>
     <div class="row g-4">
         <div class="col-sm-6 col-xl-3">
             <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
@@ -32,7 +38,7 @@
                 <i class="fa fa-chart-pie fa-3x text-primary"></i>
                 <div class="ms-3">
                     <p class="mb-2">Tổng món ăn</p>
-                    <h6 class="mb-0"><?= $countFood ?> Món</h6> 
+                    <h6 class="mb-0"><?= $countFood ?> Món</h6>
                 </div>
             </div>
         </div>
@@ -63,35 +69,35 @@
                             <tr>
                                 <td>#<?php echo $order->getOrderId(); ?></td>
                                 <td><?php echo date('d M Y', strtotime($order->getCreatedAt())); ?></td>
-                                <td><?php echo $order->getUserId(); ?></td> 
+                                <td><?php echo $order->getUserId(); ?></td>
                                 <td><?php echo number_format($order->getTotal_money()); ?>đ</td>
                                 <td>
-                                    <?php 
-                                        $status = $order->getStatus();
-                                        $badgeClass = 'bg-secondary';
-                                        $statusText = $status;
-                                        switch ($status) {
-                                            case 'Chờ xác nhận':
-                                                $badgeClass = 'bg-warning text-dark';
-                                                break;
-                                            case 'Đã xác nhận':
-                                                $badgeClass = 'bg-info text-dark';
-                                                break;
-                                            case 'Đang chuẩn bị':
-                                            case 'Chờ shipper':
-                                                $badgeClass = 'bg-primary';
-                                                break;
-                                            case 'Đang giao hàng':
-                                                $badgeClass = 'bg-primary';
-                                                break;
-                                            case 'Đã giao hàng':
-                                                $badgeClass = 'bg-success';
-                                                break;
-                                            case 'Đã hủy':
-                                            case 'Hoàn tiền':
-                                                $badgeClass = 'bg-danger';
-                                                break;
-                                        }
+                                    <?php
+                                    $status = $order->getStatus();
+                                    $badgeClass = 'bg-secondary';
+                                    $statusText = $status;
+                                    switch ($status) {
+                                        case 'Chờ xác nhận':
+                                            $badgeClass = 'bg-warning text-dark';
+                                            break;
+                                        case 'Đã xác nhận':
+                                            $badgeClass = 'bg-info text-dark';
+                                            break;
+                                        case 'Đang chuẩn bị':
+                                        case 'Chờ shipper':
+                                            $badgeClass = 'bg-primary';
+                                            break;
+                                        case 'Đang giao hàng':
+                                            $badgeClass = 'bg-primary';
+                                            break;
+                                        case 'Đã giao hàng':
+                                            $badgeClass = 'bg-success';
+                                            break;
+                                        case 'Đã hủy':
+                                        case 'Hoàn tiền':
+                                            $badgeClass = 'bg-danger';
+                                            break;
+                                    }
                                     ?>
                                     <span class="badge <?php echo $badgeClass; ?>"><?php echo $statusText; ?></span>
                                 </td>
@@ -99,7 +105,9 @@
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr class="text-center"><td colspan="6">Không có đơn hàng nào.</td></tr>
+                        <tr class="text-center">
+                            <td colspan="6">Không có đơn hàng nào.</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>

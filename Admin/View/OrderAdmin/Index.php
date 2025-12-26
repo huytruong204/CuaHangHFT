@@ -101,7 +101,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="index.php?page=orderAdmin&action=Detail&order_id=<?= $order->getOrderId() ?>"
+                                        <a href="index.php?page=OrderAdmin&action=Detail&order_id=<?= $order->getOrderId() ?>"
                                             class="btn btn-sm btn-outline-info btn-sm-wide minw-110" title="Xem chi tiết">
                                             <i class="fa fa-eye"></i> <span class="ml-6">Chi tiết</span>
                                         </a>

@@ -1,7 +1,4 @@
 <?php
-include_once "../Model/FoodModel.php";
-include_once "../Helper/Upload_file.php";
-include_once "../Model/CategoryModel.php";
 
 class FoodAdminController
 {

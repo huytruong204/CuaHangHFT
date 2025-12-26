@@ -26,9 +26,6 @@
 
 <body>
     <?php
-    include_once __DIR__ . '/../../../Helper/SessionManager.php';
-    include_once __DIR__ . '/../../../Model/UserModel.php';
-    SessionManager::start();
     
     $admin_name = 'Admin';
     $admin_avatar = '';
@@ -36,6 +33,7 @@
     // Lấy thông tin user từ database theo user_id
     if (SessionManager::exists('user_id')) {
         $user_id = SessionManager::get('user_id');
+        $user_role = SessionManager::get('user_role');
         $userModel = new UserModel();
         $user = $userModel->getDetail($user_id);
         
@@ -65,31 +63,38 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0 text-dark"><?= htmlspecialchars($admin_name) ?></h6>
-                        <span>Admin</span>
+                        <span><?= $user_role ?></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="index.php?page=HomeAdmin" class="nav-item nav-link <?= ($page == 'HomeAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-tachometer-alt me-2"></i>Trang chủ
-                    </a>
-                    <a href="index.php?page=CategoryAdmin" class="nav-item nav-link <?= ($page == 'CategoryAdmin') ? 'active' : '' ?>">
-                        <i class="bi bi-list me-2"></i>Quản lý danh mục
-                    </a>
-                    <a href="index.php?page=FoodAdmin" class="nav-item nav-link <?= ($page == 'FoodAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-hamburger me-2"></i>Quản lý món ăn
-                    </a>
-                    <a href="index.php?page=UserAdmin" class="nav-item nav-link <?= ($page == 'UserAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-users me-2"></i>Quản lý người dùng
-                    </a>
-                    <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-file-invoice-dollar"></i>Quản lý đơn hàng
-                    </a>
-                    <a href="index.php?page=ReviewAdmin" class="nav-item nav-link <?= ($page == 'ReviewAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-star me-2"></i>Quản lý đánh giá
-                    </a>
-                    <a href="index.php?page=ReportAdmin" class="nav-item nav-link <?= ($page == 'ReportAdmin') ? 'active' : '' ?>">
-                        <i class="fa fa-chart-bar me-2"></i>Báo cáo
-                    </a>
+                    <?php if($user_role === 'admin'): ?>
+                        <a href="index.php?page=HomeAdmin" class="nav-item nav-link <?= ($page == 'HomeAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-tachometer-alt me-2"></i>Trang chủ
+                        </a>
+                        <a href="index.php?page=CategoryAdmin" class="nav-item nav-link <?= ($page == 'CategoryAdmin') ? 'active' : '' ?>">
+                            <i class="bi bi-list me-2"></i>Quản lý danh mục
+                        </a>
+                        <a href="index.php?page=FoodAdmin" class="nav-item nav-link <?= ($page == 'FoodAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-hamburger me-2"></i>Quản lý món ăn
+                        </a>
+                        <a href="index.php?page=UserAdmin" class="nav-item nav-link <?= ($page == 'UserAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-users me-2"></i>Quản lý người dùng
+                        </a>
+                        <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-file-invoice-dollar"></i>Quản lý đơn hàng
+                        </a>
+                        <a href="index.php?page=ReviewAdmin" class="nav-item nav-link <?= ($page == 'ReviewAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-star me-2"></i>Quản lý đánh giá
+                        </a>
+                        <a href="index.php?page=ReportAdmin" class="nav-item nav-link <?= ($page == 'ReportAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-chart-bar me-2"></i>Báo cáo
+                        </a>
+                    <?php else: ?>
+                        <a href="index.php?page=OrderAdmin" class="nav-item nav-link <?= ($page == 'OrderAdmin') ? 'active' : '' ?>">
+                            <i class="fa fa-file-invoice-dollar"></i>Quản lý đơn hàng
+                        </a>
+                    <?php endif; ?>
+
                     <a href="../index.php?page=Home" class="nav-item nav-link">
                         <i class="fa fa-store me-2"></i>Về cửa hàng
                     </a>
