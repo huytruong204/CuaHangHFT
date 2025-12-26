@@ -77,6 +77,13 @@
 								</div>
 
 								<div class="form-row">
+									<div class="form-group col-sm-12">
+										<label for="email">Email <span class="text-danger">*</span></label>
+										<input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user->getEmail() ?? '') ?>" required>
+									</div>
+								</div>
+
+								<div class="form-row">
 									<div class="form-group col-sm-8">
 										<label for="address">Địa chỉ <span class="text-danger">*</span></label>
 										<input type="text" class="form-control" id="address" name="address" value="<?= htmlspecialchars($user->getAddress() ?? '') ?>" required>

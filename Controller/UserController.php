@@ -46,6 +46,7 @@ class UserController
             $phone_number = trim($_POST['phone_number'] ?? '');
             $address = trim($_POST['address'] ?? '');
             $city = trim($_POST['city'] ?? '');
+            $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
 
             // Validate using UserModel (only required fields for update)
@@ -55,7 +56,8 @@ class UserController
                 'full_name' => $full_name,
                 'phone_number' => $phone_number,
                 'address' => $address,
-                'city' => $city
+                'city' => $city,
+                'email' => $email
             ]);
 
             $validationErrors = $tempUser->validate($tempUser);
@@ -73,6 +75,22 @@ class UserController
                 'address' => $address,
                 'city' => $city
             ];
+
+            // email validation & include
+            if (!empty($email)) {
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $errors[] = 'Email không hợp lệ.';
+                } else {
+                    $existing = $this->userModel->getByEmail($email);
+                    if ($existing && $existing->getUser_id() != $user_id) {
+                        $errors[] = 'Email đã được sử dụng bởi tài khoản khác.';
+                    } else {
+                        $updateData['email'] = $email;
+                    }
+                }
+            } else {
+                $errors[] = 'Email không được để trống.';
+            }
 
             // handle password change if provided
             if (!empty($password)) {

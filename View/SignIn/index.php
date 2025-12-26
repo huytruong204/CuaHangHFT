@@ -29,7 +29,7 @@
 						</div>
 
 						<div class="form-group clearfix">
-							<div class="pull-right"><a href="index.php?page=Forgot">Quên mật khẩu?</a></div>
+							<div class="pull-right"><a href="index.php?page=Auth&action=forgotPassword">Quên mật khẩu?</a></div>
 						</div>
 
 						<button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>

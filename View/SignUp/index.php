@@ -10,9 +10,9 @@
           <?php if (!empty($error_message) || !empty($errors) || !empty($register_error)): ?>
             <div class="alert alert-danger">
               <?php
-                if (!empty($register_error)) echo $register_error;
-                elseif (!empty($error_message)) echo $error_message;
-                elseif (!empty($errors) && is_array($errors)) echo implode('<br>', $errors);
+              if (!empty($register_error)) echo $register_error;
+              elseif (!empty($error_message)) echo $error_message;
+              elseif (!empty($errors) && is_array($errors)) echo implode('<br>', $errors);
               ?>
             </div>
           <?php endif; ?>
@@ -25,7 +25,7 @@
                   <input type="file" id="avatar_url" name="avatar_url" accept="image/*" style="display:none">
                 </div>
                 <p class="avatar-hint">Nhấn để chọn ảnh đại diện</p>
-                
+
               </div>
               <div class="col-md-8">
                 <div class="row">
@@ -59,6 +59,11 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                </div>
+
+                <div class="form-group">
                   <label for="phone_number">Số điện thoại</label>
                   <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại" required value="<?= htmlspecialchars($_POST['phone_number'] ?? '') ?>">
                 </div>
@@ -70,7 +75,7 @@
 
                 <div class="form-group">
                   <label for="city">Tỉnh/Thành phố</label>
-                  <?php $selectedCity = $_POST['city'] ?? '';?>
+                  <?php $selectedCity = $_POST['city'] ?? ''; ?>
                   <?php $cities = include __DIR__ . '/../../assets/data/cities.php'; ?>
                   <select class="form-control" id="city" name="city" required>
                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
@@ -94,13 +99,17 @@
           </form>
 
           <script>
-            document.addEventListener('DOMContentLoaded', function(){
+            document.addEventListener('DOMContentLoaded', function() {
               const avatarInput = document.getElementById('avatar_url');
               const avatarPreview = document.getElementById('avatar_preview');
               const avatarWrapper = document.querySelector('.avatar-wrapper');
-              
-              console.log('Avatar elements:', {avatarInput, avatarPreview, avatarWrapper}); // Debug
-              
+
+              console.log('Avatar elements:', {
+                avatarInput,
+                avatarPreview,
+                avatarWrapper
+              }); // Debug
+
               if (!avatarInput || !avatarWrapper) {
                 console.error('Không tìm thấy avatar elements');
                 return;
@@ -118,7 +127,7 @@
               });
 
               // Click vào wrapper để mở file picker
-              avatarWrapper.addEventListener('click', function(e){
+              avatarWrapper.addEventListener('click', function(e) {
                 console.log('Avatar wrapper clicked'); // Debug
                 avatarInput.click();
               });
@@ -129,5 +138,3 @@
     </div>
   </div>
 </section>
-
-
