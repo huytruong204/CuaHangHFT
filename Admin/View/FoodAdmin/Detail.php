@@ -45,7 +45,7 @@
                                     </span>
                                 <?php else: ?>
                                     <span class="badge bg-danger rounded-pill px-3 py-2">
-                                        <i class="fa fa-times-circle me-1"></i>Ngừng bán
+                                        <i class="fa fa-times-circle me-1"></i>Hết hàng
                                     </span>
                                 <?php endif; ?>
                             </div>

@@ -93,8 +93,8 @@
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select" id="status" name="status">
-                                    <option value="1" <?= ($food->getStatus() == 1) ? 'selected' : '' ?> class="text-success fw-bold">Đang bán (Active)</option>
-                                    <option value="0" <?= ($food->getStatus() == 0) ? 'selected' : '' ?> class="text-danger fw-bold">Ngừng bán (Inactive)</option>
+                                    <option value="1" <?= ($food->getStatus() == 1) ? 'selected' : '' ?> class="text-success fw-bold">Đang bán</option>
+                                    <option value="0" <?= ($food->getStatus() == 0) ? 'selected' : '' ?> class="text-danger fw-bold">Hết hàng</option>
                                 </select>
                                 <label for="status">Trạng thái</label>
                             </div>

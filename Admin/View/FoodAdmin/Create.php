@@ -89,7 +89,7 @@
                             <div class="form-floating">
                                 <select class="form-select" id="status" name="status">
                                     <option value="1" selected class="text-success">Đang bán</option>
-                                    <option value="0" class="text-danger">Ngừng bán</option>
+                                    <option value="0" class="text-danger">Hết hàng</option>
                                 </select>
                                 <label for="status">Trạng thái</label>
                             </div>
