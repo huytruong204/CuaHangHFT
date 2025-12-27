@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Bình luận (tuỳ chọn)</label>
+                                <label class="form-label">Bình luận</label>
                                 <?php $oldComment = $old['comment'] ?? ($_POST['comment'] ?? ''); ?>
                                 <textarea id="review_comment" name="comment" class="form-control" rows="6" maxlength="200" wrap="soft"><?= htmlspecialchars($oldComment) ?></textarea>
                                 <div class="form-text mt-1"><span id="comment_chars">0</span>/200 ký tự</div>

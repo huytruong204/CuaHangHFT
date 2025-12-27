@@ -3,8 +3,10 @@ require_once "../tfpdf/tfpdf.php";
 include_once "../Model/OrderModel.php";
 include_once "../Model/OrderItemModel.php";
 
-class InvoicePDF extends TFPDF {
-    function DashedLine($x1, $y1, $x2, $y2, $width = 1, $nb = 15) {
+class InvoicePDF extends TFPDF
+{
+    function DashedLine($x1, $y1, $x2, $y2, $width = 1, $nb = 15)
+    {
         $this->SetLineWidth($width);
         $longueur = $x2 - $x1;
         $ratio = $longueur / $nb;
@@ -13,21 +15,22 @@ class InvoicePDF extends TFPDF {
                 $this->Line($x1 + ($ratio * $i), $y1, $x1 + ($ratio * ($i + 1)), $y1);
             }
         }
-        $this->SetLineWidth(0.2); 
+        $this->SetLineWidth(0.2);
     }
 
-    function Header() {
+    function Header()
+    {
 
         $this->AddFont('DejaVu', '', 'DejaVuSans.ttf', true);
-        $this->AddFont('DejaVu', 'B', 'DejaVuSans-Bold.ttf', true); 
+        $this->AddFont('DejaVu', 'B', 'DejaVuSans-Bold.ttf', true);
 
         $this->SetFont('DejaVu', 'B', 15);
         $this->Cell(0, 8, 'HFT FOOD', 0, 1, 'C');
-        
+
         $this->SetFont('DejaVu', '', 9);
         $this->MultiCell(0, 5, "Địa chỉ: ....", 0, 'C');
         $this->Cell(0, 5, 'Điện thoại: ....', 0, 1, 'C');
-        
+
         $this->Ln(3);
     }
 
@@ -37,12 +40,13 @@ class InvoicePDF extends TFPDF {
     //     $this->Cell(0, 10, 'Cảm ơn và hẹn gặp lại!', 0, 0, 'C');
     // }
 
-    function currency_format($number) {
-        return number_format($number, 0, ',', '.'); 
+    function currency_format($number)
+    {
+        return number_format($number, 0, ',', '.');
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== "POST") {   
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     header("Location: index.php?page=OrderAdmin");
     exit();
 }
@@ -56,7 +60,7 @@ $items = $orderItem->getOrderItems($order_id);
 
 $pdf = new InvoicePDF('P', 'mm', 'A4');
 
-$pdf->SetMargins(70, 10, 70); 
+$pdf->SetMargins(70, 10, 70);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
@@ -71,7 +75,7 @@ $pdf->SetFont('DejaVu', '', 10);
 $pdf->Cell(0, 5, 'Số HĐ: Hóa đơn ' . $order_id, 0, 1, 'C');
 
 
-$date = date_create($orderArr['created_at']); 
+$date = date_create($orderArr['created_at']);
 $day = date_format($date, 'd');
 $month = date_format($date, 'm');
 $year = date_format($date, 'Y');
@@ -86,11 +90,11 @@ $pdf->Cell(25, 5, 'SĐT:', 0, 0);
 $pdf->Cell(0, 5, $orderArr['phone_number'] ?? '', 0, 1);
 
 $pdf->Cell(25, 5, 'Địa chỉ:', 0, 0);
-$pdf->Cell(0, 5, $orderArr['address'] ?? '-', 0, 1); 
+$pdf->Cell(0, 5, $orderArr['address'] ?? '-', 0, 1);
 
 $pdf->Ln(2);
 $pdf->SetLineWidth(0.4);
-$pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 70, $pdf->GetY()); 
+$pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->GetX() + 70, $pdf->GetY());
 $pdf->SetLineWidth(0.2);
 $pdf->Ln(1);
 
@@ -107,15 +111,15 @@ $pdf->SetFont('DejaVu', '', 10);
 
 foreach ($items as $item) {
     $totalItem = $item['quantity'] * $item['price_at_purchase'];
-    
+
     $pdf->SetFont('DejaVu', '', 10);
     $pdf->MultiCell(0, 5, $item['food_name']);
-    
+
     $pdf->SetFont('DejaVu', '', 10);
     $pdf->Cell(25, 5, $pdf->currency_format($item['price_at_purchase']), 0, 0, 'L');
     $pdf->Cell(20, 5, $item['quantity'], 0, 0, 'C');
     $pdf->Cell(25, 5, $pdf->currency_format($totalItem), 0, 1, 'R');
-    
+
     $y = $pdf->GetY();
     $pdf->DashedLine($pdf->GetX(), $y + 1, $pdf->GetX() + 70, $y + 1, 0.1, 25);
     $pdf->Ln(3);
@@ -147,4 +151,3 @@ $pdf->MultiCell(0, 5, $note);
 $pdf->SetFont('DejaVu', 'I', 10);
 $pdf->Cell(0, 6, "Cảm ơn và hẹn gặp lại", 0, 0, 'C');
 $pdf->Output();
-?>
