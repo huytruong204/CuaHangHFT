@@ -1,17 +1,10 @@
 <?php 
-    
     class MenuComponent{
-        public $categoryModel;
-        public function __construct()
-        {
-            $this->categoryModel = new CategoryModel();
-        }
-        public function Index() {
-            $list_cat = $this->categoryModel->getAllCategories();
+        public static function Index() {
             $exists_id = SessionManager::exists('user_id');
-            $name = SessionManager::get('user_name', 'Người dùng');
+            $role_user = SessionManager::get('user_role');
             $count = CartModel::getCountCart();
-            $user = null;
+            $user = '';
             if ($exists_id) {
                 $user = (new UserModel())->getDetail(SessionManager::get('user_id'));
             }

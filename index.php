@@ -17,11 +17,7 @@ spl_autoload_register(function ($className) {
     }
 });
 
-require_once "./ViewComponent/MenuComponent.php";
 include_once "./View/Layout/Header.php";
-$menu = new MenuComponent();
-$menu->Index();
-
 $page = isset($_GET["page"]) ? $_GET["page"] : "";
 $controllerName = $page . "Controller";
 if (class_exists($controllerName)) {
@@ -29,8 +25,10 @@ if (class_exists($controllerName)) {
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "Index";
     if (method_exists($controller, $methodName))
         $controller->$methodName();
-    else
-        echo "Khong ton tai $methodName";
+    else{
+        $home = new HomeController();
+        $home->Index();
+    }
 } else {
     $home = new HomeController();
     $home->Index();

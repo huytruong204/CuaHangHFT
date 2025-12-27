@@ -42,5 +42,6 @@
 				</button>
 				<a class="navbar-brand" href="index.php?page=Home"> <i class="fa fa-cutlery"></i> HFT <br> </a>
 			</div>
+			<?php MenuComponent::Index();?>
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<!-- Collect the nav links, forms, and other content for toggling -->

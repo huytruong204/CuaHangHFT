@@ -7,19 +7,10 @@
             </a>
         </li>
 
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                <i class="glyphicon glyphicon-cutlery"></i> Thực đơn <span class="caret"></span>
+        <li>
+            <a href="index.php?page=Food">
+                <i class="glyphicon glyphicon-cutlery"></i> Thực đơn 
             </a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="Index.php?page=Food"><strong>Tất cả món ăn</strong></a></li>
-                <li class="divider"></li>
-                <?php
-                foreach ($list_cat as $cat) {
-                    echo "<li><a href='Index.php?page=Food&cat_filter={$cat->getCategory_id()}'>{$cat->getCategory_name()}</a></li>";
-                }
-                ?>
-            </ul>
         </li>
 
         <li><a href="#"><i class="glyphicon glyphicon-gift"></i> Khuyến mãi</a></li>
@@ -28,7 +19,7 @@
 
     <ul class="nav navbar-nav navbar-right">
 
-        <?php if (SessionManager::get('user_role') === 'admin' || SessionManager::get('user_role') === 'shipper'): ?>
+        <?php if ($role_user === 'admin' || $role_user === 'shipper'): ?>
             <li>
                 <a href="./Admin/index.php?page=HomeAdmin" class="nav-highlight">
                     <i class="glyphicon glyphicon-cog"></i> Admin
@@ -43,22 +34,29 @@
         </li>
 
         <?php if ($exists_id):
-            $displayName = htmlspecialchars($name);
         ?>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold;">
-                    <i class="glyphicon glyphicon-user"></i> Xin chào, <?= $displayName ?> <span class="caret"></span>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: bold; display: flex; align-items: center; margin-top: -5px">
+                    <?php
+                    $avatarUrl = $user->getAvatar_url();
+                    if (!empty($avatarUrl)):
+                    ?>
+                        <img src="assets/img/avatars/<?= $avatarUrl ?>" alt="Avatar"
+                            style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid #ddd;">
+                    <?php else: ?>
+                        <i class="glyphicon glyphicon-user" style="margin-right: 5px;"></i>
+                    <?php endif; ?>
+
+                    Xin chào, <?= htmlspecialchars($user->getFull_name() ?? $user->getUser_name()) ?>
+                    <span class="caret"></span>
                 </a>
+
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="index.php?page=User">
-                            Hồ sơ cá nhân
-                        </a>
+                        <a href="index.php?page=User">Hồ sơ cá nhân</a>
                     </li>
                     <li>
-                        <a href="index.php?page=Order">
-                            Lịch sử đơn hàng
-                        </a>
+                        <a href="index.php?page=Order">Lịch sử đơn hàng</a>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -68,7 +66,6 @@
                     </li>
                 </ul>
             </li>
-
         <?php else: ?>
 
             <li>

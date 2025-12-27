@@ -1,11 +1,8 @@
 <?php
-include_once __DIR__ . '/../Model/UserModel.php';
-include_once __DIR__ . '/../Helper/SessionManager.php';
 
-// PHPMailer
-require_once __DIR__ . '/../libs/src/Exception.php';
-require_once __DIR__ . '/../libs/src/PHPMailer.php';
-require_once __DIR__ . '/../libs/src/SMTP.php';
+require_once './libs/src/Exception.php';
+require_once './libs/src/PHPMailer.php';
+require_once './libs/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -115,10 +112,10 @@ class AuthController
         $mail->isSMTP();
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = '1d261532e7d752';
+        $mail->Port = 587;
+        $mail->Username = '';
         // Mailtrap SMTP password (inserted)
-        $mail->Password = 'a37283986fba50';
+        $mail->Password = '';
 
         // Recommended secure settings
         $mail->SMTPSecure = 'tls';
@@ -138,7 +135,7 @@ class AuthController
         };
 
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom('no-reply@' . $_SERVER['HTTP_HOST'], 'HFT Demo');
+        $mail->setFrom('no-reply@example.com', 'HFT Demo');
         $mail->addAddress($toEmail);
 
         $mail->isHTML(true);

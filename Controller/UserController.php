@@ -1,5 +1,4 @@
 <?php
-include_once __DIR__ . '/../Helper/Upload_file.php';
 
 class UserController
 {
@@ -20,17 +19,6 @@ class UserController
         $msg = SessionManager::flash("success");
         return require_once "./View/User/Index.php";
     }
-
-    public function Edit()
-    {
-        if (!SessionManager::exists('user_id')) {
-            header('Location: index.php?page=SignIn');
-            exit;
-        }
-        $user = $this->userModel->getDetail(SessionManager::get('user_id'));
-        return require_once "./View/User/Edit.php";
-    }
-
     public function Update()
     {
         if (!SessionManager::exists('user_id')) {
