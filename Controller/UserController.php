@@ -87,7 +87,7 @@ class UserController
 
             // handle avatar upload
             if (isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])) {
-                $upload = Helper::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
+                $upload = Upload_file::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
                 if ($upload['status']) {
                     $updateData['avatar_url'] = $upload['file_name'];
                 } else {

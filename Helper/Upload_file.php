@@ -1,5 +1,5 @@
 <?php
-class Helper
+class Upload_file
 {
     public static function Upload_image($image_file, $folder)
     {

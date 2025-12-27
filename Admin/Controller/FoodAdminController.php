@@ -50,7 +50,7 @@ class FoodAdminController
             ];
             $errors = $this->foodModel->validate(new FoodModel($data));
             if (empty($errors)) {
-                $upload_img = Helper::Upload_image($_FILES['image_url'],  "../assets/img/img_foods/");
+                $upload_img = Upload_file::Upload_image($_FILES['image_url'],  "../assets/img/img_foods/");
                 if ($upload_img['status'] == true) {
                     $img_url = $upload_img['file_name'];
                     $data['image_url'] = $img_url;
@@ -111,7 +111,7 @@ class FoodAdminController
             ];
             $path = "../assets/img/img_foods/";
             if (!empty($_FILES['image_url']['name'])) {
-                $upload_img = Helper::Upload_image($_FILES['image_url'], $path);
+                $upload_img = Upload_file::Upload_image($_FILES['image_url'], $path);
                 if ($upload_img['status'] == true) {
                     $image_old = $path . $data['image_url'];
                     if (file_exists($image_old)) {

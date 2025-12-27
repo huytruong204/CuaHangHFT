@@ -66,7 +66,7 @@ class SignUpController
 
             $avatar_file_name = '';
             if (!$errors && isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])) {
-                $upload = Helper::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
+                $upload = Upload_file::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
                 if ($upload['status']) {
                     $avatar_file_name = $upload['file_name'];
                 } else {
