@@ -1,7 +1,6 @@
-
-<div class="container-fluid pt-4 px-3">
+<div class="pt-4 px-3">
     <div class="row justify-content-center mx-0" style="min-height: 80vh;">
-        <div class="col-12 col-xl-10">
+        <div class="col-12">
             <div class="bg-secondary rounded p-4 h-100"> <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
                     <h4 class="mb-0 text-primary">
                         <i class="fa fa-info-circle me-2"></i>Chi tiết món ăn

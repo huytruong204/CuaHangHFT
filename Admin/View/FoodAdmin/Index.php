@@ -42,7 +42,7 @@
                     <select class="form-select" name="status_filter">
                         <option value="">-- Trạng thái --</option>
                         <option value="1" <?= (isset($_GET['status_filter']) && $_GET['status_filter'] === '1') ? 'selected' : '' ?>>Đang bán</option>
-                        <option value="0" <?= (isset($_GET['status_filter']) && $_GET['status_filter'] === '0') ? 'selected' : '' ?>>Ngừng bán</option>
+                        <option value="0" <?= (isset($_GET['status_filter']) && $_GET['status_filter'] === '0') ? 'selected' : '' ?>>Hết hàng</option>
                     </select>
                 </div>
 

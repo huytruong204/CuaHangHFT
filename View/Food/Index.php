@@ -88,11 +88,11 @@
                                     $is_sold_out = true;
                                 }
                                 $card_class = $is_sold_out ? 'sold-out-mode' : '';
-                                $badge_html = $is_sold_out ? "<span class='badge-sold-out'>Tạm ngừng bán</span>" : "";
+                                $badge_html = $is_sold_out ? "<span class='badge-sold-out'>Tạm hết hàng</span>" : "";
                                 
                                 if ($is_sold_out) {
                                     $action_btn = "
-                                    <button type='button' class='btn-disabled' disabled title='Sản phẩm tạm ngưng bán'>
+                                    <button type='button' class='btn-disabled' disabled title='Sản phẩm tạm hết hàng'>
                                         <span class='glyphicon glyphicon-ban-circle'></span>
                                     </button>";
                                 } else {

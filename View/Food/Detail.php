@@ -53,11 +53,11 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
             <?php if ($is_sold_out): ?>
 
                 <div class="alert detail-alert">
-                    <i class="glyphicon glyphicon-info-sign"></i> Sản phẩm này hiện đang tạm ngưng kinh doanh.
+                    <i class="glyphicon glyphicon-info-sign"></i> Sản phẩm này hiện đang tạm hết hàng.
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
                     <button type="button" class="btn btn-default btn-lg btn-fullwidth" disabled>
-                        <i class="glyphicon glyphicon-ban-circle"></i> TẠM NGƯNG BÁN
+                        <i class="glyphicon glyphicon-ban-circle"></i> TẠM HẾT HÀNG
                     </button>
                 </div>
 
