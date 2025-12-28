@@ -87,6 +87,20 @@ class OrderAdminController
         $id = $_GET['order_id'];
         $order = $this->orderModel->getOrderById($id);
 
+        if (!$order) {
+            SessionManager::flash('error', 'Đơn hàng không tồn tại.');
+            header("Location: index.php?page=OrderAdmin");
+            exit;
+        }
+        if ($role === 'shipper') {
+            $current_user_id = SessionManager::get('user_id'); 
+            if ($order['shipper_id'] != $current_user_id) {
+                SessionManager::flash('error', 'Bạn không có quyền truy cập đơn hàng của người khác!');
+                header("Location: index.php?page=OrderAdmin");
+                exit;
+            }
+        }
+
         $old_input = isset($_SESSION['old_input']) ? $_SESSION['old_input'] : null;
         if ($old_input) {
             SessionManager::remove('old_input');
