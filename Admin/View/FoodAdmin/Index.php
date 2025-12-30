@@ -95,7 +95,7 @@
                             if ($value->getStatus() == 1)
                                 $status = "<span class='badge bg-success'>Đang bán</span>";
                             else
-                                $status = "<span class='badge bg-danger'>Ngừng bán</span>";
+                                $status = "<span class='badge bg-danger'>Hết hàng</span>";
 
                             // In ra HTML
                             echo "
