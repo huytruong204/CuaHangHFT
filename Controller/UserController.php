@@ -119,7 +119,7 @@ class UserController
     public function Logout()
     {
         SessionManager::destroy();
-        header('Location: index.php?page=Home');
+        header('Location: index.php?page=SignIn');
         exit;
     }
 }

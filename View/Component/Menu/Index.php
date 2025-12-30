@@ -1,15 +1,15 @@
 <div class="collapse navbar-collapse " style="padding-top: 10px" id="bs-example-navbar-collapse-1">
 
     <ul class="nav navbar-nav">
-        <li class='active'>
+        <!-- <li class='active'>
             <a href="index.php?page=Home">
                 <i class="glyphicon glyphicon-home"></i> Trang chủ
             </a>
-        </li>
+        </li> -->
 
         <li>
             <a href="index.php?page=Food">
-                <i class="glyphicon glyphicon-cutlery"></i> Thực đơn 
+                <i class="glyphicon glyphicon-cutlery"></i> Thực đơn
             </a>
         </li>
 

@@ -12,7 +12,7 @@ spl_autoload_register(function ($className) {
         $path = $dir . $className . ".php";
         if (file_exists($path)) {
             require_once $path;
-            return; 
+            return;
         }
     }
 });
@@ -25,12 +25,12 @@ if (class_exists($controllerName)) {
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "Index";
     if (method_exists($controller, $methodName))
         $controller->$methodName();
-    else{
-        $home = new HomeController();
+    else {
+        $home = new FoodController();
         $home->Index();
     }
 } else {
-    $home = new HomeController();
+    $home = new FoodController();
     $home->Index();
 }
 include_once "./View/Layout/Footer.php";

@@ -26,23 +26,23 @@
 
 <body>
     <?php
-    
+
     $admin_name = 'Admin';
     $admin_avatar = '';
-    
+
     // Lấy thông tin user từ database theo user_id
     if (SessionManager::exists('user_id')) {
         $user_id = SessionManager::get('user_id');
         $user_role = SessionManager::get('user_role');
         $userModel = new UserModel();
         $user = $userModel->getDetail($user_id);
-        
+
         if ($user) {
             $admin_name = $user->getFull_name() ?: $user->getUser_name();
             $admin_avatar = $user->getAvatar_url();
         }
     }
-    
+
     $avatar_path = !empty($admin_avatar) ? '../assets/img/avatars/' . $admin_avatar : 'assets/img/user.jpg';
     ?>
     <div class="container-fluid position-relative d-flex p-0">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <?php if($user_role === 'admin'): ?>
+                    <?php if ($user_role === 'admin'): ?>
                         <a href="index.php?page=HomeAdmin" class="nav-item nav-link <?= ($page == 'HomeAdmin') ? 'active' : '' ?>">
                             <i class="fa fa-tachometer-alt me-2"></i>Trang chủ
                         </a>
@@ -95,7 +95,7 @@
                         </a>
                     <?php endif; ?>
 
-                    <a href="../index.php?page=Home" class="nav-item nav-link">
+                    <a href="../index.php?page=Food" class="nav-item nav-link">
                         <i class="fa fa-store me-2"></i>Về cửa hàng
                     </a>
                 </div>
