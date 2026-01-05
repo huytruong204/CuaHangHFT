@@ -67,7 +67,7 @@
                                                     </button>
                                                 </span>
                                                 <input type="hidden" name="food_id" value="<?= $id ?>">
-                                                <input type="text" 
+                                                <input type="number" 
                                                     name="quantity" 
                                                     value="<?= $item->quantity ?>" 
                                                     class="form-control text-center" 

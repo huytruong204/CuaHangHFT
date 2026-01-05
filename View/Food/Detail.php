@@ -85,7 +85,8 @@ $sold_class = $is_sold_out ? ' sold-out' : '';
                             value="1"
                             min="1"
                             max="10"
-                            style="width: 50px !important; min-width: 50px; height: 34px; padding: 0;">
+                            style="width: 50px !important; min-width: 50px; height: 34px; padding: 0;"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57" >
 
                         <span class="input-group-btn" style="width: 35px;">
                             <button type="button" class="btn btn-default btn-number" onclick="updateQty(1)">
