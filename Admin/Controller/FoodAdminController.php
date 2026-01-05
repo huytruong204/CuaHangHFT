@@ -3,9 +3,11 @@
 class FoodAdminController
 {
     public $foodModel;
+    public $catModel;
     public function __construct()
     {
         $this->foodModel = new FoodModel();
+        $this->catModel = new CategoryModel();
     }
 
     public function Index()
@@ -26,20 +28,14 @@ class FoodAdminController
         $offset = ($current_page - 1) * $rows_per_page;
         $sort_price = $_GET['price_sort'] ?? 'desc';
         $list_foods = $this->foodModel->getAll($offset, $rows_per_page, $where_clauses, $sort_price);
-        $cat = new CategoryModel();
-        $list_cat = $cat->getAllCategories();
+        $list_cat = $this->catModel->getAllCategories();
         include_once "View/FoodAdmin/Index.php";
     }
 
-    public function CreateGet()
-    {
-        $cat = new CategoryModel();
-        $list_cat = $cat->getAllCategories();
-        include_once "View/FoodAdmin/Create.php";
-    }
 
-    public function CreatePost()
+    public function Create()
     {
+        $list_cat = $this->catModel->getAllCategories();
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $data = [
                 'category_id' => $_POST['category_id'] ?? '',
@@ -66,8 +62,8 @@ class FoodAdminController
                     $errors['image_url'] = $upload_img['message'];
                 }
             }
-            include_once "View/FoodAdmin/Create.php";
         }
+        include_once "View/FoodAdmin/Create.php";
     }
 
     public function Detail()
@@ -91,8 +87,7 @@ class FoodAdminController
             echo "<script>alert('Không tồn tại food_id: $_GET[food_id]')</script>";
             exit;
         }
-        $cat = new CategoryModel();
-        $list_cat = $cat->getAllCategories();
+        $list_cat = $this->catModel->getAllCategories();
         $food_id = $_GET['food_id'];
         $food = $this->foodModel->getDetail($food_id);
         include_once "View/FoodAdmin/Update.php";
@@ -145,6 +140,7 @@ class FoodAdminController
                 }
             }
             $food = $food_update;
+            $list_cat = $this->catModel->getAllCategories();
             include_once "View/FoodAdmin/Update.php";
         }
     }

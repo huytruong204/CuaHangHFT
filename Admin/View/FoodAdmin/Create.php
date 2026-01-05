@@ -6,7 +6,7 @@
             </a>
         </div>
 
-        <form action="index.php?page=FoodAdmin&action=CreatePost" method="POST" enctype="multipart/form-data">
+        <form action="index.php?page=FoodAdmin&action=Create" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4 d-flex flex-column align-items-center justify-content-start text-center">
                     <label class="form-label fw-bold mb-3 text-dark">Hình ảnh món ăn</label>

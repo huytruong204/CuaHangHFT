@@ -3,7 +3,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0 text-primary">Quản lý món ăn</h3>
-            <a href='index.php?page=FoodAdmin&action=CreateGet&p=<?php echo $current_page?>' class='btn btn-primary'>
+            <a href='index.php?page=FoodAdmin&action=Create&p=<?php echo $current_page?>' class='btn btn-primary'>
                 <i class="fa fa-plus me-2"></i>Thêm món mới
             </a>
         </div>
