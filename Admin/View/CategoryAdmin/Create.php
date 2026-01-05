@@ -7,7 +7,7 @@
             </a>
         </div>
 
-        <form action="index.php?page=CategoryAdmin&action=Create" method="POST" enctype="multipart/form-data">
+        <form action="index.php?page=CategoryAdmin&action=CreatePost" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row g-3">
