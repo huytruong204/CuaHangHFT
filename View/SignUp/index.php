@@ -60,7 +60,7 @@
 
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email (phải có đuôi @example.com)" required pattern=".*@example\.com$" title="Email phải có đuôi @example.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">
@@ -103,6 +103,8 @@
               const avatarInput = document.getElementById('avatar_url');
               const avatarPreview = document.getElementById('avatar_preview');
               const avatarWrapper = document.querySelector('.avatar-wrapper');
+              const emailInput = document.getElementById('email');
+              const form = document.querySelector('form');
 
               console.log('Avatar elements:', {
                 avatarInput,
@@ -131,6 +133,26 @@
                 console.log('Avatar wrapper clicked'); // Debug
                 avatarInput.click();
               });
+
+              // Validation email với @example.com
+              if (emailInput && form) {
+                emailInput.addEventListener('input', function() {
+                  if (!emailInput.value.endsWith('@example.com')) {
+                    emailInput.setCustomValidity('Email phải có đuôi @example.com');
+                  } else {
+                    emailInput.setCustomValidity('');
+                  }
+                });
+
+                form.addEventListener('submit', function(e) {
+                  if (!emailInput.value.endsWith('@example.com')) {
+                    e.preventDefault();
+                    alert('Email phải có đuôi @example.com');
+                    emailInput.focus();
+                    return false;
+                  }
+                });
+              }
             });
           </script>
         </div>
