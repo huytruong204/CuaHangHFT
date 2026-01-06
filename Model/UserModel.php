@@ -214,6 +214,12 @@ class UserModel extends BaseModel
     {
         $user = $this->getByUserName($user_name);
         if (!$user) return false;
+
+        // Kiểm tra tài khoản có bị khóa không
+        if ($user->getIs_active() == 0) {
+            return 'locked';
+        }
+
         if (password_verify($password, $user->getPassword())) {
             return $user;
         }

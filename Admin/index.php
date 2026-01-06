@@ -12,7 +12,7 @@ spl_autoload_register(function ($className) {
         $path = $dir . $className . ".php";
         if (file_exists($path)) {
             require_once $path;
-            return; 
+            return;
         }
     }
 });
@@ -26,19 +26,20 @@ if ($userRole !== 'admin' && $userRole !== 'shipper') {
     echo "<script>alert('Bạn không có quyền truy cập khu vực này'); window.location.href='../index.php?page=Home';</script>";
     exit;
 }
-$page = isset($_GET["page"]) ? $_GET["page"] : "HomeAdmin";
 
+$page = isset($_GET["page"]) ? $_GET["page"] : "HomeAdmin";
 if ($userRole === 'shipper') {
-    $allowed_pages = ['OrderAdmin']; 
-    
+    $allowed_pages = ['OrderAdmin'];
+
     if (!in_array($page, $allowed_pages)) {
         echo "<script>
                 alert('Shipper chỉ có quyền quản lý đơn hàng!'); 
                 window.location.href = 'index.php?page=OrderAdmin';
               </script>";
-        exit; 
+        exit;
     }
 }
+
 $controllerName = $page . "Controller";
 include_once "View/Layout/HeaderAdmin.php";
 if (class_exists($controllerName)) {

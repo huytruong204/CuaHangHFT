@@ -30,10 +30,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Ensure user is logged in. If not, set flash and redirect to SignIn.
-     * Returns logged in user_id when present.
-     */
     public function requireLogin()
     {
         $user_id = SessionManager::get('user_id');
@@ -45,12 +41,6 @@ class ReviewModel extends BaseModel
         return $user_id;
     }
 
-
-
-    /**
-     * Get reviews for a food item with user info.
-     * Returns array of associative rows: review.*, users.full_name, users.avatar_url
-     */
     public function getReviewsByFood($food_id)
     {
         try {
@@ -68,9 +58,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Get a single review by id
-     */
     public function getById($review_id)
     {
         try {
@@ -82,10 +69,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Get average rating and count for a food
-     * Returns ['avg' => float, 'count' => int]
-     */
     public function getAvgRatingByFood($food_id)
     {
         try {
@@ -101,9 +84,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Get recent reviews site-wide
-     */
     public function getRecent($limit = 10)
     {
         try {
@@ -121,10 +101,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Count reviews for admin listing with optional filters.
-     * $filters: ['keyword'=>string, 'rating'=>int, 'start_date'=>string, 'end_date'=>string]
-     */
     public function countForAdmin(array $filters = [])
     {
         try {
@@ -157,10 +133,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Get list of reviews for admin with filters, pagination.
-     * Returns array of associative rows.
-     */
     public function getListForAdmin(array $filters = [], int $offset = 0, int $limit = 10)
     {
         try {
@@ -208,9 +180,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Get a review matching user/order/food (used to check/update user's own review)
-     */
     public function getByUserOrderFood($user_id, $food_id, $order_id)
     {
         try {
@@ -222,23 +191,6 @@ class ReviewModel extends BaseModel
         }
     }
 
-    /**
-     * Full validation including business rules:
-     * - rating/comment validation
-     * - presence of user_id, food_id, order_id
-     * - order exists, belongs to user, and status = 'Đã giao hàng'
-     * - product belongs to order
-     * - not duplicate review for same user/order/product
-     * Returns array of errors (empty if ok)
-     */
-    /**
-     * Unified validator for review data.
-     * Modes:
-     *  - 'basic' : validate rating/comment only
-     *  - 'view'  : validate business rules required to display the form (user/order/item/duplicate/status)
-     *  - 'full'  : both basic + business rules (used for creating)
-     * Returns array of errors (empty if ok).
-     */
     public function validate($data, $mode = 'full')
     {
         $mode = strtolower($mode ?? 'full');
@@ -318,13 +270,7 @@ class ReviewModel extends BaseModel
         return $errors;
     }
 
-    
 
-    /**
-     * Validate then insert review. Returns array:
-     *  - on success: ['success' => true, 'id' => <inserted id>]
-     *  - on failure: ['success' => false, 'errors' => [...]]
-     */
     public function createValidated(array $data)
     {
         $errors = $this->validate($data, 'full');
@@ -340,10 +286,7 @@ class ReviewModel extends BaseModel
         return ['success' => true, 'id' => $id];
     }
 
-    /**
-     * Create review and on success set flash + redirect to order detail.
-     * Returns same structured result as createValidated on failure (so caller can render form).
-     */
+
     public function createAndRedirect(array $data)
     {
         $res = $this->createValidated($data);
@@ -357,8 +300,6 @@ class ReviewModel extends BaseModel
         header("Location: index.php?page=Order&action=Detail&order_id=$order_id");
         exit;
     }
-
-    
 
     // Getters and setters
     public function getReview_id()

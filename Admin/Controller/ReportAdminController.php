@@ -11,12 +11,6 @@ class ReportAdminController
         $this->orderItemModel = new OrderItemModel();
     }
 
-    /**
-     * Render report page.
-     * GET params:
-     *  - granularity: day|month|year (default: day)
-     *  - start_date, end_date: optional (YYYY-MM-DD)
-     */
     public function Index()
     {
         $granularity = $_GET['granularity'] ?? 'day';

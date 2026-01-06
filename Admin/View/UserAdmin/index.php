@@ -33,7 +33,7 @@
 						<th>Vai trò</th>
 						<th>Trạng thái</th>
 						<th>Ngày tạo</th>
-						<th class="text-end">Hành động</th>
+						<th>Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
