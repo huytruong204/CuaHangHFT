@@ -68,6 +68,8 @@ class UserController
             if (!empty($email)) {
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $errors[] = 'Email không hợp lệ.';
+                } elseif (!preg_match('/^[a-zA-Z0-9._%+\-]+@example\.com$/', $email)) {
+                    $errors[] = 'Email phải có đuôi @example.com';
                 } else {
                     $existing = $this->userModel->getByEmail($email);
                     if ($existing && $existing->getUser_id() != $user_id) {

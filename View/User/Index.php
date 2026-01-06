@@ -79,7 +79,7 @@
 								<div class="form-row">
 									<div class="form-group col-sm-12">
 										<label for="email">Email <span class="text-danger">*</span></label>
-										<input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user->getEmail() ?? '') ?>" required>
+										<input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user->getEmail() ?? '') ?>" required pattern="[a-zA-Z0-9._%+\-]+@example\.com$" title="Email phải có đuôi @example.com">
 									</div>
 								</div>
 
@@ -123,6 +123,10 @@
 		const avatarInput = document.getElementById('avatar_url');
 		const avatarPreview = document.getElementById('avatar_preview');
 		const avatarWrapper = document.querySelector('.avatar-wrapper');
+		const emailInput = document.getElementById('email');
+		const form = document.querySelector('form');
+
+		// Avatar handling
 		if (avatarInput && avatarWrapper) {
 			avatarInput.addEventListener('change', function(e) {
 				const file = e.target.files[0];
@@ -136,6 +140,57 @@
 			});
 			avatarWrapper.addEventListener('click', function() {
 				avatarInput.click();
+			});
+		}
+
+		// Email validation for @example.com domain
+		if (emailInput) {
+			emailInput.addEventListener('blur', function() {
+				const email = this.value.trim();
+				const emailPattern = /^[a-zA-Z0-9._%+\-]+@example\.com$/;
+
+				if (email === '') {
+					this.setCustomValidity('Email không được để trống.');
+					this.classList.add('is-invalid');
+					this.classList.remove('is-valid');
+				} else if (!emailPattern.test(email)) {
+					this.setCustomValidity('Email phải có đuôi @example.com');
+					this.classList.add('is-invalid');
+					this.classList.remove('is-valid');
+				} else {
+					this.setCustomValidity('');
+					this.classList.remove('is-invalid');
+					this.classList.add('is-valid');
+				}
+			});
+
+			emailInput.addEventListener('input', function() {
+				if (this.classList.contains('is-invalid')) {
+					const email = this.value.trim();
+					const emailPattern = /^[a-zA-Z0-9._%+\-]+@example\.com$/;
+					if (emailPattern.test(email)) {
+						this.setCustomValidity('');
+						this.classList.remove('is-invalid');
+						this.classList.add('is-valid');
+					}
+				}
+			});
+		}
+
+		// Form submit validation
+		if (form) {
+			form.addEventListener('submit', function(e) {
+				const email = emailInput.value.trim();
+				const emailPattern = /^[a-zA-Z0-9._%+\-]+@example\.com$/;
+
+				if (!emailPattern.test(email)) {
+					e.preventDefault();
+					emailInput.setCustomValidity('Email phải có đuôi @example.com');
+					emailInput.classList.add('is-invalid');
+					emailInput.focus();
+					alert('Email phải có đuôi @example.com (ví dụ: username@example.com)');
+					return false;
+				}
 			});
 		}
 
