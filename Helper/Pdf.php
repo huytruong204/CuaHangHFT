@@ -90,7 +90,7 @@ $pdf->Cell(25, 5, 'SĐT:', 0, 0);
 $pdf->Cell(0, 5, $orderArr['phone_number'] ?? '', 0, 1);
 
 $pdf->Cell(25, 5, 'Địa chỉ:', 0, 0);
-$pdf->Cell(0, 5, $orderArr['address'] ?? '-', 0, 1);
+$pdf->MultiCell(0, 5, $orderArr['address'] ?? '-', 0, 1);
 
 $pdf->Ln(2);
 $pdf->SetLineWidth(0.4);
