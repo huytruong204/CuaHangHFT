@@ -7,6 +7,14 @@
 						<h2>Đăng nhập</h2> <br>
 					</div>
 
+					<?php
+					$success_message = SessionManager::flash('success');
+					if ($success_message): ?>
+						<div class="alert alert-success">
+							<?= htmlspecialchars($success_message) ?>
+						</div>
+					<?php endif; ?>
+
 					<?php if (!empty($error_message) || !empty($errors) || !empty($auth_error)): ?>
 						<div class="alert alert-danger">
 							<?php
