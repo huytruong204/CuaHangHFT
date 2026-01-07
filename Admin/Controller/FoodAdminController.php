@@ -131,7 +131,7 @@ class FoodAdminController
                 if ($result) {
                     echo "<script>
                         alert('Cập nhật thành công món ăn: {$data['food_name']}'); 
-                        window.location.href = 'index.php?page=FoodAdmin';
+                        window.location.href = 'index.php?page=FoodAdmin&action=UpdateGet&food_id=$food_id';
                       </script>";
                     exit;
                 } else {
