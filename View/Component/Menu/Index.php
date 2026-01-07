@@ -12,8 +12,6 @@
                 <i class="glyphicon glyphicon-cutlery"></i> Thực đơn
             </a>
         </li>
-
-        <li><a href="#"><i class="glyphicon glyphicon-gift"></i> Khuyến mãi</a></li>
         <li><a href="index.php?page=Contact"><i class="glyphicon glyphicon-earphone"></i> Liên hệ</a></li>
     </ul>
 

@@ -28,7 +28,7 @@
                             <input type="email" name="email" id="email" class="form-control" required placeholder="Nhập email đã đăng ký">
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-primary" type="submit">Gửi liên kết đặt lại</button>
+                            <button class="btn btn-primary" type="submit">Gửi yêu cầu</button>
                             <a href="index.php?page=SignIn" class="btn btn-link">Hủy</a>
                         </div>
                     </form>

@@ -2,10 +2,10 @@
     <div class="bg-secondary rounded-top p-4">
         <div class="row">
             <div class="col-12 col-sm-6 text-center text-sm-start text-muted">
-                &copy; <a href="#" class="text-primary">HFT Food Store</a>, All Right Reserved.
+                &copy; <a href="#" class="text-primary">HFT Food Store</a>
             </div>
             <div class="col-12 col-sm-6 text-center text-sm-end text-muted">
-                Designed By <a href="https://htmlcodex.com" class="text-primary">HTML Codex</a>
+                Designed By <a href="https://htmlcodex.com" class="text-primary">HFT Dev Team</a>
             </div>
         </div>
     </div>

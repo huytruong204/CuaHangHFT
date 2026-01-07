@@ -83,8 +83,8 @@
 									<a href="index.php?page=UserAdmin&action=UpdateGet&user_id=<?= urlencode($u['user_id']) ?>" class="btn btn-sm btn-outline-warning" title="Sửa">
 										<i class="fa fa-pen"></i>
 									</a>
-									<a href="index.php?page=UserAdmin&action=ToggleStatus&user_id=<?= urlencode($u['user_id']) ?>&status=<?= $active ?>" class="btn btn-sm btn-outline-info ms-1" title="<?= $active ? 'Khoá' : 'Mở' ?>">
-										<i class="fa fa-lock"></i>
+									<a href="index.php?page=UserAdmin&action=ToggleStatus&user_id=<?= urlencode($u['user_id']) ?>&status=<?= $active ?>" class="btn btn-sm btn-outline-<?= $active ? 'danger' : 'success' ?> ms-1" title="<?= $active ? 'Khoá tài khoản' : 'Mở khóa tài khoản' ?>">
+										<i class="fa fa-<?= $active ? 'lock' : 'unlock' ?>"></i>
 									</a>
 								</td>
 							</tr>

@@ -37,26 +37,26 @@
 						</div>
 					<?php endif; ?>
 
-					<div class="row">
-						<div class="col-md-4">
-							<div class="profile-card text-center">
-								<div class="avatar-wrapper">
-									<?php if (!empty($user) && !empty($user->getAvatar_url())): ?>
-										<img id="avatar_preview" src="assets/img/avatars/<?= htmlspecialchars($user->getAvatar_url()) ?>" alt="Avatar" class="img-thumbnail avatar-lg">
-									<?php else: ?>
-										<img id="avatar_preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e9ecef'/%3E%3C/svg%3E" alt="Avatar" class="img-thumbnail avatar-lg">
-									<?php endif; ?>
-								</div>
-								<input type="file" id="avatar_url" name="avatar_url" accept="image/*" style="display:none">
-								<p class="text-muted">Nhấn vào ảnh để thay đổi</p>
-								<div class="profile-meta">
-									<p><strong><?= htmlspecialchars($user->getFull_name() ?? '') ?></strong></p>
+					<form action="index.php?page=User&action=Update" method="post" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="profile-card text-center">
+									<div class="avatar-wrapper">
+										<?php if (!empty($user) && !empty($user->getAvatar_url())): ?>
+											<img id="avatar_preview" src="assets/img/avatars/<?= htmlspecialchars($user->getAvatar_url()) ?>?t=<?= time() ?>" alt="Avatar" class="img-thumbnail avatar-lg">
+										<?php else: ?>
+											<img id="avatar_preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e9ecef'/%3E%3C/svg%3E" alt="Avatar" class="img-thumbnail avatar-lg">
+										<?php endif; ?>
+									</div>
+									<input type="file" id="avatar_url" name="avatar_url" accept="image/*" style="display:none">
+									<p class="text-muted">Nhấn vào ảnh để thay đổi</p>
+									<div class="profile-meta">
+										<p><strong><?= htmlspecialchars($user->getFull_name() ?? '') ?></strong></p>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div class="col-md-8">
-							<form action="index.php?page=User&action=Update" method="post" enctype="multipart/form-data">
+							<div class="col-md-8">
 								<div class="form-row">
 									<div class="form-group col-sm-12">
 										<label for="user_name">Tên đăng nhập</label>
@@ -108,14 +108,9 @@
 										<a href="index.php?page=Food" class="btn btn-default"><i class="fa fa-times"></i> Quay lại</a>
 									</div>
 								</div>
-
-							</form>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+					</form>
 </section>
 
 <script>
