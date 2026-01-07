@@ -140,9 +140,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label text-dark">Người giao hàng</label>
-                        <select name="shipper_id" class="form-select text-dark"
-                            <?= ($check_shipper) ? 'disabled' : '' ?> >
-
+                        <select name="shipper_id" class="form-select text-dark">
                             <option value="">-- Chưa gán shipper --</option>
                             <?php if (!empty($shippers)): ?>
                                 <?php foreach ($shippers as $shipper): ?>
