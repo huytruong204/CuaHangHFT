@@ -24,7 +24,6 @@ class OrderAdminController
         $rows_per_page = 10;
         $current_page = isset($_GET['p']) ? $_GET['p'] : 1;
         $status_map = self::STATUS_MAP;
-
         $stt = isset($_GET['status']) ? $_GET['status'] : '';
         $search_id = isset($_GET['search_id']) ? trim($_GET['search_id']) : '';
         $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
@@ -38,6 +37,15 @@ class OrderAdminController
         $role = SessionManager::get('user_role');
         if($role === 'shipper'){
             $where_clauses['orders.shipper_id'] = SessionManager::get('user_id'); 
+            if (empty($stt)) {
+                $where_clauses['orders.status'] = [
+                    self::STATUS_MAP['shipping'],
+                    self::STATUS_MAP['delivered']
+                ];
+            }
+            $status_map = [
+                'shipping' => self::STATUS_MAP['shipping'], 
+                'delivered' => self::STATUS_MAP['delivered']];
         }
         $where_clauses = array_filter($where_clauses);
 
@@ -117,14 +125,14 @@ class OrderAdminController
             $allowed_statuses = [$order['status']];
         }
         $allowed_statuses = array_unique($allowed_statuses);
-
         $shippers = $this->userRoleModel->getUsersByRole(3);
         if (!$order || !$shippers) {
             header("Location: index.php?page=OrderAdmin");
             exit;
         }
         $order_items = $this->orderItemModel->getOrderItems($id);
-        $error = SessionManager::flash('error');
+        $msg_success = SessionManager::flash('success');
+        $msg_error = SessionManager::flash('error');
         include_once "View/OrderAdmin/Detail.php";
     }
     public function UpdateStatus()
@@ -166,7 +174,6 @@ class OrderAdminController
                 $tempModel = new OrderModel($data);
                 $error = $this->orderModel->validate($tempModel);
             }
-
             if (!empty($error)) {
                 $er_msg = implode('<br>', $error);
                 SessionManager::flash('error', $er_msg);
@@ -179,7 +186,7 @@ class OrderAdminController
 
             if ($update_stt) {
                 SessionManager::flash('success', "Cập nhật trạng thái #$order_id thành công");
-                header("Location: index.php?page=OrderAdmin");
+                header("Location: index.php?page=OrderAdmin&action=Detail&order_id=" . $order_id);
                 exit();
             } else {
                 SessionManager::flash('error', "Lỗi CSDL: " . $this->orderModel->error_message);

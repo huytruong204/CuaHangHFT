@@ -56,8 +56,13 @@ class OrderModel extends BaseModel
                         $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
                         $values[] = $value;
                     } else {
-                        $sql_clauses_arr[] = "$key = ?";
-                        $values[] = $value;
+                        if (is_array($value)) {
+                            $in_values = implode("','", $value);
+                            $sql_clauses_arr[] = "$key IN ('$in_values')";
+                        } else {
+                            $sql_clauses_arr[] = "$key = ?";
+                            $values[] = $value;
+                        }
                     }
                 }
                 $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
@@ -136,8 +141,13 @@ class OrderModel extends BaseModel
                         $sql_clauses_arr[] = "DATE(orders.created_at) <= ?";
                         $values[] = $value;
                     } else {
-                        $sql_clauses_arr[] = "$key = ?";
-                        $values[] = $value;
+                        if (is_array($value)) {
+                            $in_values = implode("','", $value);
+                            $sql_clauses_arr[] = "$key IN ('$in_values')";
+                        } else {
+                            $sql_clauses_arr[] = "$key = ?";
+                            $values[] = $value;
+                        }
                     }
                 }
                 $sql .= " WHERE " . implode(" AND ", $sql_clauses_arr);
@@ -226,10 +236,9 @@ class OrderModel extends BaseModel
     public function validate($data)
     {
         $errors = [];
-        if ($err = Validator::is_isset($data->shipper_id, "Shipper không tồn tại"))
-            $errors['shipper_id'] = $err;
-        elseif ($err = Validator::required($data->shipper_id, "Shipper không được để trống"))
-            $errors['shipper_id'] = $err;
+         if ($err = Validator::required($data->shipper_id, "Vui lòng chọn người giao hàng!")) {
+                $errors['shipper_id'] = $err;
+        }
         return $errors;
     }
     public function validateUser($data)

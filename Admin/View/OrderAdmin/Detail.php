@@ -7,8 +7,11 @@
                 <i class="fa fa-arrow-left me-2"></i>Quay lại
             </a>
         </div>
-        <?php if (!empty($msg = SessionManager::flash('error'))): ?>
-            <div class="alert alert-danger"><?= htmlspecialchars($msg) ?></div>
+        <?php if (!empty($msg_success)): ?>
+            <div class="alert alert-success text-center"><?= htmlspecialchars($msg_success) ?></div>
+        <?php endif; ?>
+        <?php if (!empty($msg_error)): ?>
+            <div class="alert alert-danger text-center"><?= htmlspecialchars($msg_error) ?></div>
         <?php endif; ?>
         <div class="row g-4 mb-4">
             <div class="col-md-6">
@@ -104,30 +107,41 @@
             $is_locked = (count($allowed_statuses) <= 1 && $allowed_statuses[0] == $order['status']);
 
             $is_delivered = ($order['status'] == 'Đang giao hàng' || $order['status'] == 'Đã giao hàng');
-            $check_shipper = $is_locked || $is_delivered || ($role === 'shipper');
+            $check_shipper = $is_locked || $is_delivered;
             ?>
             <form action="index.php?page=OrderAdmin&action=UpdateStatus" method="POST" class="row g-3 align-items-end">
                 <input type="hidden" name="order_id" value="<?= $order['order_id'] ?>">
-
-                <div class="col-md-4">
-                    <label class="form-label text-dark">Trạng thái đơn hàng</label>
-                    <select name="status" class="form-select text-dark" <?= $is_locked ? 'disabled' : '' ?>>
-                        <?php foreach ($allowed_statuses as $stt): ?>
-                            <option value="<?= $stt ?>" <?= ($stt == $display_status) ? 'selected' : '' ?>>
-                                <?= $stt ?>
-                            </option> <?php endforeach; ?>
-                    </select>
-                    </select>
-                </div>
+                <?php if ($check_shipper): ?>
+                        <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
+                <?php endif; ?>
+                 <?php if ($role === 'shipper'): ?>
+                    <div class="col-md-4">
+                        <?php if ($is_locked): ?>
+                            <div class="alert alert-success m-0 p-2 text-center">
+                                <i class="fa fa-check-circle me-1"></i> Đơn hàng hoàn tất
+                            </div>
+                        <?php else: ?>
+                            <input type="hidden" name="status" value="<?= $allowed_statuses[1]?>">
+                            <button type="submit" class="btn btn-success w-100">
+                                 Giao thành công
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="col-md-4">
+                        <label class="form-label text-dark">Trạng thái đơn hàng</label>
+                        <select name="status" class="form-select text-dark" <?= $is_locked ? 'disabled' : '' ?>>
+                            <?php foreach ($allowed_statuses as $stt): ?>
+                                <option value="<?= $stt ?>" <?= ($stt == $display_status) ? 'selected' : '' ?>>
+                                    <?= $stt ?>
+                                </option> <?php endforeach; ?>
+                        </select>
+                        </select>
+                    </div>
                     <div class="col-md-4">
                         <label class="form-label text-dark">Người giao hàng</label>
-                            
-                        <?php if ($check_shipper): ?>
-                            <input type="hidden" name="shipper_id" value="<?= $order['shipper_id'] ?>">
-                        <?php endif; ?>
-
-                        <select name="shipper_id" class="form-select text-dark <?= !empty($error) ? 'is-invalid border-danger' : '' ?>"
-                            <?= ($check_shipper) ? 'disabled' : '' ?>>
+                        <select name="shipper_id" class="form-select text-dark"
+                            <?= ($check_shipper) ? 'disabled' : '' ?> >
 
                             <option value="">-- Chưa gán shipper --</option>
                             <?php if (!empty($shippers)): ?>
@@ -139,24 +153,19 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-
-                        <?php if (!empty($error)): ?>
-                            <div class="invalid-feedback d-block text-danger fw-bold mt-2">
-                                <?= $error ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?php if ($is_locked): ?>
+                            <div class="alert alert-success m-0 p-2 text-center">
+                                <i class="fa fa-check-circle me-1"></i> Đơn hàng hoàn tất
                             </div>
+                        <?php else: ?>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa fa-arrow-right me-2"></i>Cập nhật
+                            </button>
                         <?php endif; ?>
                     </div>
-                <div class="col-md-4">
-                    <?php if ($is_locked): ?>
-                        <div class="alert alert-success m-0 p-2 text-center">
-                            <i class="fa fa-check-circle me-1"></i> Đơn hàng hoàn tất
-                        </div>
-                    <?php else: ?>
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="fa fa-arrow-right me-2"></i>Cập nhật
-                        </button>
-                    <?php endif; ?>
-                </div>
+                <?php endif; ?>
             </form>
         </div>
 

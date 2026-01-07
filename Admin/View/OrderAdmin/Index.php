@@ -49,7 +49,7 @@
 
                 <div class="col-md-3 d-flex gap-1">
                     <button type="submit" class="btn btn-primary w-100"><i class="fa fa-filter"></i> Lọc</button>
-                    <a href="index.php?page=OrderAdmin" class="btn btn-outline-light" title="Xóa lọc"><i class="fa fa-sync"></i></a>
+                    <a href="index.php?page=OrderAdmin" class="btn btn-outline-dark" title="Xóa lọc"><i class="fa fa-sync"></i></a>
                 </div>
             </div>
         </form>
