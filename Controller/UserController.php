@@ -91,6 +91,14 @@ class UserController
             if (isset($_FILES['avatar_url']) && !empty($_FILES['avatar_url']['name'])) {
                 $upload = Upload_file::Upload_image($_FILES['avatar_url'], __DIR__ . '/../assets/img/avatars/');
                 if ($upload['status']) {
+                    // Delete old avatar if exists
+                    $currentUser = $this->userModel->getDetail($user_id);
+                    if ($currentUser && !empty($currentUser->getAvatar_url())) {
+                        $oldAvatar = __DIR__ . '/../assets/img/avatars/' . $currentUser->getAvatar_url();
+                        if (file_exists($oldAvatar)) {
+                            unlink($oldAvatar);
+                        }
+                    }
                     $updateData['avatar_url'] = $upload['file_name'];
                 } else {
                     $errors[] = 'Ảnh đại diện: ' . $upload['message'];
@@ -115,7 +123,7 @@ class UserController
 
         // on error or not POST, show edit view with $errors available
         $user = $this->userModel->getDetail($user_id);
-        return require_once "./View/User/Edit.php";
+        return require_once "./View/User/Index.php";
     }
 
     public function Logout()

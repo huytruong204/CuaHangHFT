@@ -43,7 +43,7 @@
 								<div class="profile-card text-center">
 									<div class="avatar-wrapper">
 										<?php if (!empty($user) && !empty($user->getAvatar_url())): ?>
-											<img id="avatar_preview" src="assets/img/avatars/<?= htmlspecialchars($user->getAvatar_url()) ?>?t=<?= time() ?>" alt="Avatar" class="img-thumbnail avatar-lg">
+											<img id="avatar_preview" src="assets/img/avatars/<?= htmlspecialchars($user->getAvatar_url()) ?>" alt="Avatar" class="img-thumbnail avatar-lg">
 										<?php else: ?>
 											<img id="avatar_preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23e9ecef'/%3E%3C/svg%3E" alt="Avatar" class="img-thumbnail avatar-lg">
 										<?php endif; ?>
