@@ -54,7 +54,7 @@ Hệ thống cung cấp trải nghiệm đặt món ăn nhanh chóng cho khách 
 
 **2. Cài đặt dự án**
 * Clone repository này về máy tính:
-  `git clone https://github.com/Username_cua_ban/Ten_Repository.git`
+  `git clone https://github.com/huytruong204/CuaHangHFT.git`
 * Copy toàn bộ thư mục mã nguồn dự án bỏ vào thư mục `htdocs` của XAMPP (Đường dẫn thường là: `C:\xampp\htdocs\`).
 
 **3. Thiết lập Cơ sở dữ liệu**
