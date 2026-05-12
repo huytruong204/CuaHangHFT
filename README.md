@@ -37,14 +37,6 @@ Hệ thống cung cấp trải nghiệm đặt món ăn nhanh chóng cho khách 
 
 ---
 
-## 📸 Giao diện dự án (Screenshots)
-
-![Trang chủ Khách hàng](link_anh_trang_chu)
-![Trang Quản lý Đơn hàng](link_anh_quan_ly_don_hang)
-![Báo cáo Doanh thu](link_anh_bao_cao)
-
----
-
 ## 🛠️ Hướng dẫn cài đặt (Local Setup)
 
 Để chạy dự án này trên máy tính cá nhân của bạn, vui lòng thực hiện các bước sau:
