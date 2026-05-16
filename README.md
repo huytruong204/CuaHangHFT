@@ -33,7 +33,7 @@ Hệ thống cung cấp trải nghiệm đặt món ăn nhanh chóng cho khách 
 
 ### 🛵 3. Nhân viên Giao hàng (Shipper)
 * **Tiếp nhận đơn:** Xem danh sách các đơn hàng được Admin phân công kèm thông tin liên lạc và địa chỉ của khách.
-* **Cập nhật giao vận:** Thay đổi trạng thái đơn hàng theo thời gian thực ("Giao thành công", "Giao thất bại").
+* **Cập nhật giao vận:** Thay đổi trạng thái đơn hàng theo thời gian thực ("Giao thành công").
 
 ---
 
